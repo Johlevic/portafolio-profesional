@@ -93,7 +93,7 @@ color: $header-color-quintario;
 
 
 @include laptop{
-  .header-container .title-header{
+  .header-container .title-header {
     height: 4rem;
     top: 2rem;
     left: -4rem;
@@ -110,13 +110,16 @@ color: $header-color-quintario;
     aspect-ratio: 1/1;
     border-bottom: 3px $header-color-quintario solid;
     clip-path: polygon(
-    25% 0%,   /* arriba izq */
-    75% 0%,   /* arriba der */
-    85% 50%, /* derecha */
-    75% 100%, /* abajo der */
-    25% 100%, /* abajo izq */
-    30% 50%    /* izquierda */
-  );
+      25% 0%,    /* arriba izq */
+      75% 0%,    /* arriba der */
+      85% 50%,   /* derecha */
+      75% 100%,  /* abajo der */
+      25% 100%,  /* abajo izq */
+      30% 50%    /* izquierda */
+    );
+
+    // ✅ Asegura que no haya problemas de capas
+    z-index: 1;
   }
 
   .desktop-nav{
@@ -134,6 +137,37 @@ color: $header-color-quintario;
     height: 4rem;
     border-bottom: 3px $header-color-quintario solid;
     position: relative;
+
+    .desktop-nav-list {
+      .list-nav > .nav-link {
+        position: relative;
+        padding: 2px;
+        color: $header-color-quintario;
+        text-decoration: none;
+        transition: color 0.3s ease;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 2px; // ajusta según padding
+          left: 50%;
+          transform: translateX(-50%) scaleX(0);
+          width: 80%;
+          height: 1px;
+          background-color: $color-font;
+          transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+          transform-origin: center;
+        }
+
+        &:hover {
+          color: $color-font;
+
+          &::after {
+            transform: translateX(-50%) scaleX(1);
+          }
+        }
+      }
+    }
   }
 
   .menu-toggle{
