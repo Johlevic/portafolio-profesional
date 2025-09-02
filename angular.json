@@ -92,10 +92,19 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+
+            "stylePreprocessorOptions": {
+            "includePaths": [
+              "src/styles"
+            ]
+          }
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

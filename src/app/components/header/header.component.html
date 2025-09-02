@@ -1,0 +1,41 @@
+<header class="header">
+  <div class="header-container">
+    <div class="title-header">
+      <span>Full Stack Developer</span>
+    </div>
+
+    <button class="menu-toggle" (click)="toggleMenu()" aria-label="Toggle menu">
+      <i class="bi bi-list"></i>
+    </button>
+
+    <nav class="desktop-nav">
+      <ul class="desktop-nav-list">
+        <li><a href="#" (click)="menuOpen = false">Inicio</a></li>
+        <li><a href="#" (click)="menuOpen = false">Sobre mí</a></li>
+        <li><a href="#" (click)="menuOpen = false">CV</a></li>
+        <li><a href="#" (click)="menuOpen = false">Proyectos</a></li>
+        <li><a href="#" (click)="menuOpen = false">Habilidades</a></li>
+        <li><a href="#" (click)="menuOpen = false">Contacto</a></li>
+        <li><a href="#" (click)="menuOpen = false">Blog</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <nav class="mobile-nav" [class.active]="menuOpen">
+    <button class="close-menu-btn" (click)="closeMenu()" aria-label="Close menu">
+      &times;
+    </button>
+    <ul>
+      <li><a href="#" (click)="closeMenu()">Inicio</a></li>
+      <li><a href="#" (click)="closeMenu()">Sobre mí</a></li>
+      <li><a href="#" (click)="closeMenu()">CV</a></li>
+      <li><a href="#" (click)="closeMenu()">Proyectos</a></li>
+      <li><a href="#" (click)="closeMenu()">Habilidades</a></li>
+      <li><a href="#" (click)="closeMenu()">Contacto</a></li>
+      <li><a href="#" (click)="closeMenu()">Blog</a></li>
+    </ul>
+  </nav>
+
+  <div class="network-animation"></div>
+</header>
+
