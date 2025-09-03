@@ -3,10 +3,11 @@ import { FooterComponent } from "../footer/footer.component";
 import { CommonModule } from '@angular/common';
 import { HistoryComponent } from "../sections/history/history.component";
 import { StudyComponent } from "../sections/study/study.component";
+import { TechnicalskilsComponent } from "../sections/technicalskils/technicalskils.component";
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [FooterComponent, CommonModule, HistoryComponent, StudyComponent],
+  imports: [FooterComponent, CommonModule, HistoryComponent, StudyComponent, TechnicalskilsComponent],
 
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss'

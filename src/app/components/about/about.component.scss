@@ -21,7 +21,7 @@ section {
     max-width: 1200px;
     margin: 0 auto;
     padding: 1rem;
-    border-bottom: solid 1px $color-font;
+    border-bottom: solid 1px $primary-color;
 
 
     .container-col{
@@ -180,6 +180,12 @@ section {
     padding: 1rem;
   }
 
+  .skills{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
 
 /* ✅ SLIDER - Móvil/Tablet */
 .slider-wrapper {
@@ -187,7 +193,6 @@ section {
   width: 100%;
   overflow: hidden;
   padding: 1rem 0;
-  margin: 1rem;
 
   h2 {
     text-align: center;
