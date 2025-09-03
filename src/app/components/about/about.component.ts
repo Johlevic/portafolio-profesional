@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { FooterComponent } from "../footer/footer.component";
 import { CommonModule } from '@angular/common';
+import { HistoryComponent } from "../sections/history/history.component";
+import { StudyComponent } from "../sections/study/study.component";
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [FooterComponent, CommonModule],
+  imports: [FooterComponent, CommonModule, HistoryComponent, StudyComponent],
 
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss'

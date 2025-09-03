@@ -1,0 +1,53 @@
+@import "../../../../styles/breakpoints";
+@import "../../../../styles/variables";
+.education{
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  border: solid 1px $primary-color;
+  padding: 1rem;
+  .education-item{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    text-align: left;
+    padding: 0.5rem;
+
+    >p, time{
+      font-size: 14px;
+    }
+
+  }
+
+
+  .certifications{
+    text-align: left;
+    padding: 0.5rem;
+    >ul{
+      padding:0 0 0 1rem;
+      font-size: 14px;
+    }
+
+
+  }
+}
+
+.quick-facts{
+  border: solid 1px $primary-color;
+  border-radius: 1rem;
+  margin-top: 1rem;
+  >ul{
+    font-size: 14px;
+    text-align: left;
+    margin: 0;
+    padding: 1rem;
+    >li{
+      display: flex;
+      justify-content: space-between;
+      padding: 0.3em 0;
+
+    }
+  }
+}

@@ -1,0 +1,65 @@
+@import "../../../../styles/breakpoints";
+@import "../../../../styles/variables";
+
+.section-about{
+  padding: 2rem 0;
+  max-width: 1200px;
+
+  >h1{
+    font-size: 25px;
+  }
+
+  .intro {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .history{
+    display: flex;
+    gap: 2rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .item-history{
+      width: auto;
+      border: solid 1px $primary-color;
+      border-radius: 1rem;
+      padding: 1rem;
+      >p {
+        text-align: left;
+        font-size: 13px;
+      }
+    }
+
+    .item-study{
+      width: 100%;;
+
+    }
+  }
+
+
+}
+
+
+@include laptop{
+  .section-about{
+    .history{
+      flex-direction: row;
+      align-items: start;
+      .item-history{
+        width: 65%;
+        padding: 2rem !important ;
+        >p{
+          font-size: 15px !important;
+          line-height: 1.8;
+        }
+      }
+      .item-study{
+        flex: 1;
+
+      }
+    }
+  }
+}
