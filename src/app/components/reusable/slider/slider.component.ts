@@ -1,4 +1,12 @@
-import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  OnDestroy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface Project {
@@ -18,11 +26,18 @@ export interface Project {
 })
 export class SliderComponent implements AfterViewInit, OnDestroy {
   @ViewChild('sliderWrapper') sliderWrapper!: ElementRef;
+  @Input() projects: Project[] = [];
+
   currentGroupIndex = 0;
   currentSlideIndex = 0;
   cardsVisible = 1;
-  @Input() projects: Project[] = [];
+  private intervalId: any;
 
+  // 👉 swipe táctil
+  private startX: number = 0;
+  private endX: number = 0;
+
+  // 👉 proyectos demo si no llegan como input
   public sampleProjects: Project[] = [
     {
       title: 'E-Commerce para Pantallas LED',
@@ -61,26 +76,55 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
     }
   ];
 
-  private intervalId: any;
-
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     if (this.projects.length === 0) {
       this.projects = this.sampleProjects;
     }
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      this.updateCardsVisible();
-      this.updateCurrentSlideIndex();
-      this.startAutoplay();
-    });
+    this.updateCardsVisible();
+    this.updateCurrentSlideIndex();
+    this.startAutoplay();
+
+    // 🔧 evita ExpressionChangedAfterItHasBeenCheckedError
+    this.cdr.detectChanges();
 
     window.addEventListener('resize', () => {
       this.updateCardsVisible();
       this.currentGroupIndex = Math.floor(this.currentSlideIndex / this.cardsVisible);
       this.updateCurrentSlideIndex();
     });
+
+    // 👉 eventos táctiles
+    const wrapper = this.sliderWrapper.nativeElement;
+    wrapper.addEventListener('touchstart', (e: TouchEvent) => {
+      this.startX = e.touches[0].clientX;
+      this.pauseAutoplay();
+    });
+
+    wrapper.addEventListener('touchmove', (e: TouchEvent) => {
+      this.endX = e.touches[0].clientX;
+    });
+
+    wrapper.addEventListener('touchend', () => {
+      const diff = this.startX - this.endX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+          this.nextSlide(); // swipe izquierda → siguiente
+        } else {
+          this.prevSlide(); // swipe derecha → anterior
+        }
+      }
+      this.startX = 0;
+      this.endX = 0;
+      this.resumeAutoplay();
+    });
+  }
+
+  ngOnDestroy() {
+    this.pauseAutoplay();
+    window.removeEventListener('resize', () => {});
   }
 
   private updateCurrentSlideIndex(): void {
@@ -101,13 +145,6 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
-    window.removeEventListener('resize', () => {});
-  }
-
   updateCardsVisible(): void {
     const wrapper = this.sliderWrapper.nativeElement;
     const card = wrapper.children[0];
@@ -118,24 +155,6 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
     const containerWidth = wrapper.offsetWidth;
 
     this.cardsVisible = Math.max(1, Math.floor((containerWidth + gap) / (cardWidth + gap)));
-  }
-
-  private scrollToSlide(): void {
-    const wrapper = this.sliderWrapper.nativeElement;
-    const card = wrapper.children[0];
-    if (!card) return;
-
-    const cardWidth = card.offsetWidth;
-    const gap = parseFloat(getComputedStyle(wrapper).gap) || 0;
-    const scrollPosition = this.currentSlideIndex * (cardWidth + gap);
-
-    const maxScroll = wrapper.scrollWidth - wrapper.offsetWidth;
-    const safeScroll = Math.min(scrollPosition, maxScroll);
-
-    wrapper.scrollTo({
-      left: safeScroll,
-      behavior: 'smooth'
-    });
   }
 
   nextSlide(): void {
@@ -169,5 +188,18 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
     this.intervalId = setInterval(() => {
       this.nextSlide();
     }, 5000);
+  }
+
+  pauseAutoplay(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
+  }
+
+  resumeAutoplay(): void {
+    if (!this.intervalId) {
+      this.startAutoplay();
+    }
   }
 }
