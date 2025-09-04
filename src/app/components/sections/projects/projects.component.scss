@@ -1,0 +1,32 @@
+@import "../../../../styles/_variables.scss";
+@import "../../../../styles/_breakpoints.scss";
+
+// Contenedor principal de la sección de proyectos
+.projects-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 2rem 0;
+  max-width: 1200px;
+  color: $color-gray;
+  width: 100%;
+  text-align: center;
+}
+
+h2 {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+
+
+  @include tablet {
+    font-size: 3rem;
+  }
+}
+
+p {
+  color: $color-gray;
+  line-height: 1.5;
+  max-width: 30%;
+}

@@ -186,6 +186,14 @@ section {
     align-items: center;
   }
 
+  .projects{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: $background-blue;
+  }
+
 
 /* ✅ SLIDER - Móvil/Tablet */
 .slider-wrapper {

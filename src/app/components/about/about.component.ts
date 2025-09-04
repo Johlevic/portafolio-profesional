@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 import { HistoryComponent } from "../sections/history/history.component";
 import { StudyComponent } from "../sections/study/study.component";
 import { TechnicalskilsComponent } from "../sections/technicalskils/technicalskils.component";
+import { ProjectsComponent } from "../sections/projects/projects.component";
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [FooterComponent, CommonModule, HistoryComponent, StudyComponent, TechnicalskilsComponent],
+  imports: [FooterComponent, CommonModule, HistoryComponent, StudyComponent, TechnicalskilsComponent, ProjectsComponent],
 
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss'

@@ -1,0 +1,178 @@
+@import "../../../../styles/_variables.scss";
+@import "../../../../styles/_breakpoints.scss";
+
+.slider-container{
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  >button{
+
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: $primary-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+
+
+  .slider-wrapper{
+    display: flex;
+
+    overflow-x: hidden;
+    padding: 1rem 0;
+
+    width: 30%;
+
+    .project-card{
+      flex: 0 0 100%;
+      border: 2px gray solid;
+      background-color: $background-oscuro;
+      box-sizing: border-box;
+      border-radius: 12px;
+      opacity: 0.7;
+      transform: scale(0.95);
+      border-radius: 1rem;
+      padding: 1rem;
+
+      .card-image-container{
+        overflow: hidden;
+        width: auto;
+        height: 10rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .project-image{
+          width: 100%;
+          height: auto;
+          object-fit: cover;
+          transition: transform 0.5s ease;
+        }
+      }
+
+      .card-content{
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+
+        .project-title {
+          font-size: 13px;
+          margin-bottom: 1rem;
+          color: $color-gray;
+        }
+
+        .technologies{
+          display: flex;
+          padding: 0.5rem 0;
+          gap: 0.2rem;
+          font-size: 10px;
+
+          .tech-tag{
+            padding: 5px;
+            background-color: $color-button-principal;
+            border-radius: 0.5rem;
+          }
+        }
+
+        .card-buttons{
+          padding: 1rem 0.5;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+
+          .btn{
+            list-style: none;
+            color: $color-gray;
+            background-color: $primary-color;
+            padding: 3px;
+            border-radius: 0.5rem;
+            outline-style: none;
+            text-decoration: none;
+            font-size: 10px;
+          }
+        }
+
+
+
+      }
+    }
+  }
+
+
+}
+.slider-dots{
+  width: 100%;
+  height: 1rem;
+
+  >span{
+    width: 10rem;
+    height: 1rem;
+    background-color: $primary-color;
+  }
+}
+
+@include laptop{
+  .slider-container{
+
+    .slider-wrapper{
+      width: 100%;
+
+      .project-card{
+        flex: 0 0 33.33% !important;
+
+        .card-content{
+          .card-buttons{
+            justify-content: start;
+            gap: 1rem;
+
+
+            .btn{
+              font-family: 13px !important;
+              padding: 0.5rem !important;
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+}
+
+@include tablet{
+  .slider-container{
+
+    .slider-wrapper{
+      width: 70%;
+
+      .project-card{
+        flex: 0 0 50% !important;
+      }
+    }
+
+  }
+
+}
+
+
+@include desktop{
+  .slider-container{
+
+    .slider-wrapper{
+      width: 80%;
+
+      .project-card{
+        flex: 0 0 25% !important;
+      }
+    }
+
+  }
+
+}
