@@ -8,16 +8,14 @@
   align-items: center;
 
   >button{
-
-    width: 2rem;
-    height: 2rem;
+    margin:0 -1.5rem ;
+    width: 1.5rem;
+    height: 1.5rem;
     border: none;
     border-radius: 50%;
     cursor: pointer;
     background-color: $primary-color;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: none;
 
   }
 
@@ -29,7 +27,7 @@
     overflow-x: hidden;
     padding: 1rem 0;
 
-    width: 30%;
+    width: 35%;
 
     .project-card{
       flex: 0 0 100%;
@@ -107,19 +105,36 @@
 
 
 }
-.slider-dots{
-  width: 100%;
-  height: 1rem;
-
-  >span{
-    width: 10rem;
-    height: 1rem;
-    background-color: $primary-color;
-  }
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  gap: 0.5rem;
 }
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dot.active {
+  background-color: #007bff; // Azul intenso para activo
+}
+
 
 @include laptop{
   .slider-container{
+
+    >button{
+      margin: 0 0 !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
     .slider-wrapper{
       width: 100%;
@@ -149,8 +164,9 @@
 @include tablet{
   .slider-container{
 
+
     .slider-wrapper{
-      width: 70%;
+      width: 80%;
 
       .project-card{
         flex: 0 0 50% !important;

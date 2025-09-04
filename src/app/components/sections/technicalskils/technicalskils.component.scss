@@ -117,3 +117,34 @@
     }
   }
 }
+
+@include tablet {
+  .skills-section {
+    width: 100% !important;
+    padding: 1rem 0 !important;
+    .skills-grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+
+      .skill-category{
+        width: 12.5rem;
+      }
+    }
+  }
+}
+
+
+@include desktop {
+  .skills-section {
+    width: 100%;
+    padding: 1rem 0 !important;
+    .skills-grid {
+      grid-template-columns: repeat(4, 1fr) !important;
+
+      .skill-category{
+        width: 13rem;
+      }
+    }
+  }
+}
+
+

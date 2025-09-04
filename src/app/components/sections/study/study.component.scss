@@ -51,3 +51,29 @@
     }
   }
 }
+
+
+@include tablet{
+  .study-data{
+    display: flex;
+    gap: 1rem;
+    align-items: start;
+
+    .education{
+      width: 50%;
+    }
+
+    .quick-facts{
+      flex: 1;
+      margin-top: 0;
+    }
+
+  }
+}
+
+@include laptop{
+  .study-data{
+    flex-direction: column;
+
+  }
+}

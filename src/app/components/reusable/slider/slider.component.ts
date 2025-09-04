@@ -1,5 +1,6 @@
 import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common'; // ✅ Importa CommonModule
+import { CommonModule } from '@angular/common';
+
 export interface Project {
   title: string;
   image: string;
@@ -17,18 +18,18 @@ export interface Project {
 })
 export class SliderComponent implements AfterViewInit, OnDestroy {
   @ViewChild('sliderWrapper') sliderWrapper!: ElementRef;
-
+  currentGroupIndex = 0;
   currentSlideIndex = 0;
-  cardsVisible = 1; // Número de tarjetas que caben en pantalla
+  cardsVisible = 1;
   @Input() projects: Project[] = [];
 
   public sampleProjects: Project[] = [
     {
       title: 'E-Commerce para Pantallas LED',
       image: 'assets/img/projects/pantallas-led.png',
-      technologies: ['Angular', 'TypeScript', 'SCSS'],
-      repoLink: 'https://github.com/tu-usuario/tu-repositorio-portfolio',
-      projectLink: 'https://tu-portfolio.com'
+      technologies: ['Laravel', 'TypeScript', 'React', 'Tailwind CSS', 'Inertia'],
+      repoLink: 'https://github.com/Johlevic/ledpantallas',
+      projectLink: 'https://ditechperu.com/'
     },
     {
       title: 'Sistema de Gestión de Clientes',
@@ -69,15 +70,34 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.updateCardsVisible();
-    this.scrollToSlide();
+    setTimeout(() => {
+      this.updateCardsVisible();
+      this.updateCurrentSlideIndex();
+      this.startAutoplay();
+    });
 
-    this.startAutoplay();
-
-    // Escuchar cambios de tamaño
     window.addEventListener('resize', () => {
       this.updateCardsVisible();
-      this.scrollToSlide(); // Ajustar scroll si cambia el número de tarjetas
+      this.currentGroupIndex = Math.floor(this.currentSlideIndex / this.cardsVisible);
+      this.updateCurrentSlideIndex();
+    });
+  }
+
+  private updateCurrentSlideIndex(): void {
+    this.currentSlideIndex = this.currentGroupIndex * this.cardsVisible;
+
+    const wrapper = this.sliderWrapper.nativeElement;
+    const maxScroll = wrapper.scrollWidth - wrapper.offsetWidth;
+    const card = wrapper.children[0];
+    if (!card) return;
+
+    const cardWidth = card.offsetWidth;
+    const gap = parseFloat(getComputedStyle(wrapper).gap) || 0;
+    const scrollPosition = this.currentSlideIndex * (cardWidth + gap);
+
+    wrapper.scrollTo({
+      left: Math.min(scrollPosition, maxScroll),
+      behavior: 'smooth'
     });
   }
 
@@ -88,7 +108,6 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
     window.removeEventListener('resize', () => {});
   }
 
-  // Calcula cuántas tarjetas caben en el contenedor
   updateCardsVisible(): void {
     const wrapper = this.sliderWrapper.nativeElement;
     const card = wrapper.children[0];
@@ -101,7 +120,6 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
     this.cardsVisible = Math.max(1, Math.floor((containerWidth + gap) / (cardWidth + gap)));
   }
 
-  // Desplaza al grupo de tarjetas actual
   private scrollToSlide(): void {
     const wrapper = this.sliderWrapper.nativeElement;
     const card = wrapper.children[0];
@@ -111,7 +129,6 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
     const gap = parseFloat(getComputedStyle(wrapper).gap) || 0;
     const scrollPosition = this.currentSlideIndex * (cardWidth + gap);
 
-    // Evitar desbordamiento
     const maxScroll = wrapper.scrollWidth - wrapper.offsetWidth;
     const safeScroll = Math.min(scrollPosition, maxScroll);
 
@@ -122,29 +139,35 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
   }
 
   nextSlide(): void {
-    const maxIndex = this.projects.length - this.cardsVisible;
-    this.currentSlideIndex = Math.min(this.currentSlideIndex + this.cardsVisible, maxIndex);
-    this.scrollToSlide();
+    if (this.currentGroupIndex < this.totalGroups - 1) {
+      this.currentGroupIndex++;
+    } else {
+      this.currentGroupIndex = 0;
+    }
+    this.updateCurrentSlideIndex();
   }
 
   prevSlide(): void {
-    this.currentSlideIndex = Math.max(this.currentSlideIndex - this.cardsVisible, 0);
-    this.scrollToSlide();
+    if (this.currentGroupIndex > 0) {
+      this.currentGroupIndex--;
+    } else {
+      this.currentGroupIndex = this.totalGroups - 1;
+    }
+    this.updateCurrentSlideIndex();
+  }
+
+  get totalGroups(): number {
+    return Math.ceil(this.projects.length / this.cardsVisible);
   }
 
   goToSlide(index: number): void {
-    const maxIndex = this.projects.length - this.cardsVisible;
-    this.currentSlideIndex = Math.min(index, maxIndex);
-    this.scrollToSlide();
+    this.currentGroupIndex = index;
+    this.updateCurrentSlideIndex();
   }
 
   startAutoplay(): void {
     this.intervalId = setInterval(() => {
       this.nextSlide();
-      if (this.currentSlideIndex >= this.projects.length - this.cardsVisible) {
-        this.currentSlideIndex = 0;
-        this.scrollToSlide();
-      }
     }, 5000);
   }
 }

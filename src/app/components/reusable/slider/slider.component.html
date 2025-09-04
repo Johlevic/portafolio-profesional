@@ -1,5 +1,4 @@
 <div class="slider-container" role="region" aria-label="Carrusel de proyectos">
-  <!-- Botones de navegación -->
   <button
     class="slider-button prev"
     (click)="prevSlide()"
@@ -7,8 +6,6 @@
   >
     <i class="bi bi-chevron-left"></i>
   </button>
-
-  <!-- Contenedor deslizable -->
   <div class="slider-wrapper" #sliderWrapper>
     <div
       *ngFor="let project of projects; let i = index"
@@ -47,7 +44,6 @@
       </div>
     </div>
   </div>
-
   <button
     class="slider-button next"
     (click)="nextSlide()"
@@ -55,21 +51,17 @@
   >
     <i class="bi bi-chevron-right"></i>
   </button>
-
-
 </div>
-
-<!-- Indicadores (dots) -->
 <div class="slider-dots" role="tablist">
   <span
-    *ngFor="let project of projects; let i = index"
+    *ngFor="let i of [].constructor(totalGroups); let idx = index"
     class="dot"
-    [class.active]="i === currentSlideIndex"
-    (click)="goToSlide(i)"
+    [class.active]="currentGroupIndex === idx"
+    (click)="goToSlide(idx)"
     role="tab"
-    [attr.aria-selected]="i === currentSlideIndex"
-    [attr.aria-label]="'Ir a proyecto ' + (i + 1)"
+    [attr.aria-selected]="currentGroupIndex === idx"
+    [attr.aria-label]="'Ir al grupo ' + (idx + 1)"
     tabindex="0"
-    (keydown.enter)="goToSlide(i)"
+    (keydown.enter)="goToSlide(idx)"
   ></span>
 </div>
