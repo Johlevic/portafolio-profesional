@@ -52,4 +52,8 @@ export class ExperienceComponent {
       icon: 'fas fa-wrench'
     }
   ];
+
+  toggleExpand(exp: Experience) {
+    exp.isExpanded = !exp.isExpanded;
+  }
 }

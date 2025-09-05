@@ -115,7 +115,7 @@
     .skills-grid {
       grid-template-columns: repeat(3, 1fr) !important;
     }
-    
+
 
     // Eliminar colapso, listas siempre visibles
     .skill-category {
@@ -129,6 +129,9 @@
         align-items: center;
         gap: 0.5rem;
         text-align: left;
+
+        
+
       }
       .collapse-icon {
         display: none !important;

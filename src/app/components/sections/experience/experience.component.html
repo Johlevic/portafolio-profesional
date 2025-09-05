@@ -3,10 +3,7 @@
   <p class="subtitle">Mi trayectoria profesional y los roles donde he contribuido</p>
 
   <div class="timeline">
-    <article
-      *ngFor="let exp of experiences; let i = index"
-      class="timeline-item"
-    >
+    <article *ngFor="let exp of experiences; let i = index" class="timeline-item">
       <!-- Conector vertical -->
       <div *ngIf="i < experiences.length - 1" class="timeline-connector"></div>
 
@@ -31,9 +28,15 @@
           </div>
         </div>
 
-        <ul class="responsibilities">
-          <li *ngFor="let item of exp.responsibilities">{{ item }}</li>
+
+        <ul class="responsibilities" [class.expanded]="exp.isExpanded">
+          <li *ngFor="let resp of exp.responsibilities">{{ resp }}</li>
         </ul>
+        <button class="expand-btn" *ngIf="exp.responsibilities.length > 0" (click)="toggleExpand(exp)">
+          {{ exp.isExpanded ? 'Ver menos' : 'Ver más' }}
+        </button>
+
+
       </div>
     </article>
   </div>

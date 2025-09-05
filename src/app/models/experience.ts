@@ -1,10 +1,11 @@
-// experience.model.ts
+// models/experience.ts
 export interface Experience {
   company: string;
   location: string;
   role: string;
   duration: string;
-  type: 'remoto' | 'presencial' | 'hibrido' | 'contrato';
+  type: string;
   responsibilities: string[];
-  icon: string; // Clase CSS para el ícono
+  icon: string;
+  isExpanded?: boolean; // <-- propiedad opcional
 }
