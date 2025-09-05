@@ -14,10 +14,18 @@
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    background-color: $primary-color;
+    background-color: $color-gray;
     display: none;
 
+    &:hover{
+      background-color: rgb(177, 177, 177);
+      color: $background-oscuro;
+      transition: all ease-out 0.3s;
+    }
+
   }
+
+
 
 
 
@@ -95,6 +103,8 @@
             text-decoration: none;
             font-size: 10px;
           }
+
+
         }
 
 
@@ -134,6 +144,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      &:active{
+        background-color: $primary-color;
+        transition: ease-out all 0.3s;
+      }
     }
 
     .slider-wrapper{
@@ -151,7 +165,10 @@
             .btn{
               font-family: 13px !important;
               padding: 0.5rem !important;
+
             }
+
+
           }
         }
       }

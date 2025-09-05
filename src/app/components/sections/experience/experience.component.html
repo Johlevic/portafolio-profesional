@@ -1,1 +1,40 @@
-<p>experience works!</p>
+<section class="experience-section">
+  <h2>Experiencia Profesional</h2>
+  <p class="subtitle">Mi trayectoria profesional y los roles donde he contribuido</p>
+
+  <div class="timeline">
+    <article
+      *ngFor="let exp of experiences; let i = index"
+      class="timeline-item"
+    >
+      <!-- Conector vertical -->
+      <div *ngIf="i < experiences.length - 1" class="timeline-connector"></div>
+
+      <!-- Punto con ícono -->
+      <div class="icon-circle">
+        <i class="bi bi-briefcase"></i>
+      </div>
+
+      <!-- Contenido -->
+      <div class="timeline-content">
+        <h3 class="role">{{ exp.role }}</h3>
+        <p class="company">{{ exp.company }}</p>
+
+        <div class="meta">
+          <div class="meta-item">
+            <i class="bi bi-calendar"></i>
+            <span>{{ exp.duration }}</span>
+          </div>
+          <div class="meta-item">
+            <i class="bi bi-geo-alt"></i>
+            <span>{{ exp.location }}</span>
+          </div>
+        </div>
+
+        <ul class="responsibilities">
+          <li *ngFor="let item of exp.responsibilities">{{ item }}</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
