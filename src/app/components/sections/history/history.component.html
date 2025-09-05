@@ -6,7 +6,7 @@
 
   <div class="history">
     <!-- Historia personal -->
-    <article class="item-history">
+    <article class="item-history" [class.expanded]="expanded">
       <hgroup>
         <h3>
           <i class="bi bi-person-fill"></i>
@@ -14,33 +14,40 @@
         </h3>
       </hgroup>
 
-      <p>
-        Curiosamente, mi camino hacia la ingeniería de software no fue el plan original.
-        En un inicio pensé en estudiar ciencias médicas, pero con el tiempo descubrí un
-        interés genuino por la tecnología y el mundo del desarrollo de software. Esa curiosidad
-        inicial se transformó en una pasión que me llevó a elegir esta carrera.
-      </p>
-      <p>
-        Hoy soy <strong>Ingeniero de Software con especialización en Inteligencia Artificial</strong>,
-        graduado de SENATI, y he tenido la oportunidad de trabajar en el desarrollo de
-        aplicaciones web y móviles.
-      </p>
-      <p>
-        Domino tecnologías como <strong>Java Spring Boot, Laravel, React, Xamarin.Forms y Firebase</strong>,
-        aplicando arquitecturas <strong>MVC</strong> y <strong>MVVM</strong>. Entre mis experiencias más
-        destacadas están la creación de <strong>APIs REST, sistemas CRUD, carouseles dinámicos
-        y soluciones de e-commerce</strong>.
-      </p>
-      <p>
-        Además, cuento con certificación en <em>Análisis de Datos – Google Analytics Capstone</em>,
-        lo que me permite unir el desarrollo de software con el análisis inteligente de datos
-        para tomar decisiones basadas en información real.
-      </p>
-      <p>
-        Con el tiempo aprendí a valorar mi carrera, no solo como una profesión, sino como una
-        oportunidad de crear soluciones escalables, seguras y centradas en el usuario.
-        La innovación tecnológica se ha convertido en mi mayor motivación para seguir creciendo.
-      </p>
+      <div class="history-text">
+        <p>
+          Curiosamente, mi camino hacia la ingeniería de software no fue el plan original.
+          En un inicio pensé en estudiar ciencias médicas, pero con el tiempo descubrí un
+          interés genuino por la tecnología y el mundo del desarrollo de software. Esa curiosidad
+          inicial se transformó en una pasión que me llevó a elegir esta carrera.
+        </p>
+        <p>
+          Hoy soy <strong>Ingeniero de Software con especialización en Inteligencia Artificial</strong>,
+          graduado de SENATI, y he tenido la oportunidad de trabajar en el desarrollo de
+          aplicaciones web y móviles.
+        </p>
+        <p>
+          Domino tecnologías como <strong>Java Spring Boot, Laravel, React, Xamarin.Forms y Firebase</strong>,
+          aplicando arquitecturas <strong>MVC</strong> y <strong>MVVM</strong>. Entre mis experiencias más
+          destacadas están la creación de <strong>APIs REST, sistemas CRUD, carouseles dinámicos
+          y soluciones de e-commerce</strong>.
+        </p>
+        <p>
+          Además, cuento con certificación en <em>Análisis de Datos – Google Analytics Capstone</em>,
+          lo que me permite unir el desarrollo de software con el análisis inteligente de datos
+          para tomar decisiones basadas en información real.
+        </p>
+        <p>
+          Con el tiempo aprendí a valorar mi carrera, no solo como una profesión, sino como una
+          oportunidad de crear soluciones escalables, seguras y centradas en el usuario.
+          La innovación tecnológica se ha convertido en mi mayor motivación para seguir creciendo.
+        </p>
+      </div>
+
+      <!-- Botón ver más / ver menos -->
+      <button class="toggle-btn" (click)="toggleExpand()">
+        {{ expanded ? 'Ver menos' : 'Ver más' }}
+      </button>
     </article>
 
     <!-- Estudios -->

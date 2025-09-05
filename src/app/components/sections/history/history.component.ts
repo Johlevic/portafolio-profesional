@@ -10,4 +10,10 @@ import { StudyComponent } from "../study/study.component";
 })
 export class HistoryComponent {
 
+  expanded: boolean = false; // controla si está expandido
+
+  toggleExpand() {
+    this.expanded = !this.expanded;
+  }
+
 }

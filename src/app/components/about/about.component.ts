@@ -9,7 +9,7 @@ import { ExperienceComponent } from "../sections/experience/experience.component
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [FooterComponent, CommonModule, HistoryComponent, StudyComponent, TechnicalskilsComponent, ProjectsComponent, ExperienceComponent],
+  imports: [FooterComponent, CommonModule, HistoryComponent, TechnicalskilsComponent, ProjectsComponent, ExperienceComponent],
 
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss'
