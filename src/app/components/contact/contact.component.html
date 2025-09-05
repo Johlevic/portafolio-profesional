@@ -1,1 +1,105 @@
-<p>contact works!</p>
+<section class="contact-section">
+  <header class="contact-header">
+    <h2>¿Trabajamos juntos?</h2>
+    <p>Estoy disponible para nuevos proyectos y colaboraciones. Hablemos sobre tu próxima idea y cómo puedo ayudarte a
+      hacerla realidad.</p>
+  </header>
+
+  <div class="contact-grid">
+    <!-- Card Formulario -->
+    <div class="card contact-form">
+      <form #formRef="ngForm" id="contactForm" (ngSubmit)="enviarMensaje()">
+        <fieldset>
+          <legend>Envíame un mensaje</legend>
+
+          <label for="nombre">Nombre*</label>
+          <input type="text" id="nombre" name="nombre" ngModel required placeholder="Tu nombre">
+
+          <label for="email">Email*</label>
+          <input type="email" id="email" name="email" ngModel required placeholder="tu@email.com">
+
+          <label for="asunto">Asunto*</label>
+          <input type="text" id="asunto" name="asunto" ngModel required placeholder="Asunto del mensaje">
+
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" ngModel placeholder="Escribe tu mensaje aquí..."></textarea>
+
+          <button type="submit">Enviar Mensaje</button>
+        </fieldset>
+      </form>
+    </div>
+
+    <!-- Card Información -->
+    <div class="card contact-info">
+      <div class="card-contact">
+        <h3>Información de contacto</h3>
+        <ul>
+          <li>
+            <i class="bi bi-envelope-fill"></i>
+            <span>Email: <b>jlezamavictorio&#64;gmail.com</b></span>
+          </li>
+          <li>
+            <i class="bi bi-telephone-fill"></i>
+            <span> Teléfono: <b>+51 980609176</b></span>
+          </li>
+          <li>
+            <i class="bi bi-geo-alt-fill"></i>
+            <span>Ubicación: <b>Trujillo, Perú</b></span>
+          </li>
+          <li>
+            <i class="bi bi-calendar-fill"></i>
+            <span>Disponibilidad: <time>Lun - Vie, 9:00 - 18:00</time></span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card-redes">
+        <h3>Sígueme en redes</h3>
+        <ul class="social-links">
+          <li class="link">
+            <i class="bi bi-github"></i>
+            <a href="https://github.com/Johlevic/"><span>GitHub</span> <b>&#64;Johlevic</b></a>
+          </li>
+          <li class="link">
+            <i class="bi bi-facebook"></i>
+            <a href="https://facebook.com/CodeJl/"><span>Facebook</span> <b>&#64;CodeJL</b></a>
+          </li>
+          <li class="link">
+            <i class="bi bi-youtube"></i>
+            <a href="https://youtube.com/CodeJl/"><span>YouTube</span> <b>&#64;CodeJlTech</b></a></li>
+          <li class="link">
+            <i class="bi bi-tiktok"></i>
+            <a href="https://tiktok.com/CodeJl/"><span>TikTok </span> <b>&#64;CodeJlTech</b></a>
+          </li>
+          <li class="link">
+            <i class="bi bi-instagram"></i>
+            <a href="https://instangram.com/CodeJl/"><span>Instagram</span> <b>&#64;CodeJlTech</b></a>
+          </li>
+          <li class="link">
+            <img src="assets/icon/X_logo.svg" alt="X" width="20" height="20">
+
+            <a href="https://x.com/CodeJl/"><span>X</span><b><b>&#64;CodeJlTech</b></b></a>
+          </li>
+        </ul>
+
+      </div>
+
+      <div class="card-servicios">
+        <h3>Servicios</h3>
+        <ul>
+          <li>Desarrollo Web Full-Stack</li>
+          <li>Aplicaciones Móviles</li>
+          <li>Consultoría Técnica</li>
+          <li>Auditoría de Código</li>
+          <li>Mentoring & Formación</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="contact-footer">
+    <span class="estado">Disponible para proyectos</span>
+    <span class="time">Tiempo de respuesta promedio: 24 horas</span>
+  </footer>
+</section>

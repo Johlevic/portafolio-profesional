@@ -195,6 +195,14 @@ section {
     background-color: $background-blue;
   }
 
+  .contact{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $background-blue;
+    width: 100%;
+  }
+
 
 /* ✅ SLIDER - Móvil/Tablet */
 .slider-wrapper {

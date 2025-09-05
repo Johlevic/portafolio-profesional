@@ -6,10 +6,11 @@ import { StudyComponent } from "../sections/study/study.component";
 import { TechnicalskilsComponent } from "../sections/technicalskils/technicalskils.component";
 import { ProjectsComponent } from "../sections/projects/projects.component";
 import { ExperienceComponent } from "../sections/experience/experience.component";
+import { ContactComponent } from "../contact/contact.component";
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [FooterComponent, CommonModule, HistoryComponent, TechnicalskilsComponent, ProjectsComponent, ExperienceComponent],
+  imports: [FooterComponent, CommonModule, HistoryComponent, TechnicalskilsComponent, ProjectsComponent, ExperienceComponent, ContactComponent],
 
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss'
