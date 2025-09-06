@@ -3,10 +3,11 @@
     <div class="footer__grid">
       <!-- Brand & Description -->
       <div class="footer__brand">
-        <div class="footer__brand-title">
-          <span class="footer__icon">💻</span>
+        <div class="footer__brand-title d-flex align-items-center gap-2">
+          <i class="bi bi-code-slash" style="font-size: 1.5rem;"></i>
           <h3>Desarrollador Full Stack</h3>
         </div>
+
         <p>
           Creando experiencias digitales excepcionales con tecnologías modernas.
           Especializado en React, Node.js y desarrollo web escalable.
@@ -41,18 +42,18 @@
              target="_blank"
              rel="noopener noreferrer"
              [attr.aria-label]="social.label">
-            {{ social.icon }}
+            <i class="bi" [ngClass]="social.icon"></i>
           </a>
         </div>
+
       </div>
     </div>
 
-    <hr />
 
     <!-- Bottom Footer -->
     <div class="footer__bottom">
       <div>
-        © 2025 Desarrollador Full Stack. Hecho con ❤️ y mucho café ☕
+        © 2025 Desarrollador Full Stack. Hecho con ❤️ y mucha pasión
       </div>
       <div class="footer__tech">
         Construido con Angular + TypeScript

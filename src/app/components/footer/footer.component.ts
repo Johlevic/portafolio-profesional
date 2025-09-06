@@ -18,11 +18,11 @@ export class FooterComponent {
   ];
 
   socialLinks = [
-    { icon: '🐙', href: 'https://github.com/tuusuario', label: 'GitHub' },
-    { icon: '💼', href: 'https://linkedin.com/in/tuusuario', label: 'LinkedIn' },
-    { icon: '🐦', href: 'https://twitter.com/tuusuario', label: 'Twitter' },
-    { icon: '✉️', href: 'mailto:hola@desarrollador.com', label: 'Email' },
+    { icon: 'bi-github', href: 'https://github.com/Johlevic', label: 'GitHub' },
+    { icon: 'bi-linkedin', href: 'https://www.linkedin.com/in/jhony-lezama/', label: 'LinkedIn' },
+    { icon: 'bi-envelope-fill', href: 'mailto:jlezamavictorio@gmail.com', label: 'Email' },
   ];
+
 
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });

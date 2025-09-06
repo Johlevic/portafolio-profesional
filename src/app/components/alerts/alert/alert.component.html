@@ -1,0 +1,16 @@
+<div
+  *ngIf="message"
+  class="custom-alert d-flex align-items-center shadow-sm"
+  [ngClass]="type"
+  role="alert"
+>
+  <i class="me-2" [ngClass]="iconClass"></i>
+  <div class="flex-grow-1">
+    <strong>{{ title }}</strong><br />
+    <small>{{ message }}</small>
+  </div>
+  <!-- Botón con ícono de cierre -->
+  <button type="button" class="btn ms-2 p-0" aria-label="Close" (click)="close()">
+    <i class="bi bi-x-lg"></i>
+  </button>
+</div>
