@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FooterComponent } from "../footer/footer.component";
 import { CommonModule } from '@angular/common';
 import { HistoryComponent } from "../sections/history/history.component";
@@ -7,47 +7,58 @@ import { TechnicalskilsComponent } from "../sections/technicalskils/technicalski
 import { ProjectsComponent } from "../sections/projects/projects.component";
 import { ExperienceComponent } from "../sections/experience/experience.component";
 import { ContactComponent } from "../contact/contact.component";
+
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [FooterComponent, CommonModule, HistoryComponent, TechnicalskilsComponent, ProjectsComponent, ExperienceComponent, ContactComponent],
-
+  imports: [
+    FooterComponent,
+    CommonModule,
+    HistoryComponent,
+    StudyComponent,
+    TechnicalskilsComponent,
+    ProjectsComponent,
+    ExperienceComponent,
+    ContactComponent
+  ],
   templateUrl: './about.component.html',
-  styleUrl: './about.component.scss'
+  styleUrls: ['./about.component.scss']
 })
 export class AboutComponent {
-getTechIcon(tech: string):string {
-  const icons: { [key: string]: string } = {
-    'Angular': 'assets/icon/angular.svg',
-    'React': 'assets/icon/react.svg',
-    'Node.js': 'assets/icon/nodejs.svg',
-    'Spring Boot': 'assets/icon/spring-boot.svg',
-    'Laravel': 'assets/icon/laravel.svg',
-    'Python': 'assets/icon/python.svg',
-    'C#': 'assets/icon/csharp.svg',
-    'JavaScript': 'assets/icon/javascript.svg',
-  };
-  return icons[tech] || 'code-slash'; // fallback si no hay ícono
-}
-  technologies = ['Angular', 'React', 'Node.js', 'Spring Boot', 'Laravel','Python', 'C#', 'JavaScript' ];
+  // === Slider ===
+  getTechIcon(tech: string): string {
+    const icons: { [key: string]: string } = {
+      'Angular': 'assets/icon/angular.svg',
+      'React': 'assets/icon/react.svg',
+      'Node.js': 'assets/icon/nodejs.svg',
+      'Spring Boot': 'assets/icon/spring-boot.svg',
+      'Laravel': 'assets/icon/laravel.svg',
+      'Python': 'assets/icon/python.svg',
+      'C#': 'assets/icon/csharp.svg',
+      'JavaScript': 'assets/icon/javascript.svg',
+    };
+    return icons[tech] || 'code-slash';
+  }
+
+  technologies = [
+    'Angular', 'React', 'Node.js',
+    'Spring Boot', 'Laravel',
+    'Python', 'C#', 'JavaScript'
+  ];
+
   currentIndex = 0;
   intervalId: any;
 
-  // Total de paginas de slider
-  get totalPages(): number{
-    return Math.ceil(this.technologies.length / 2)
+  get totalPages(): number {
+    return Math.ceil(this.technologies.length / 2);
   }
 
-
-
-  // Detecta si es móvil o tablet (basado en ancho de ventana)
   isMobileOrTablet(): boolean {
-    return window.innerWidth <= 1024; // Ajusta según tus breakpoints
+    return window.innerWidth <= 1024;
   }
 
   ngOnInit() {
     this.startAutoPlay();
-    // Escuchar cambios de tamaño
     window.addEventListener('resize', this.handleResize);
   }
 
@@ -57,7 +68,6 @@ getTechIcon(tech: string):string {
   }
 
   handleResize = () => {
-    // Reinicia el slider si cambia el modo
     if (this.isMobileOrTablet()) {
       this.startAutoPlay();
     } else {
@@ -88,5 +98,34 @@ getTechIcon(tech: string):string {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
+  }
+
+  // === Flecha scroll hacia arriba ===
+  showScrollButton = false;
+  private lastScrollTop = 0;
+  private scrollThreshold = 200;       // px desde arriba
+  private directionThreshold = 10;     // sensibilidad
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const current = window.pageYOffset || document.documentElement.scrollTop;
+    const delta = current - this.lastScrollTop;
+
+    if (Math.abs(delta) < this.directionThreshold) {
+      return;
+    }
+
+    if (delta > 0 && current > this.scrollThreshold) {
+      this.showScrollButton = true;
+    } else {
+      this.showScrollButton = false;
+    }
+
+    this.lastScrollTop = current <= 0 ? 0 : current;
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.showScrollButton = false;
   }
 }

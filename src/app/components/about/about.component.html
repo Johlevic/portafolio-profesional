@@ -1,125 +1,136 @@
-<section>
-  <div class="container">
-    <div class="container-col">
-      <div class="item-1">
-        <div class="greeting">
+<main>
+  <!-- ✅ Inicio -->
+  <section id="inicio">
+    <div class="container">
+      <div class="container-col">
+        <div class="item-1">
+          <div class="greeting">
+            <h1>Hola, soy <strong>Jhony Lezama</strong></h1>
+            <h2>Ingeniero de Software</h2>
+          </div>
+          <p class="presentation">
+            Apasionado por crear experiencias digitales excepcionales.
+            Especializado en React, Node.js y tecnologías modernas. Transformo
+            ideas en aplicaciones web escalables y de alto rendimiento.
+          </p>
 
-          <h1>Hola, soy <strong>Jhony Lezama</strong></h1>
-          <h2>Ingeniero de Software</h2>
+          <div class="content-button">
+            <button class="proyectos-button" routerLink="/proyectos">
+              <i class="bi bi-folder-fill"></i> Ver mis Proyectos
+            </button>
+
+            <a class="cv-button" href="assets/pdf/cv.pdf" download>
+              <i class="bi bi-file-earmark-arrow-down-fill"></i> Descargar CV
+            </a>
+          </div>
         </div>
-        <p class="presentation">
-          Apasionado por crear experiencias digitales excepcionales.
-          Especializado en React, Node.js y tecnologías modernas. Transformo
-          ideas en aplicaciones web escalables y de alto rendimiento.
-        </p>
 
-        <div class="content-button">
-          <button class="proyectos-button" routerLink="/proyectos">
-            <i class="bi bi-folder-fill"></i> Ver mis Proyectos
-          </button>
-
-          <a class="cv-button" href="assets/pdf/cv.pdf" download>
-            <i class="bi bi-file-earmark-arrow-down-fill"></i> Descargar CV
-          </a>
-
+        <div class="item-2">
+          <figure>
+            <img src="assets/img/perfil.jpg" alt="Foto de Jhony Lezama, Ingeniero de Software" width="200" />
+            <figcaption>Actualmente Disponible</figcaption>
+          </figure>
         </div>
-
-
-      </div>
-
-      <div class="item-2">
-        <figure>
-          <img src="assets/img/perfil.jpg" alt="Perfil" width="200" />
-          <figcaption>Actualmente Disponible</figcaption>
-        </figure>
-
-      </div>
-
-
-    </div>
-
-
-
-  </div>
-
-
-
-  <div class="slider-wrapper">
-    <h2>Tecnologias</h2>
-
-    <!-- ✅ SLIDER (solo móvil/tablet) -->
-    <div class="slider" [style.transform]="'translateX(-' + currentIndex * 100 + '%)'" *ngIf="isMobileOrTablet()">
-      <!-- Un slide por cada página (grupo de 2 techs) -->
-      <div class="slide" *ngFor="let _ of [].constructor(totalPages); let i = index">
-        <!-- Primera tecnología del par -->
-        <span class="tech-tag">
-          <img [src]="getTechIcon(technologies[i * 2])" alt="" class="tech-icon" />
-          {{ technologies[i * 2] }}
-        </span>
-
-        <!-- Segunda tecnología (solo si existe) -->
-        <span class="tech-tag" *ngIf="i * 2 + 1 < technologies.length">
-          <img [src]="getTechIcon(technologies[i * 2 + 1])" alt="" class="tech-icon" />
-          {{ technologies[i * 2 + 1] }}
-        </span>
       </div>
     </div>
+  </section>
 
-    <!-- ✅ VISTA DE ESCRITORIO: todas en fila -->
-    <div class="tech-row" *ngIf="!isMobileOrTablet()">
-      <!-- En desktop (tech-row) -->
-      <span class="tech-item" *ngFor="let tech of technologies">
-        <img [src]="getTechIcon(tech)" alt="" class="tech-icon" />
-        {{ tech }}
-      </span>
-    </div>
+  <!-- ✅ Tecnologías -->
+  <section>
+    <div class="slider-wrapper">
+      <h2>Tecnologias</h2>
 
-    <!-- ✅ BOTONES Y DOTS (solo móvil/tablet) -->
-    <ng-container *ngIf="isMobileOrTablet()">
-      <button class="nav prev" (click)="prevSlide()">&#10094;</button>
-      <button class="nav next" (click)="nextSlide()">&#10095;</button>
+      <!-- ✅ SLIDER (solo móvil/tablet) -->
+      <div
+        class="slider"
+        [style.transform]="'translateX(-' + currentIndex * 100 + '%)'"
+        *ngIf="isMobileOrTablet()"
+      >
+        <div class="slide" *ngFor="let _ of [].constructor(totalPages); let i = index">
+          <span class="tech-tag">
+            <img [src]="getTechIcon(technologies[i * 2])" alt="" class="tech-icon" />
+            {{ technologies[i * 2] }}
+          </span>
 
-      <!-- Dots: uno por cada página -->
-      <div class="dots">
-        <span *ngFor="let _ of [].constructor(totalPages); let i = index" [class.active]="i === currentIndex"
-          (click)="goToSlide(i)">
+          <span class="tech-tag" *ngIf="i * 2 + 1 < technologies.length">
+            <img [src]="getTechIcon(technologies[i * 2 + 1])" alt="" class="tech-icon" />
+            {{ technologies[i * 2 + 1] }}
+          </span>
+        </div>
+      </div>
 
+      <!-- ✅ VISTA DE ESCRITORIO -->
+      <div class="tech-row" *ngIf="!isMobileOrTablet()">
+        <span class="tech-item" *ngFor="let tech of technologies">
+          <img [src]="getTechIcon(tech)" alt="" class="tech-icon" />
+          {{ tech }}
         </span>
       </div>
-    </ng-container>
-  </div>
 
+      <!-- ✅ BOTONES Y DOTS (solo móvil/tablet) -->
+      <ng-container *ngIf="isMobileOrTablet()">
+        <button class="nav prev" (click)="prevSlide()">&#10094;</button>
+        <button class="nav next" (click)="nextSlide()">&#10095;</button>
 
+        <div class="dots">
+          <span
+            *ngFor="let _ of [].constructor(totalPages); let i = index"
+            [class.active]="i === currentIndex"
+            (click)="goToSlide(i)"
+          ></span>
+        </div>
+      </ng-container>
+    </div>
+  </section>
 
+  <!-- ✅ Sobre mí -->
+  <section id="sobre-mi">
+    <div class="history-study">
+      <app-history></app-history>
+    </div>
+  </section>
 
+  <!-- ✅ Habilidades -->
+  <section id="habilidades">
+    <div class="skills">
+      <app-technicalskils></app-technicalskils>
+    </div>
+  </section>
 
+  <!-- ✅ Proyectos -->
+  <section id="proyectos">
+    <div class="projects">
+      <app-projects></app-projects>
+    </div>
+  </section>
 
-  <div class="history-study">
-    <!-- My history -->
-    <app-history></app-history>
+  <!-- ✅ Experiencia -->
+  <section id="experiencia">
+    <div class="experience">
+      <app-experience></app-experience>
+    </div>
+  </section>
 
+  <!-- ✅ Contacto -->
+  <section id="contacto">
+    <div class="contact">
+      <app-contact></app-contact>
+    </div>
+  </section>
 
-  </div>
-  <div class="skills">
-    <!-- Habilidades Tecnicas-->
-    <app-technicalskils></app-technicalskils>
-
-  </div>
-
-  <div class="projects">
-    <app-projects></app-projects>
-  </div>
-
-  <div class="experience">
-    <app-experience></app-experience>
-  </div>
-
-  <div class="contact">
-    <app-contact></app-contact>
-  </div>
-
-
-  <!-- Footer -->
+  <button
+  class="scroll-top"
+  [class.visible]="showScrollButton"
+  (click)="scrollToTop()"
+  aria-label="Volver arriba"
+  type="button"
+>
+  <i class="bi bi-arrow-up-short"></i>
+</button>
+  <!-- ✅ Footer -->
+<footer>
   <app-footer></app-footer>
+</footer>
+</main>
 
-</section>
+

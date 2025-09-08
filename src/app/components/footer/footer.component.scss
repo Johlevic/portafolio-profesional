@@ -82,6 +82,22 @@
   }
 
   &__contact{
+
+    .mail-tel{
+      >a{
+        text-decoration: none;
+        background-color: green;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        color: white;
+
+        &:hover{
+          background-color: rgb(4, 83, 4);
+          transition: ease 0.3s;
+        }
+      }
+
+    }
     text-align: left;
     p {
       color: $color-gray;
@@ -120,7 +136,7 @@
       flex-direction: column;
     }
 
-    
+
   }
 
   &__scroll-top {

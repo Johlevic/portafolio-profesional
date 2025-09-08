@@ -8,5 +8,9 @@ body {
   font-family: "Tenor Sans", sans-serif;
   background: #f8f9fa;
   color: $color-gray;
-  overflow: hidden;
+  user-select: none;
+}
+
+html {
+  scroll-behavior: smooth;
 }

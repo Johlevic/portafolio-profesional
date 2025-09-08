@@ -62,7 +62,7 @@ export class SliderComponent implements AfterViewInit, OnDestroy {
     },
     {
       title: 'Aplicación de Tareas',
-      image: 'assets/img/projects/portafolio.png',
+      image: 'assets/img/projects/pantallasled-pro.png',
       technologies: ['Angular', 'NgRx', 'Tailwind CSS'],
       repoLink: 'https://github.com/tu-usuario/tu-repositorio-todo',
       projectLink: 'https://tu-aplicacion-de-tareas.com'

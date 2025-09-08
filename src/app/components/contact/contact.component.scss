@@ -283,28 +283,11 @@
   }
 
   .contact-footer {
-    .estado {
-      display: inline-flex;          // Mantener el punto alineado al texto
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;                  // Espacio entre punto y texto
-      color: $color-gray;
-      position: relative;
 
-      &::after {
-        content: '';
-        display: inline-block;       // Se comporta como parte del texto
-        width: 0.5rem;
-        height: 0.5rem;
-        border-radius: 50%;
-        background-color: $primary-color;
-        animation: blink 5s infinite; // Parpadeo
-      }
-    }
 
     .time {
       color: gray;
-      font-size: 10px;
+      font-size: 12px;
       text-align: center;
       margin-top: 1rem;
     }

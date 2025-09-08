@@ -1,9 +1,9 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import emailjs from '@emailjs/browser';
-import { environment } from '../../../environments/environment';
+import { environment } from '@/environments/environment';
 import { CommonModule } from '@angular/common';
-import { AlertComponent } from '../../components/alerts/alert/alert.component'; // 👈 Importa tu alerta
+import { AlertComponent } from '@/app/components/alerts/alert/alert.component'; // 👈 Importa tu alerta
 
 type AlertType = 'success' | 'error' | 'warning' | 'info' | 'question';
 
@@ -35,7 +35,7 @@ export class ContactComponent {
       this.alert = {
         type: 'error',
         title: 'Error',
-        message: '⚠️ Completa todos los campos obligatorios'
+        message: 'Completa todos los campos obligatorios'
       };
       return;
     }
@@ -45,7 +45,7 @@ export class ContactComponent {
       this.alert = {
         type: 'error',
         title: 'Error',
-        message: '⚠️ Ingresa un correo válido'
+        message: 'Ingresa un correo válido'
       };
       return;
     }
@@ -63,7 +63,7 @@ export class ContactComponent {
         this.alert = {
           type: 'success',
           title: '¡Éxito!',
-          message: 'Tu mensaje fue enviado con éxito ✅'
+          message: 'Tu mensaje fue enviado con éxito'
         };
       })
       .catch((error) => {
@@ -71,7 +71,7 @@ export class ContactComponent {
         this.alert = {
           type: 'error',
           title: 'Error',
-          message: 'Hubo un problema al enviar el mensaje ❌'
+          message: 'Hubo un problema al enviar el mensaje'
         };
       });
   }
