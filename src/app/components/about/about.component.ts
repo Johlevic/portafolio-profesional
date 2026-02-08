@@ -7,6 +7,7 @@ import { ProjectsComponent } from '../sections/projects/projects.component';
 import { ExperienceComponent } from '../sections/experience/experience.component';
 import { ContactComponent } from '../contact/contact.component';
 import { LanguageService } from '@/app/services/language.service';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-about',
@@ -19,6 +20,7 @@ import { LanguageService } from '@/app/services/language.service';
     ProjectsComponent,
     ExperienceComponent,
     ContactComponent,
+    ScrollRevealDirective,
   ],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],

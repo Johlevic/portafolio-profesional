@@ -13,6 +13,7 @@ import { ProjectsComponent } from '../sections/projects/projects.component';
 import { ExperienceComponent } from '../sections/experience/experience.component';
 import { ContactComponent } from '../../components/contact/contact.component';
 import { LanguageService } from '@/app/services/language.service';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,7 @@ import { LanguageService } from '@/app/services/language.service';
     ProjectsComponent,
     ExperienceComponent,
     ContactComponent,
+    ScrollRevealDirective,
   ],
   template: `
     <div class="scroll-container overflow-x-hidden">
@@ -37,7 +39,10 @@ import { LanguageService } from '@/app/services/language.service';
           <div
             class="flex flex-col-reverse lg:flex-row items-center justify-center gap-8 lg:gap-16"
           >
-            <div class="w-full lg:w-2/3 text-center lg:text-left px-2">
+            <div
+              class="w-full lg:w-2/3 text-center lg:text-left px-2"
+              appScrollReveal
+            >
               <div class="mb-6">
                 <h1
                   class="text-3xl md:text-4xl lg:text-6xl font-medium text-blue-600 dark:text-blue-400 mb-4 font-['Lucida_Sans']"
@@ -84,6 +89,7 @@ import { LanguageService } from '@/app/services/language.service';
 
             <div
               class="w-full lg:w-1/3 flex flex-col justify-center items-center pb-8 lg:pb-0"
+              appScrollReveal
             >
               <figure
                 class="relative flex justify-center items-center rounded-xl"
@@ -197,8 +203,8 @@ import { LanguageService } from '@/app/services/language.service';
         </div>
       </section>
 
-      <!-- ✅ SECCIONES EXTRA (Móvil) -->
-      @if (isMobile) {
+      <!-- ✅ SECCIONES EXTRA (Móvil - Se muestran por CSS para evitar recreación) -->
+      <div class="md:hidden">
         <section
           id="sobre-mi"
           class="bg-white dark:bg-gray-900 transition-colors duration-300"
@@ -231,7 +237,7 @@ import { LanguageService } from '@/app/services/language.service';
         >
           <app-contact></app-contact>
         </section>
-      }
+      </div>
     </div>
   `,
   styles: [

@@ -6,13 +6,14 @@ import { CommonModule } from '@angular/common';
 import { AlertComponent } from '@/app/components/alerts/alert/alert.component';
 import { LanguageService } from '@/app/services/language.service';
 import { BottomSheetService } from '@/app/services/bottom-sheet.service';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
 type AlertType = 'success' | 'error' | 'warning' | 'info' | 'question';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [FormsModule, CommonModule, AlertComponent],
+  imports: [FormsModule, CommonModule, AlertComponent, ScrollRevealDirective],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss'],
 })

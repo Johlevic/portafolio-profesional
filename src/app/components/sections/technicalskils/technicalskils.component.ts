@@ -2,13 +2,14 @@ import { Component, inject, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SkillCategory } from '../../../models/skill';
 import { AnimateOnDisplayDirective } from '../../../animate-on-display.directive';
+import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directive';
 import { LanguageService } from '@/app/services/language.service';
 import { BottomSheetService } from '@/app/services/bottom-sheet.service';
 
 @Component({
   selector: 'app-technicalskils',
   standalone: true,
-  imports: [CommonModule, AnimateOnDisplayDirective],
+  imports: [CommonModule, AnimateOnDisplayDirective, ScrollRevealDirective],
   templateUrl: './technicalskils.component.html',
   styleUrl: './technicalskils.component.scss',
 })

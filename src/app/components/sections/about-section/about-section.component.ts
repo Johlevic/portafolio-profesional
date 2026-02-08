@@ -2,18 +2,19 @@ import { Component, inject } from '@angular/core';
 import { HistoryComponent } from '../history/history.component';
 import { StudyComponent } from '../study/study.component';
 import { LanguageService } from '@/app/services/language.service';
+import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directive';
 
 @Component({
   selector: 'app-about-section',
   standalone: true,
-  imports: [HistoryComponent, StudyComponent],
+  imports: [HistoryComponent, StudyComponent, ScrollRevealDirective],
   template: `
     <section
       class="bg-gray-50 dark:bg-gray-900 py-16 lg:py-24 overflow-hidden transition-colors duration-300"
     >
       <div class="container mx-auto px-6 lg:px-12">
         <!-- Header -->
-        <div class="text-center mb-16 lg:mb-24 animate-fade-in">
+        <div class="text-center mb-16 lg:mb-24" appScrollReveal>
           <h1
             class="text-4xl lg:text-5xl font-bold text-blue-600 dark:text-blue-400 mb-6 tracking-tight"
           >
@@ -45,21 +46,6 @@ import { LanguageService } from '@/app/services/language.service';
         </div>
       </div>
     </section>
-  `,
-  styles: `
-    .animate-fade-in {
-      animation: fadeIn 1.2s ease-out forwards;
-    }
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
   `,
 })
 export class AboutSectionComponent {
