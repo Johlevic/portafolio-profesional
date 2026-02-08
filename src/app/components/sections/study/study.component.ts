@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 type SectionKey = 'education' | 'certifications';
 
 import { LanguageService } from '@/app/services/language.service';
+import { BottomSheetService } from '@/app/services/bottom-sheet.service';
 
 @Component({
   selector: 'app-study',
@@ -14,11 +15,7 @@ import { LanguageService } from '@/app/services/language.service';
 })
 export class StudyComponent implements OnInit {
   languageService = inject(LanguageService);
-  // estado de cada article
-  expanded: Record<SectionKey, boolean> = {
-    education: false,
-    certifications: false,
-  };
+  bottomSheetService = inject(BottomSheetService);
 
   // viewport
   isMobile = false;
@@ -33,26 +30,56 @@ export class StudyComponent implements OnInit {
   }
 
   private updateViewportState() {
-    this.isMobile = window.innerWidth < 1280;
-
-    if (this.isMobile) {
-      // En móvil: cerrados por defecto
-      this.expanded.education = false;
-      this.expanded.certifications = false;
-    } else {
-      // En tablet+ forzamos abierto (sin colapso)
-      this.expanded.education = true;
-      this.expanded.certifications = true;
-    }
+    this.isMobile = window.innerWidth < 1280; // xl breakpoint
   }
 
-  toggleArticle(section: SectionKey) {
-    if (!this.isMobile) return; // solo móvil colapsa
-    this.expanded[section] = !this.expanded[section];
+  openEducationSheet() {
+    this.bottomSheetService.open({
+      title: this.languageService.t('study.title'),
+      icon: 'bi-mortarboard',
+      type: 'list',
+      items: [
+        {
+          label: this.languageService.t('study.education.title'),
+          value: `${this.languageService.t('study.education.institution')} (2022 - 2024)`,
+          icon: 'bi-bank',
+        },
+        {
+          label: this.languageService.t('study.certifications.title'),
+          value: 'Spring Boot, Google Data Analytics, Google Cybersecurity',
+          icon: 'bi-patch-check',
+        },
+      ],
+    });
   }
 
-  // clase del ícono para el botón (solo móvil)
-  getIcon(section: SectionKey): string {
-    return this.expanded[section] ? 'bi bi-chevron-up' : 'bi bi-chevron-down';
+  openStatsSheet() {
+    this.bottomSheetService.open({
+      title: this.languageService.t('study.stats.title'),
+      icon: 'bi-lightning-charge',
+      type: 'list',
+      items: [
+        {
+          label: this.languageService.t('study.stats.experience'),
+          value: this.languageService.t('study.stats.years'),
+          icon: 'bi-briefcase',
+        },
+        {
+          label: this.languageService.t('study.stats.projects'),
+          value: this.languageService.t('study.stats.projectsCount'),
+          icon: 'bi-code-square',
+        },
+        {
+          label: this.languageService.t('study.stats.clients'),
+          value: this.languageService.t('study.stats.clientsCount'),
+          icon: 'bi-people',
+        },
+        {
+          label: this.languageService.t('study.stats.location'),
+          value: this.languageService.t('study.stats.city'),
+          icon: 'bi-geo-alt',
+        },
+      ],
+    });
   }
 }

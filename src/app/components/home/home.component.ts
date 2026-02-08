@@ -38,7 +38,7 @@ import { RouterModule } from '@angular/router';
         id="inicio"
         class="py-16 md:py-24 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-900 text-gray-800 dark:text-gray-200 min-h-[80vh] flex items-center transition-colors duration-300"
       >
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-0 lg:px-4">
           <div
             class="flex flex-col-reverse lg:flex-row items-center justify-center gap-8 lg:gap-16"
           >
@@ -122,7 +122,7 @@ import { RouterModule } from '@angular/router';
         id="habilidades"
         class="py-16 bg-gray-100 dark:bg-gray-800 transition-colors duration-300"
       >
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-0">
           <h2
             class="text-3xl font-bold text-center text-blue-600 dark:text-blue-400 mb-8"
           >
@@ -176,7 +176,7 @@ import { RouterModule } from '@angular/router';
             </button>
 
             <div
-              class="flex justify-center gap-2 mt-4 absolute bottom-2 w-full"
+              class="flex justify-center gap-2 mt-4 absolute bottom-0 w-full"
             >
               @for (i of pagesArray; track i) {
                 <span
@@ -210,7 +210,7 @@ import { RouterModule } from '@angular/router';
       <div class="md:hidden">
         <section
           id="sobre-mi"
-          class="bg-white dark:bg-gray-900 transition-colors duration-300"
+          class="bg-white dark:bg-gray-900 transition-colors duration-300 p-4 container mx-auto"
         >
           <app-history></app-history>
           <div class="py-8"></div>
@@ -218,25 +218,25 @@ import { RouterModule } from '@angular/router';
         </section>
         <section
           id="habilidades-section"
-          class="bg-gray-100 dark:bg-gray-800 transition-colors duration-300"
+          class="bg-gray-100 dark:bg-gray-800 transition-colors duration-300 px-4 container mx-auto"
         >
           <app-technicalskils></app-technicalskils>
         </section>
         <section
           id="proyectos"
-          class="bg-white dark:bg-gray-900 transition-colors duration-300"
+          class="bg-white dark:bg-gray-900 transition-colors duration-300 px-4 container mx-auto"
         >
           <app-projects></app-projects>
         </section>
         <section
           id="experiencia"
-          class="bg-gray-100 dark:bg-gray-800 transition-colors duration-300"
+          class="bg-gray-100 dark:bg-gray-800 transition-colors duration-300 px-4 container mx-auto"
         >
           <app-experience></app-experience>
         </section>
         <section
           id="contacto"
-          class="bg-white dark:bg-gray-900 transition-colors duration-300"
+          class="bg-white dark:bg-gray-900 transition-colors duration-300 px-4 container mx-auto pt-16 pb-24"
         >
           <app-contact></app-contact>
         </section>
