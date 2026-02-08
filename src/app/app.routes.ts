@@ -5,6 +5,7 @@ import { TechnicalskilsComponent } from './components/sections/technicalskils/te
 import { ProjectsComponent } from './components/sections/projects/projects.component';
 import { ExperienceComponent } from './components/sections/experience/experience.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { CvViewerComponent } from './components/cv-viewer/cv-viewer.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, data: { titleKey: 'nav.home' } },
@@ -32,6 +33,11 @@ export const routes: Routes = [
     path: 'contacto',
     component: ContactComponent,
     data: { titleKey: 'nav.contact' },
+  },
+  {
+    path: 'cv',
+    component: CvViewerComponent,
+    data: { titleKey: 'hero.viewCV' },
   },
   { path: '**', redirectTo: '' },
 ];

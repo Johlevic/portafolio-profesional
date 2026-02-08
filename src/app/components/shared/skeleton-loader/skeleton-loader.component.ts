@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, PLATFORM_ID, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-skeleton-loader',
@@ -36,20 +36,22 @@ import { CommonModule } from '@angular/common';
 
       <!-- TOP HEADER SKELETON (Mobile) -->
       <header
-        class="md:hidden fixed top-0 left-0 w-full h-20 bg-gray-900 border-b border-blue-500/10 z-50 flex items-center px-6 justify-between"
+        class="md:hidden fixed top-0 left-0 w-full h-16 bg-gray-900 border-b border-blue-500/10 z-50 flex items-center px-4 justify-between"
       >
-        <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-lg bg-gray-700 shimmer-element"></div>
-          <div class="w-24 h-6 rounded bg-gray-700 shimmer-element"></div>
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-gray-700 shimmer-element"></div>
+          <div class="w-20 h-4 rounded bg-gray-700 shimmer-element"></div>
         </div>
-        <div class="w-10 h-10 rounded-xl bg-gray-700 shimmer-element"></div>
+        <div class="w-8 h-8 rounded-lg bg-gray-700 shimmer-element"></div>
       </header>
 
       <!-- MAIN CONTENT SKELETON -->
-      <main class="flex-1 md:ml-24 lg:ml-72 pt-24 md:pt-16 p-8 space-y-12">
+      <main
+        class="flex-1 md:ml-24 lg:ml-72 pt-20 md:pt-16 p-4 md:p-8 space-y-12"
+      >
         <!-- Hero Skeleton -->
         <div
-          class="container mx-auto flex flex-col items-center md:items-start space-y-6"
+          class="container mx-auto flex flex-col items-center md:items-start space-y-6 pt-8 md:pt-0"
         >
           <div
             class="w-[80%] md:w-[60%] h-12 md:h-20 rounded bg-gray-700 shimmer-element"
@@ -58,11 +60,30 @@ import { CommonModule } from '@angular/common';
             class="w-[60%] md:w-[40%] h-8 md:h-12 rounded bg-gray-700 shimmer-element"
           ></div>
           <div
-            class="w-full md:w-[80%] h-32 rounded bg-gray-700 shimmer-element"
+            class="w-full md:w-[80%] h-24 md:h-32 rounded bg-gray-700 shimmer-element"
           ></div>
-          <div class="flex gap-4">
-            <div class="w-40 h-12 rounded-lg bg-gray-700 shimmer-element"></div>
-            <div class="w-40 h-12 rounded-lg bg-gray-700 shimmer-element"></div>
+          <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+            <div
+              class="w-full sm:w-40 h-12 rounded-lg bg-gray-700 shimmer-element"
+            ></div>
+            <div
+              class="w-full sm:w-40 h-12 rounded-lg bg-gray-700 shimmer-element"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Mobile Tech Slider Skeleton (Only mobile) -->
+        <div class="md:hidden space-y-4">
+          <div
+            class="w-48 h-8 mx-auto rounded bg-gray-700 shimmer-element"
+          ></div>
+          <div class="flex justify-center gap-4">
+            <div
+              class="flex-1 h-24 rounded-xl bg-gray-700 shimmer-element"
+            ></div>
+            <div
+              class="flex-1 h-24 rounded-xl bg-gray-700 shimmer-element"
+            ></div>
           </div>
         </div>
 
@@ -71,13 +92,14 @@ import { CommonModule } from '@angular/common';
           <div class="w-64 h-10 rounded bg-gray-700 shimmer-element"></div>
         </div>
 
-        <!-- Cards Grid Placeholder -->
+        <!-- Cards Grid Placeholder (Adapts to mobile skills grid) -->
         <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 container mx-auto"
+          class="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 container mx-auto"
         >
           <div
-            *ngFor="let i of [1, 2, 3, 4]"
-            class="h-48 rounded-xl bg-gray-700 shimmer-element"
+            *ngFor="let i of [1, 2, 3, 4, 5, 6]"
+            class="h-24 md:h-48 rounded-xl bg-gray-700 shimmer-element"
+            [class.hidden]="i > 3 && !isMobile"
           ></div>
         </div>
       </main>
@@ -116,4 +138,13 @@ import { CommonModule } from '@angular/common';
     `,
   ],
 })
-export class SkeletonLoaderComponent {}
+export class SkeletonLoaderComponent implements OnInit {
+  private platformId = inject(PLATFORM_ID);
+  isMobile = false;
+
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.isMobile = window.innerWidth < 768;
+    }
+  }
+}

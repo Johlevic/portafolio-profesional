@@ -283,6 +283,8 @@ export class LanguageService {
           description:
             'Especialista en forjar experiencias digitales excepcionales con React, Angular y Node.js. Arquitecto de soluciones escalables que fusionan diseño premium con alto rendimiento tecnológico.',
           viewProjects: 'Ver mis Proyectos',
+          visitCompany: 'Visitar SysJoL',
+          viewCV: 'Ver Currículum',
           downloadCV: 'Descargar CV',
           cvPath: '/assets/pdf/jhony-lezama-cv-es.pdf',
           location: 'Trujillo, Perú',
@@ -472,6 +474,8 @@ export class LanguageService {
           description:
             'Specialist in crafting exceptional digital experiences with React, Angular and Node.js. Architect of scalable solutions that merge premium design with high technological performance.',
           viewProjects: 'View my Projects',
+          visitCompany: 'Visit SysJoL',
+          viewCV: 'View Resume',
           downloadCV: 'Download CV',
           cvPath: '/assets/pdf/jhony-lezama-cv-en.pdf',
           location: 'Trujillo, Peru',

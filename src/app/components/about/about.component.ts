@@ -8,6 +8,7 @@ import { ExperienceComponent } from '../sections/experience/experience.component
 import { ContactComponent } from '../contact/contact.component';
 import { LanguageService } from '@/app/services/language.service';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-about',
@@ -21,6 +22,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
     ExperienceComponent,
     ContactComponent,
     ScrollRevealDirective,
+    RouterModule,
   ],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],

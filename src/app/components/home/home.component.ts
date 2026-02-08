@@ -15,11 +15,14 @@ import { ContactComponent } from '../../components/contact/contact.component';
 import { LanguageService } from '@/app/services/language.service';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
+import { RouterModule } from '@angular/router';
+
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     HistoryComponent,
     StudyComponent,
     TechnicalskilsComponent,
@@ -68,21 +71,21 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
               <div
                 class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 px-6 md:px-4 lg:px-0"
               >
-                <button
-                  routerLink="/proyectos"
-                  class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg shadow-lg transition duration-300 flex items-center justify-center gap-2 text-sm lg:text-base"
+                <a
+                  href="https://sysjol.onrender.com/"
+                  target="_blank"
+                  class="bg-blue-600 hover:bg-blue-700 text-white py-3.5 px-8 rounded-xl shadow-lg shadow-blue-500/20 transition-all duration-300 flex items-center justify-center gap-3 text-sm lg:text-base font-bold active:scale-95"
                 >
-                  <i class="bi bi-folder-fill"></i>
-                  {{ languageService.t('hero.viewProjects') }}
-                </button>
+                  <i class="bi bi-rocket-takeoff-fill text-lg"></i>
+                  {{ languageService.t('hero.visitCompany') }}
+                </a>
 
                 <a
-                  class="bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 py-3 px-6 rounded-lg shadow-lg transition duration-300 flex items-center justify-center gap-2 text-sm lg:text-base"
-                  [href]="languageService.t('hero.cvPath')"
-                  download
+                  class="bg-white/80 hover:bg-white dark:bg-gray-800/80 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-200 py-3.5 px-8 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 transition-all duration-300 flex items-center justify-center gap-3 text-sm lg:text-base font-semibold active:scale-95"
+                  routerLink="/cv"
                 >
-                  <i class="bi bi-file-earmark-arrow-down-fill"></i>
-                  {{ languageService.t('hero.downloadCV') }}
+                  <i class="bi bi-file-earmark-text-fill text-lg"></i>
+                  {{ languageService.t('hero.viewCV') }}
                 </a>
               </div>
             </div>

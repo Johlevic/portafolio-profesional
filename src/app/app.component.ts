@@ -45,6 +45,7 @@ export class AppComponent implements OnInit {
   showProfileInfo = false;
   isScrolled = false;
   isHome = true;
+  isCvViewer = false;
 
   // Inyectar servicios para inicializarlos
   private themeService = inject(ThemeService);
@@ -57,6 +58,7 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.isHome = event.url === '/' || event.url === '/home';
+        this.isCvViewer = event.url === '/cv';
         this.checkScroll(); // Re-evaluate on route change
       }
     });
@@ -67,16 +69,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      const hasSeen = localStorage.getItem(this.LOADER_KEY);
-      if (hasSeen) {
+      // Mostrar siempre el skeleton en cada refresh
+      setTimeout(() => {
         this.isLoading = false;
-      } else {
-        // Simular carga de recursos para la primera vez
-        setTimeout(() => {
-          this.isLoading = false;
-          localStorage.setItem(this.LOADER_KEY, 'true');
-        }, 1500);
-      }
+      }, 1500);
     } else {
       this.isLoading = false; // Fallback para SSR
     }
