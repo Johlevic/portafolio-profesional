@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common'; // 👈 necesario para *ngIf, ng
   standalone: true,
   imports: [CommonModule], // 👈 agrégalo aquí
   templateUrl: './alert.component.html',
-  styleUrls: ['./alert.component.scss']
+  styleUrls: ['./alert.component.scss'],
 })
 export class AlertComponent implements OnInit {
   @Input() type: 'success' | 'error' | 'warning' | 'info' | 'question' = 'info';
@@ -17,12 +17,18 @@ export class AlertComponent implements OnInit {
 
   get iconClass() {
     switch (this.type) {
-      case 'success': return 'bi bi-check-circle-fill text-success';
-      case 'error': return 'bi bi-x-circle-fill text-danger';
-      case 'warning': return 'bi bi-exclamation-triangle-fill text-warning';
-      case 'info': return 'bi bi-info-circle-fill text-info';
-      case 'question': return 'bi bi-question-circle-fill text-primary';
-      default: return 'bi bi-info-circle-fill';
+      case 'success':
+        return 'bi bi-check-circle-fill text-green-400';
+      case 'error':
+        return 'bi bi-x-circle-fill text-red-400';
+      case 'warning':
+        return 'bi bi-exclamation-triangle-fill text-yellow-400';
+      case 'info':
+        return 'bi bi-info-circle-fill text-blue-400';
+      case 'question':
+        return 'bi bi-question-circle-fill text-purple-400';
+      default:
+        return 'bi bi-info-circle-fill text-blue-400';
     }
   }
 

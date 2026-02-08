@@ -1,12 +1,12 @@
-import { Component, HostListener } from '@angular/core';
-import { FooterComponent } from "../footer/footer.component";
+import { Component, HostListener, inject } from '@angular/core';
+import { FooterComponent } from '../footer/footer.component';
 import { CommonModule } from '@angular/common';
-import { HistoryComponent } from "../sections/history/history.component";
-import { StudyComponent } from "../sections/study/study.component";
-import { TechnicalskilsComponent } from "../sections/technicalskils/technicalskils.component";
-import { ProjectsComponent } from "../sections/projects/projects.component";
-import { ExperienceComponent } from "../sections/experience/experience.component";
-import { ContactComponent } from "../contact/contact.component";
+import { AboutSectionComponent } from '../sections/about-section/about-section.component';
+import { TechnicalskilsComponent } from '../sections/technicalskils/technicalskils.component';
+import { ProjectsComponent } from '../sections/projects/projects.component';
+import { ExperienceComponent } from '../sections/experience/experience.component';
+import { ContactComponent } from '../contact/contact.component';
+import { LanguageService } from '@/app/services/language.service';
 
 @Component({
   selector: 'app-about',
@@ -14,36 +14,42 @@ import { ContactComponent } from "../contact/contact.component";
   imports: [
     FooterComponent,
     CommonModule,
-    HistoryComponent,
-    StudyComponent,
+    AboutSectionComponent,
     TechnicalskilsComponent,
     ProjectsComponent,
     ExperienceComponent,
-    ContactComponent
+    ContactComponent,
   ],
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.scss']
+  styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent {
+  languageService = inject(LanguageService);
+
   // === Slider ===
   getTechIcon(tech: string): string {
     const icons: { [key: string]: string } = {
-      'Angular': 'assets/icon/angular.svg',
-      'React': 'assets/icon/react.svg',
+      Angular: 'assets/icon/angular.svg',
+      React: 'assets/icon/react.svg',
       'Node.js': 'assets/icon/nodejs.svg',
       'Spring Boot': 'assets/icon/spring-boot.svg',
-      'Laravel': 'assets/icon/laravel.svg',
-      'Python': 'assets/icon/python.svg',
+      Laravel: 'assets/icon/laravel.svg',
+      Python: 'assets/icon/python.svg',
       'C#': 'assets/icon/csharp.svg',
-      'JavaScript': 'assets/icon/javascript.svg',
+      JavaScript: 'assets/icon/javascript.svg',
     };
     return icons[tech] || 'code-slash';
   }
 
   technologies = [
-    'Angular', 'React', 'Node.js',
-    'Spring Boot', 'Laravel',
-    'Python', 'C#', 'JavaScript'
+    'Angular',
+    'React',
+    'Node.js',
+    'Spring Boot',
+    'Laravel',
+    'Python',
+    'C#',
+    'JavaScript',
   ];
 
   currentIndex = 0;
@@ -80,7 +86,8 @@ export class AboutComponent {
   }
 
   prevSlide() {
-    this.currentIndex = (this.currentIndex - 1 + this.totalPages) % this.totalPages;
+    this.currentIndex =
+      (this.currentIndex - 1 + this.totalPages) % this.totalPages;
   }
 
   goToSlide(index: number) {
@@ -103,8 +110,8 @@ export class AboutComponent {
   // === Flecha scroll hacia arriba ===
   showScrollButton = false;
   private lastScrollTop = 0;
-  private scrollThreshold = 200;       // px desde arriba
-  private directionThreshold = 10;     // sensibilidad
+  private scrollThreshold = 200; // px desde arriba
+  private directionThreshold = 10; // sensibilidad
 
   @HostListener('window:scroll', [])
   onWindowScroll() {

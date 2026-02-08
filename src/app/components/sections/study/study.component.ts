@@ -1,7 +1,9 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 type SectionKey = 'education' | 'certifications';
+
+import { LanguageService } from '@/app/services/language.service';
 
 @Component({
   selector: 'app-study',
@@ -11,6 +13,7 @@ type SectionKey = 'education' | 'certifications';
   styleUrls: ['./study.component.scss'],
 })
 export class StudyComponent implements OnInit {
+  languageService = inject(LanguageService);
   // estado de cada article
   expanded: Record<SectionKey, boolean> = {
     education: false,
@@ -30,7 +33,7 @@ export class StudyComponent implements OnInit {
   }
 
   private updateViewportState() {
-    this.isMobile = window.innerWidth < 768;
+    this.isMobile = window.innerWidth < 1280;
 
     if (this.isMobile) {
       // En móvil: cerrados por defecto

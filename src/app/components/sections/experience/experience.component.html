@@ -1,42 +1,95 @@
-<section class="experience-section">
-  <h2>Experiencia Profesional</h2>
-  <p class="subtitle">Mi trayectoria profesional y los roles donde he contribuido</p>
+<section
+  class="py-16 lg:py-24 px-4 max-w-3xl mx-auto text-gray-800 dark:text-gray-200 transition-colors duration-300"
+>
+  <h2
+    class="text-4xl lg:text-5xl font-bold text-center text-blue-600 dark:text-blue-400 mb-4"
+  >
+    {{ languageService.t("experience.title") }}
+  </h2>
+  <p
+    class="text-lg md:text-xl text-center mb-12 text-gray-600 dark:text-gray-400"
+  >
+    {{ languageService.t("experience.subtitle") }}
+  </p>
 
-  <div class="timeline">
-    <article *ngFor="let exp of experiences; let i = index" class="timeline-item">
-      <!-- Conector vertical -->
-      <div *ngIf="i < experiences.length - 1" class="timeline-connector"></div>
+  <div class="relative flex flex-col items-start">
+    <div
+      class="absolute left-5 top-10 w-0.5 h-[calc(100%-40px)] bg-gray-200 dark:bg-gray-800 z-0"
+    >
+      <div
+        class="w-full bg-blue-500 transition-all duration-1000"
+        [style.height.%]="tracingHeight"
+      ></div>
+    </div>
 
-      <!-- Punto con ícono -->
-      <div class="icon-circle">
+    <article
+      #timelineItem
+      *ngFor="let exp of experiences; let i = index"
+      [attr.data-index]="i"
+      class="relative flex items-start gap-4 mb-12 w-full transition-all duration-700 opacity-0 transform translate-y-10"
+      [class.opacity-100]="exp.isVisible"
+      [class.translate-y-0]="exp.isVisible"
+    >
+      <div
+        class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-lg border-2 transition-all duration-700 scale-0"
+        [class.scale-100]="exp.isVisible"
+        [ngClass]="
+          exp.isVisible
+            ? 'bg-blue-600 border-blue-400 text-white'
+            : 'bg-gray-200 dark:bg-gray-800 text-gray-400'
+        "
+      >
         <i class="bi bi-briefcase"></i>
       </div>
 
-      <!-- Contenido -->
-      <div class="timeline-content">
-        <h3 class="role">{{ exp.role }}</h3>
-        <p class="company">{{ exp.company }}</p>
-
-        <div class="meta">
-          <div class="meta-item">
-            <i class="bi bi-calendar"></i>
-            <span>{{ exp.duration }}</span>
-          </div>
-          <div class="meta-item">
-            <i class="bi bi-geo-alt"></i>
-            <span>{{ exp.location }}</span>
+      <div
+        class="flex-grow bg-white dark:bg-gray-800 border border-gray-200 dark:border-blue-500/20 rounded-2xl p-6 shadow-xl transition-all duration-500"
+      >
+        <div class="flex justify-between items-start mb-2">
+          <div>
+            <h3 class="text-gray-900 dark:text-white text-xl font-bold">
+              {{ languageService.t(exp.role) }}
+            </h3>
+            <p class="text-blue-600 dark:text-blue-400 font-semibold">
+              {{ languageService.t(exp.company) }}
+            </p>
           </div>
         </div>
 
+        <div
+          class="flex flex-wrap gap-4 mb-6 text-gray-500 dark:text-gray-400 text-sm"
+        >
+          <span
+            ><i class="bi bi-calendar3"></i>
+            {{ languageService.t(exp.duration) }}</span
+          >
+          <span
+            ><i class="bi bi-geo-alt-fill"></i>
+            {{ languageService.t(exp.location) }}</span
+          >
+        </div>
 
-        <ul class="responsibilities" [class.expanded]="exp.isExpanded">
-          <li *ngFor="let resp of exp.responsibilities">{{ resp }}</li>
+        <ul
+          class="space-y-3 text-sm text-gray-700 dark:text-gray-300 border-l-2 border-gray-100 pl-4 overflow-hidden transition-all duration-500"
+          [style.max-height]="exp.isExpanded ? '1000px' : '85px'"
+          *ngIf="exp.responsibilities.length > 0"
+        >
+          <li *ngFor="let resp of exp.responsibilities">
+            {{ languageService.t(resp) }}
+          </li>
         </ul>
-        <button class="expand-btn" *ngIf="exp.responsibilities.length > 0" (click)="toggleExpand(exp)">
-          {{ exp.isExpanded ? 'Ver menos' : 'Ver más' }}
+
+        <button
+          class="mt-4 flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold"
+          *ngIf="exp.responsibilities.length > 0"
+          (click)="toggleExpand(exp)"
+        >
+          {{
+            exp.isExpanded
+              ? languageService.t("experience.viewLess")
+              : languageService.t("experience.viewMore")
+          }}
         </button>
-
-
       </div>
     </article>
   </div>

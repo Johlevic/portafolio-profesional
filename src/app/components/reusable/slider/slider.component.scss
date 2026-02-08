@@ -1,212 +1,65 @@
-@import "../../../../styles/_variables.scss";
-@import "../../../../styles/_breakpoints.scss";
 
-.slider-container{
+:host {
+  display: block;
+  width: 100%;
+  touch-action: pan-y; /* Optimization for touch-start violations */
+}
 
+.flex {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-wrap: nowrap; /* Prevent items from wrapping */
+  align-items: stretch; /* Ensure all items stretch to the same height */
+}
 
-  >button{
-    margin:0 -1.5rem ;
-    width: 1.5rem;
-    height: 1.5rem;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    background-color: $color-gray;
-    display: none;
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
 
-    &:hover{
-      background-color: rgb(177, 177, 177);
-      color: $background-oscuro;
-      transition: all ease-out 0.3s;
-    }
+.technologies-scroll-container {
+  width: 100%; /* Ensure container takes full width */
+  overflow: hidden;
+  position: relative;
+  height: 24px; /* Fixed height for the container */
+}
 
-  }
+.technologies-scroll-content {
+  display: inline-flex; /* Use inline-flex for the content wrapper */
+  animation: scroll-left 15s linear infinite;
+}
 
+@keyframes scroll-left {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); } /* Changed to -50% for duplicated content */
+}
 
-
-
-
-  .slider-wrapper{
+/* Force dots interaction */
+:host ::ng-deep {
+  .owl-dots {
+    position: relative;
+    z-index: 50;
+    pointer-events: auto !important;
+    margin-top: 20px;
     display: flex;
+    justify-content: center;
+    gap: 10px;
 
-    overflow-x: hidden;
-    padding: 1rem 0;
-
-    width: 35%;
-
-    .project-card{
-      flex: 0 0 100%;
-      border: 2px gray solid;
-      background-color: $background-oscuro;
-      box-sizing: border-box;
-      border-radius: 12px;
-      opacity: 0.7;
-      transform: scale(0.95);
-      border-radius: 1rem;
-      padding: 1rem;
-
-      .card-image-container{
-        overflow: hidden;
-        width: auto;
-        height: 10rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .project-image{
-          width: 100%;
-          height: auto;
-          object-fit: cover;
-          transition: transform 0.5s ease;
-          pointer-events: none;
-        }
-      }
-
-      .card-content{
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-
-        .project-title {
-          font-size: 13px;
-          margin-bottom: 1rem;
-          color: $color-gray;
-        }
-
-        .technologies{
-          display: flex;
-          padding: 0.5rem 0;
-          gap: 0.2rem;
-          font-size: 10px;
-
-          .tech-tag{
-            padding: 5px;
-            background-color: $color-button-principal;
-            border-radius: 0.5rem;
-          }
-        }
-
-        .card-buttons{
-          padding: 1rem 0.5;
-          display: flex;
-          align-items: center;
-          justify-content: space-around;
-
-          .btn{
-            list-style: none;
-            color: $color-gray;
-            background-color: $primary-color;
-            padding: 3px;
-            border-radius: 0.5rem;
-            outline-style: none;
-            text-decoration: none;
-            font-size: 10px;
-          }
-
-
-        }
-
-
-
+    .owl-dot {
+      pointer-events: auto !important;
+      cursor: pointer !important;
+      
+      span {
+        pointer-events: none; /* Let the button handle the click */
       }
     }
   }
 
-
-}
-.slider-dots {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-  gap: 0.5rem;
-}
-
-.dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  background-color: #ccc;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.dot.active {
-  background-color: #007bff; // Azul intenso para activo
-}
-
-
-@include laptop{
-  .slider-container{
-
-    >button{
-      margin: 0 0 !important;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      &:active{
-        background-color: $primary-color;
-        transition: ease-out all 0.3s;
-      }
+  .owl-carousel {
+    pointer-events: none; /* Disable carousel-wide blockade */
+    
+    .owl-stage-outer,
+    .owl-nav,
+    .owl-dots {
+      pointer-events: auto !important; /* Re-enable for interaction areas */
     }
-
-    .slider-wrapper{
-      width: 100%;
-
-      .project-card{
-        flex: 0 0 33.33% !important;
-
-        .card-content{
-          .card-buttons{
-            justify-content: start;
-            gap: 1rem;
-
-
-            .btn{
-              font-family: 13px !important;
-              padding: 0.5rem !important;
-
-            }
-
-
-          }
-        }
-      }
-    }
-
   }
-
-}
-
-@include tablet{
-  .slider-container{
-
-
-    .slider-wrapper{
-      width: 80%;
-
-      .project-card{
-        flex: 0 0 50% !important;
-      }
-    }
-
-  }
-
-}
-
-
-@include desktop{
-  .slider-container{
-
-    .slider-wrapper{
-      width: 80%;
-
-      .project-card{
-        flex: 0 0 25% !important;
-      }
-    }
-
-  }
-
 }

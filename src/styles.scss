@@ -1,16 +1,96 @@
-@import "./styles/_variables.scss";
-@import "./styles/_breakpoints.scss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-// Estilos globales
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Tenor Sans", sans-serif;
-  background: #f8f9fa;
-  color: $color-gray;
-  user-select: none;
+/* ========================================
+   GLOBAL STYLES (Tailwind Base Layer)
+   ======================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply min-h-screen bg-gray-50 text-gray-900 transition-colors duration-300 antialiased font-sans m-0;
+  }
+
+  /* Dark Mode: Se activa cuando la clase 'dark' está en html */
+  html.dark body {
+    @apply bg-gray-900 text-gray-100;
+  }
 }
 
-html {
-  scroll-behavior: smooth;
+/* ========================================
+   SCROLLBAR STYLES (Themed)
+   ======================================== */
+
+
+/* ========================================
+   SCROLLBAR STYLES
+   ======================================== */
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+}
+
+/* Light mode scrollbar */
+.light ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.light ::-webkit-scrollbar-track {
+  background: #f3f4f6;
+}
+
+.light ::-webkit-scrollbar-thumb {
+  background: #3b82f6;
+  border-radius: 4px;
+}
+
+.light ::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* ========================================
+   TYPOGRAPHY
+   ======================================== */
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }

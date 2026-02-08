@@ -8,4 +8,5 @@ export interface Experience {
   responsibilities: string[];
   icon: string;
   isExpanded?: boolean; // <-- propiedad opcional
+  isVisible?: boolean;
 }

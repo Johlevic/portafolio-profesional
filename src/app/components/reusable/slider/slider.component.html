@@ -1,67 +1,20 @@
-<div class="slider-container" role="region" aria-label="Carrusel de proyectos">
-  <button
-    class="slider-button prev"
-    (click)="prevSlide()"
-    aria-label="Diapositiva anterior"
-  >
-    <i class="bi bi-chevron-left"></i>
-  </button>
-  <div class="slider-wrapper" #sliderWrapper>
-    <div
-      *ngFor="let project of projects; let i = index"
-      class="project-card"
-      [class.active]="i === currentSlideIndex"
-      [attr.aria-hidden]="i !== currentSlideIndex"
-    >
-      <div class="card-image-container">
-        <img [src]="project.image" [alt]="project.title" class="project-image" loading="lazy" />
-      </div>
-      <div class="card-content">
-        <h3 class="project-title">{{ project.title }}</h3>
-        <div class="technologies">
-          <span *ngFor="let tech of project.technologies" class="tech-tag">{{ tech }}</span>
+<div
+  #carouselContainer
+  class="relative w-full overflow-hidden"
+  role="region"
+  aria-label="Carrusel de proyectos"
+>
+  @if (isReady && projects && projects.length > 0) {
+    <owl-carousel-o [options]="customOptions">
+      <ng-template
+        carouselSlide
+        [id]="'slide-' + project.title"
+        *ngFor="let project of projects; trackBy: trackByFn"
+      >
+        <div class="p-4 flex flex-col items-center justify-center">
+          <app-project-card [project]="project"></app-project-card>
         </div>
-        <div class="card-buttons">
-          <a
-            [href]="project.repoLink"
-            target="_blank"
-            rel="noopener"
-            class="btn btn-repository"
-            [attr.aria-label]="'Ver repositorio de ' + project.title"
-          >
-            <i class="bi bi-github"></i> Repositorio
-          </a>
-          <a
-            [href]="project.projectLink"
-            target="_blank"
-            rel="noopener"
-            class="btn btn-project"
-            [attr.aria-label]="'Ver proyecto en vivo: ' + project.title"
-          >
-            <i class="bi bi-arrow-up-right"></i> Proyecto
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <button
-    class="slider-button next"
-    (click)="nextSlide()"
-    aria-label="Siguiente diapositiva"
-  >
-    <i class="bi bi-chevron-right"></i>
-  </button>
-</div>
-<div class="slider-dots" role="tablist">
-  <span
-    *ngFor="let i of [].constructor(totalGroups); let idx = index"
-    class="dot"
-    [class.active]="currentGroupIndex === idx"
-    (click)="goToSlide(idx)"
-    role="tab"
-    [attr.aria-selected]="currentGroupIndex === idx"
-    [attr.aria-label]="'Ir al grupo ' + (idx + 1)"
-    tabindex="0"
-    (keydown.enter)="goToSlide(idx)"
-  ></span>
+      </ng-template>
+    </owl-carousel-o>
+  }
 </div>

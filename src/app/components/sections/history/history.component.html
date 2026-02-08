@@ -1,58 +1,48 @@
-<section class="section-about">
-  <h1>Sobre Mí</h1>
-  <p class="intro">
-    Conoce más sobre mi trayectoria y pasión por el desarrollo de software.
-  </p>
+<div class="w-full">
+  <!-- Historia personal -->
+  <article
+    class="bg-white/40 dark:bg-gray-800/40 backdrop-blur-sm border border-gray-200 dark:border-gray-800/50 rounded-2xl p-8 lg:p-10 relative shadow-2xl shadow-blue-500/5 hover:border-blue-500/30 transition-all duration-500"
+    [class.expanded]="expanded"
+  >
+    <hgroup class="mb-10">
+      <h3
+        class="text-blue-600 dark:text-blue-400 text-2xl lg:text-3xl font-bold flex items-center gap-4"
+      >
+        <span class="p-3 bg-blue-500/10 rounded-xl">
+          <i class="bi bi-person-badge text-blue-500"></i>
+        </span>
+        {{ languageService.t("history.title") }}
+      </h3>
+    </hgroup>
 
-  <div class="history">
-    <!-- Historia personal -->
-    <article class="item-history" [class.expanded]="expanded">
-      <hgroup>
-        <h3>
-          <i class="bi bi-person-fill"></i>
-          Mi Historia
-        </h3>
-      </hgroup>
+    <div
+      class="overflow-hidden transition-all duration-700 ease-in-out text-gray-700 dark:text-gray-300 text-base leading-relaxed font-light tracking-wide space-y-6"
+      [class.max-h-64]="!expanded && !isLargeScreen"
+      [class.max-h-full]="expanded || isLargeScreen"
+    >
+      <p [innerHTML]="languageService.t('history.p1')"></p>
+      <p [innerHTML]="languageService.t('history.p2')"></p>
+      <p [innerHTML]="languageService.t('history.p3')"></p>
+      <p [innerHTML]="languageService.t('history.p4')"></p>
+      <p [innerHTML]="languageService.t('history.p5')"></p>
+    </div>
 
-      <div class="history-text">
-        <p>
-          Curiosamente, mi camino hacia la ingeniería de software no fue el plan original.
-          En un inicio pensé en estudiar ciencias médicas, pero con el tiempo descubrí un
-          interés genuino por la tecnología y el mundo del desarrollo de software. Esa curiosidad
-          inicial se transformó en una pasión que me llevó a elegir esta carrera.
-        </p>
-        <p>
-          Hoy soy <strong>Ingeniero de Software con especialización en Inteligencia Artificial</strong>,
-          graduado de SENATI, y he tenido la oportunidad de trabajar en el desarrollo de
-          aplicaciones web y móviles.
-        </p>
-        <p>
-          Domino tecnologías como <strong>Java Spring Boot, Laravel, React, Xamarin.Forms y Firebase</strong>,
-          aplicando arquitecturas <strong>MVC</strong> y <strong>MVVM</strong>. Entre mis experiencias más
-          destacadas están la creación de <strong>APIs REST, sistemas CRUD, carouseles dinámicos
-          y soluciones de e-commerce</strong>.
-        </p>
-        <p>
-          Además, cuento con certificación en <em>Análisis de Datos – Google Analytics Capstone</em>,
-          lo que me permite unir el desarrollo de software con el análisis inteligente de datos
-          para tomar decisiones basadas en información real.
-        </p>
-        <p>
-          Con el tiempo aprendí a valorar mi carrera, no solo como una profesión, sino como una
-          oportunidad de crear soluciones escalables, seguras y centradas en el usuario.
-          La innovación tecnológica se ha convertido en mi mayor motivación para seguir creciendo.
-        </p>
-      </div>
-
-      <!-- Botón ver más / ver menos -->
-      <button class="toggle-btn" (click)="toggleExpand()">
-        {{ expanded ? 'Ver menos' : 'Ver más' }}
-      </button>
-    </article>
-
-    <!-- Estudios -->
-    <aside class="item-study">
-      <app-study></app-study>
-    </aside>
-  </div>
-</section>
+    <!-- Botón ver más / ver menos -->
+    <button
+      *ngIf="!isLargeScreen"
+      class="mt-10 w-full lg:w-auto text-blue-600 dark:text-blue-400 font-semibold hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200 focus:outline-none flex items-center justify-center lg:justify-start gap-3 py-3 px-6 rounded-xl border border-blue-500/20 bg-blue-500/5 hover:bg-blue-500/10"
+      (click)="toggleExpand()"
+    >
+      {{
+        expanded
+          ? languageService.t("history.viewLess")
+          : languageService.t("history.viewMore")
+      }}
+      <i
+        class="bi"
+        [class.bi-chevron-up]="expanded"
+        [class.bi-chevron-down]="!expanded"
+      ></i>
+    </button>
+  </article>
+</div>

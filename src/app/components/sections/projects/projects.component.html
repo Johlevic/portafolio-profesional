@@ -1,6 +1,45 @@
-<div class="projects-section">
-  <h2>Proyectos Destacados</h2>
-  <p>Algunos de los proyectos más interesantes en los que he trabajado</p>
-  <app-slider></app-slider>
-</div>
+<div
+  class="flex flex-col items-center justify-center py-16 lg:py-24 px-4 max-w-6xl mx-auto text-gray-800 dark:text-gray-200 transition-colors duration-300"
+>
+  <h2
+    class="text-4xl lg:text-5xl font-bold text-center text-blue-600 dark:text-blue-400 mb-4 transition-colors duration-300"
+  >
+    {{ languageService.t("projects.title") }}
+  </h2>
+  <p
+    class="text-lg md:text-xl text-center leading-relaxed mb-12 max-w-3xl mx-auto text-gray-600 dark:text-gray-400 transition-colors duration-300"
+  >
+    {{ languageService.t("projects.subtitle") }}
+  </p>
+  @if (isTablet) {
+    <!-- ✅ Grid view for Tablets -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full">
+      @for (project of displayedProjects; track project.title) {
+        <app-project-card [project]="project"></app-project-card>
+      }
+    </div>
 
+    @if (projects.length > 4) {
+      <div class="mt-12 flex justify-center">
+        <button
+          (click)="toggleShowAll()"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg shadow-lg transition duration-300 flex items-center gap-2"
+        >
+          <i
+            class="bi"
+            [class.bi-plus-circle]="!showAll"
+            [class.bi-dash-circle]="showAll"
+          ></i>
+          {{
+            showAll
+              ? languageService.t("projects.viewLess")
+              : languageService.t("projects.viewMore")
+          }}
+        </button>
+      </div>
+    }
+  } @else {
+    <!-- ✅ Carousel view for Mobile & Desktop -->
+    <app-slider [projects]="projects"></app-slider>
+  }
+</div>

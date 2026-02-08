@@ -1,57 +1,109 @@
-// experience.component.ts
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  inject,
+  OnInit,
+  AfterViewInit,
+  ElementRef,
+  QueryList,
+  ViewChildren,
+  PLATFORM_ID,
+} from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Experience } from '../../../models/experience';
+import { LanguageService } from '@/app/services/language.service';
 
 @Component({
   selector: 'app-experience',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './experience.component.html',
-  styleUrls: ['./experience.component.scss']
+  styleUrls: ['./experience.component.scss'],
 })
-export class ExperienceComponent {
+export class ExperienceComponent implements OnInit, AfterViewInit {
+  @ViewChildren('timelineItem') timelineItems!: QueryList<ElementRef>;
+  languageService = inject(LanguageService);
+  private platformId = inject(PLATFORM_ID);
+  tracingHeight = 0;
+
   experiences: Experience[] = [
     {
-      company: 'BLANC LABS',
-      location: 'Remoto, Trujillo, Perú',
-      role: 'Associate (Contrato de formación)',
-      duration: 'Oct. 2024 – Actualidad',
+      company: 'experience.jobs.blanc.company',
+      location: 'experience.jobs.blanc.location',
+      role: 'experience.jobs.blanc.role',
+      duration: 'experience.jobs.blanc.duration',
       type: 'contrato',
       responsibilities: [
-        'Participación en sesiones de conocimiento y grupos de aprendizaje multidisciplinarios orientados a la transformación digital en los sectores financiero y de salud.',
-        'Exploración de desafíos de transformación digital y análisis de cómo la tecnología puede ofrecer soluciones prácticas.'
+        'experience.jobs.blanc.responsibilities.r1',
+        'experience.jobs.blanc.responsibilities.r2',
       ],
-      icon: 'fas fa-briefcase' // Ejemplo de clase para ícono
+      icon: 'fas fa-briefcase', // Ejemplo de clase para ícono
     },
     {
-      company: 'DITECH PERU',
-      location: 'Trujillo, Perú',
-      role: 'Desarrollador Web',
-      duration: 'Enero 2025 – Actualidad',
+      company: 'experience.jobs.ditech.company',
+      location: 'experience.jobs.ditech.location',
+      role: 'experience.jobs.ditech.role',
+      duration: 'experience.jobs.ditech.duration',
       type: 'presencial',
       responsibilities: [
-        'Desarrollo de aplicaciones web usando Laravel, Angular, Java y React.',
-        'Implementación de sistemas de gestión de productos y módulos internos.',
-        'Integración de bases de datos y servicios backend para asegurar eficiencia y seguridad.',
-        'Colaboración en proyectos web completos, desde planificación hasta despliegue.'
+        'experience.jobs.ditech.responsibilities.r1',
+        'experience.jobs.ditech.responsibilities.r2',
+        'experience.jobs.ditech.responsibilities.r3',
+        'experience.jobs.ditech.responsibilities.r4',
       ],
-      icon: 'fas fa-laptop-code'
+      icon: 'fas fa-laptop-code',
     },
     {
-      company: 'Distribuciones Continental',
-      location: 'Trujillo, Perú',
-      role: 'Asistente Informático',
-      duration: 'Enero 2025 – Junio 2025',
+      company: 'experience.jobs.continental.company',
+      location: 'experience.jobs.continental.location',
+      role: 'experience.jobs.continental.role',
+      duration: 'experience.jobs.continental.duration',
       type: 'presencial',
       responsibilities: [
-        'Mantenimiento y soporte técnico de equipos informáticos.',
-        'Gestión y administración de la red local.',
-        'Resolución de problemas de software y hardware.'
+        'experience.jobs.continental.responsibilities.r1',
+        'experience.jobs.continental.responsibilities.r2',
+        'experience.jobs.continental.responsibilities.r3',
       ],
-      icon: 'fas fa-wrench'
+      icon: 'fas fa-wrench',
+    },
+  ].map((exp) => ({ ...exp, isVisible: false }));
+
+  ngOnInit() {}
+
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      // Pequeno delay para asegurar que el DOM este listo
+      setTimeout(() => {
+        this.setupIntersectionObserver();
+      }, 100);
     }
-  ];
+  }
+
+  private setupIntersectionObserver() {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.2, // Trigger when 20% of the item is visible
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const index = (entry.target as HTMLElement).dataset['index'];
+          if (index !== undefined && this.experiences[+index]) {
+            this.experiences[+index].isVisible = true;
+            this.updateTracingHeight();
+          }
+        }
+      });
+    }, options);
+
+    this.timelineItems.forEach((item) => observer.observe(item.nativeElement));
+  }
+
+  private updateTracingHeight() {
+    const visibleCount = this.experiences.filter((exp) => exp.isVisible).length;
+    this.tracingHeight = (visibleCount / this.experiences.length) * 100;
+  }
 
   toggleExpand(exp: Experience) {
     exp.isExpanded = !exp.isExpanded;

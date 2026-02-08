@@ -1,77 +1,14 @@
-@import "../../../../styles/_variables.scss";
-@import "../../../../styles/_breakpoints.scss";
-
-
-.custom-alert {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  font-family: sans-serif;
-  font-size: 0.9rem;
-
-  justify-content: space-between;
-
-
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1500;
-
-
-  i {
-    font-size: 1.3rem;
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
   }
-
-  strong {
-    font-size: 1rem;
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
-
-  small {
-    font-size: 0.85rem;
-    display: block;
-    line-height: 1.2;
-  }
-
-  button{
-
-    font-size: 0.3rem;
-    width: 1.4rem;
-    height: 1.4rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    background-color: transparent;
-  }
-
-  /* Colores personalizados */
-  &.success { background: #e6f9f0; border: 1px solid #2ecc71; color: #27ae60; }
-  &.error { background: #fdecea; border: 1px solid #e74c3c; color: #c0392b; }
-  &.warning { background: #fff9e6; border: 1px solid #f1c40f; color: #d4ac0d; }
-  &.info { background: #eaf4fc; border: 1px solid #3498db; color: #2980b9; }
-  &.question { background: #f0ebf9; border: 1px solid #9b59b6; color: #8e44ad; }
-
-  /* Responsive */
-  width: 85%; /* default móvil */
-  max-width: 90%;
-
-  @include tablet{
-    width: 80%;
-
-  }
-
-  @include laptop{
-    width: 25%;
-  }
-
-  @include desktop{
-    width: 30%;
-  }
-
-
 }
 
-
+.animate-slide-in-right {
+  animation: slide-in-right 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}

@@ -1,172 +1,423 @@
-<section class="contact-section">
-
-
-
-  <header class="contact-header">
-    <h2>¿Trabajamos juntos?</h2>
-    <p>Estoy disponible para nuevos proyectos y colaboraciones. Hablemos sobre tu próxima idea y cómo puedo ayudarte a
-      hacerla realidad.</p>
+<section
+  class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 py-16 lg:py-24 px-4 md:px-6 transition-colors duration-300"
+>
+  <header class="text-center mb-16">
+    <h2
+      class="text-3xl lg:text-5xl font-bold text-blue-600 dark:text-blue-400 mb-4"
+    >
+      {{ languageService.t("contact.title") }}
+    </h2>
+    <div class="w-16 h-1 bg-blue-600 mx-auto rounded-full mb-6"></div>
+    <p
+      class="text-base lg:text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto font-light"
+    >
+      {{ languageService.t("contact.description") }}
+    </p>
   </header>
 
-   <!-- ALERTA -->
-   <app-alert
-   *ngIf="alert"
+  <!-- ALERTA -->
+  <app-alert
+    *ngIf="alert"
     [type]="alert.type"
     [title]="alert.title"
     [message]="alert.message"
     (closed)="cerrarAlerta()"
   ></app-alert>
 
-  <div class="contact-grid">
+  <div
+    class="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12"
+  >
     <!-- Card Formulario -->
-    <div class="card contact-form">
-      <form #formRef="ngForm" id="contactForm" (ngSubmit)="enviarMensaje()">
-        <fieldset>
-          <legend>Envíame un mensaje</legend>
-          <input type="hidden" name="time">
+    <div
+      class="lg:col-span-2 bg-white dark:bg-gray-800/40 backdrop-blur-sm rounded-2xl shadow-xl dark:shadow-2xl dark:shadow-blue-500/5 p-6 md:p-10 border border-gray-100 dark:border-gray-800/50"
+    >
+      <form
+        #formRef="ngForm"
+        id="contactForm"
+        (ngSubmit)="enviarMensaje()"
+        class="flex flex-col space-y-8"
+      >
+        <h3
+          class="text-blue-600 dark:text-blue-400 font-bold text-2xl mb-2 flex items-center gap-3"
+        >
+          <i class="bi bi-send text-blue-500"></i>
+          {{ languageService.t("contact.form.title") }}
+        </h3>
+        <input type="hidden" name="time" />
 
-          <div class="row">
-            <div class="row-item">
-              <label for="nombre">Nombre*</label>
-              <input
-                type="text"
-                id="nombre"
-                name="nombre"
-                ngModel
-                required
-                placeholder="Tu nombre"
-                #nombre="ngModel"
-              >
-              @if (nombre.invalid && (nombre.touched || formRef.submitted)) {
-                <div class="error">El nombre es obligatorio</div>
-              }
-            </div>
-
-            <div class="row-item">
-              <label for="email">Email*</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                ngModel
-                required
-                placeholder="tu@email.com"
-                #email="ngModel"
-              >
-              @if (email.invalid && (email.touched || formRef.submitted)) {
-                <div class="error">El email es obligatorio</div>
-              }
-            </div>
-          </div>
-
-          <div class="col">
-            <label for="asunto">Asunto*</label>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="flex flex-col group">
+            <label
+              for="nombre"
+              class="text-gray-600 dark:text-gray-400 font-medium mb-3 text-sm"
+              >{{ languageService.t("contact.form.name") }}*</label
+            >
             <input
               type="text"
-              id="asunto"
-              name="asunto"
+              id="nombre"
+              name="nombre"
               ngModel
               required
-              placeholder="Asunto del mensaje"
-              #asunto="ngModel"
-            >
-            @if (asunto.invalid && (asunto.touched || formRef.submitted)) {
-              <div class="error">El asunto es obligatorio</div>
+              [placeholder]="languageService.t('contact.form.namePlaceholder')"
+              #nombre="ngModel"
+              class="bg-transparent border-0 border-b-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white px-0 py-3 focus:outline-none focus:border-blue-500 transition-all duration-300 placeholder:text-gray-400 dark:placeholder:text-gray-600"
+              [class.border-red-500]="
+                nombre.invalid && (nombre.touched || formRef.submitted)
+              "
+            />
+            @if (nombre.invalid && (nombre.touched || formRef.submitted)) {
+              <div
+                class="text-red-500 dark:text-red-400 text-xs mt-2 flex items-center gap-1"
+              >
+                <i class="bi bi-exclamation-circle"></i>
+                {{ languageService.t("contact.form.required") }}
+              </div>
             }
           </div>
 
-          <div class="col">
-            <label for="mensaje">Mensaje</label>
-            <textarea
-              id="mensaje"
-              name="mensaje"
+          <div class="flex flex-col group">
+            <label
+              for="email"
+              class="text-gray-600 dark:text-gray-400 font-medium mb-3 text-sm"
+              >{{ languageService.t("contact.form.email") }}*</label
+            >
+            <input
+              type="email"
+              id="email"
+              name="email"
               ngModel
-              placeholder="Escribe tu mensaje aquí..."
-              #mensaje="ngModel"
-            ></textarea>
+              required
+              placeholder="tu@email.com"
+              #email="ngModel"
+              class="bg-transparent border-0 border-b-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white px-0 py-3 focus:outline-none focus:border-blue-500 transition-all duration-300 placeholder:text-gray-400 dark:placeholder:text-gray-600"
+              [class.border-red-500]="
+                email.invalid && (email.touched || formRef.submitted)
+              "
+            />
+            @if (email.invalid && (email.touched || formRef.submitted)) {
+              <div
+                class="text-red-500 dark:text-red-400 text-xs mt-2 flex items-center gap-1"
+              >
+                <i class="bi bi-exclamation-circle"></i>
+                {{ languageService.t("contact.form.required") }}
+              </div>
+            }
           </div>
+        </div>
 
-          <button type="submit">Enviar Mensaje</button>
-        </fieldset>
+        <div class="flex flex-col group">
+          <label
+            for="asunto"
+            class="text-gray-600 dark:text-gray-400 font-medium mb-3 text-sm"
+            >{{ languageService.t("contact.form.subject") }}*</label
+          >
+          <input
+            type="text"
+            id="asunto"
+            name="asunto"
+            ngModel
+            required
+            [placeholder]="languageService.t('contact.form.subjectPlaceholder')"
+            #asunto="ngModel"
+            class="bg-transparent border-0 border-b-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white px-0 py-3 focus:outline-none focus:border-blue-500 transition-all duration-300 placeholder:text-gray-400 dark:placeholder:text-gray-600"
+            [class.border-red-500]="
+              asunto.invalid && (asunto.touched || formRef.submitted)
+            "
+          />
+          @if (asunto.invalid && (asunto.touched || formRef.submitted)) {
+            <div
+              class="text-red-500 dark:text-red-400 text-xs mt-2 flex items-center gap-1"
+            >
+              <i class="bi bi-exclamation-circle"></i>
+              {{ languageService.t("contact.form.required") }}
+            </div>
+          }
+        </div>
+
+        <div class="flex flex-col group">
+          <label
+            for="mensaje"
+            class="text-gray-600 dark:text-gray-400 font-medium mb-3 text-sm"
+            >{{ languageService.t("contact.form.message") }}</label
+          >
+          <textarea
+            id="mensaje"
+            name="mensaje"
+            ngModel
+            [placeholder]="languageService.t('contact.form.messagePlaceholder')"
+            #mensaje="ngModel"
+            class="bg-transparent border-0 border-b-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white px-0 py-3 min-h-[120px] focus:outline-none focus:border-blue-500 transition-all duration-300 placeholder:text-gray-400 dark:placeholder:text-gray-600 resize-none"
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="group relative bg-blue-600 hover:bg-blue-500 text-white py-4 px-8 rounded-2xl shadow-lg transition-all duration-300 mt-4 font-bold flex items-center justify-center gap-3 active:scale-95 hover:shadow-blue-500/30"
+        >
+          <i
+            class="bi bi-send-fill group-hover:translate-x-1 transition-transform duration-300"
+          ></i>
+          {{ languageService.t("contact.form.send") }}
+        </button>
       </form>
-
-
     </div>
 
-    <!-- Card Información -->
-    <div class="card contact-info">
-      <div class="card-contact">
-        <h3>Información de contacto</h3>
-        <ul>
-          <li>
-            <i class="bi bi-envelope-fill"></i>
-            <span>Email: <b>jlezamavictorio&#64;gmail.com</b></span>
+    <!-- Card Información y Redes -->
+    <div class="flex flex-col gap-6">
+      <div
+        class="bg-white dark:bg-gray-800/40 backdrop-blur-sm rounded-2xl shadow-xl dark:shadow-2xl dark:shadow-blue-500/5 p-6 border border-gray-100 dark:border-gray-800/50"
+      >
+        <h3
+          class="text-blue-600 dark:text-blue-400 font-bold text-lg mb-6 flex items-center gap-2"
+        >
+          <i class="bi bi-info-circle text-blue-500"></i>
+          {{ languageService.t("contact.info.title") }}
+        </h3>
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3 group">
+            <i
+              class="bi bi-envelope-fill text-blue-500/90 dark:text-blue-500/60 text-base mt-0.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+            ></i>
+            <span class="flex flex-col">
+              <span
+                class="text-gray-500 dark:text-gray-500 text-xs font-medium uppercase tracking-wider"
+                >{{ languageService.t("contact.info.email") }}</span
+              >
+              <b class="text-gray-800 dark:text-gray-200 text-sm font-normal"
+                >jlezamavictorio&#64;gmail.com</b
+              >
+            </span>
           </li>
-          <li>
-            <i class="bi bi-telephone-fill"></i>
-            <span> Teléfono: <b>+51 980609176</b></span>
+          <li class="flex items-start gap-3 group">
+            <i
+              class="bi bi-telephone-fill text-blue-500/90 dark:text-blue-500/60 text-base mt-0.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+            ></i>
+            <span class="flex flex-col">
+              <span
+                class="text-gray-500 dark:text-gray-500 text-xs font-medium uppercase tracking-wider"
+                >{{ languageService.t("contact.info.phone") }}</span
+              >
+              <b class="text-gray-800 dark:text-gray-200 text-sm font-normal"
+                >+51 980609176</b
+              >
+            </span>
           </li>
-          <li>
-            <i class="bi bi-geo-alt-fill"></i>
-            <span>Ubicación: <b>Trujillo, Perú</b></span>
+          <li class="flex items-start gap-3 group">
+            <i
+              class="bi bi-geo-alt-fill text-blue-500/90 dark:text-blue-500/60 text-base mt-0.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+            ></i>
+            <span class="flex flex-col">
+              <span
+                class="text-gray-500 dark:text-gray-500 text-xs font-medium uppercase tracking-wider"
+                >{{ languageService.t("contact.info.location") }}</span
+              >
+              <b class="text-gray-800 dark:text-gray-200 text-sm font-normal"
+                >Trujillo, Perú</b
+              >
+            </span>
           </li>
-          <li>
-            <i class="bi bi-calendar-fill"></i>
-            <span>Disponibilidad: <time>Lun - Vie, 9:00 - 18:00</time></span>
+          <li class="flex items-start gap-3 group">
+            <i
+              class="bi bi-calendar-fill text-blue-500/90 dark:text-blue-500/60 text-base mt-0.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+            ></i>
+            <span class="flex flex-col">
+              <span
+                class="text-gray-500 dark:text-gray-500 text-xs font-medium uppercase tracking-wider"
+                >{{ languageService.t("contact.info.availability") }}</span
+              >
+              <time
+                class="text-gray-800 dark:text-gray-200 text-sm font-normal"
+                >{{ languageService.t("contact.info.hours") }}</time
+              >
+            </span>
           </li>
         </ul>
       </div>
 
-      <div class="card-redes">
-        <h3>Sígueme en redes</h3>
-        <ul class="social-links">
-          <li class="link">
-            <i class="bi bi-github"></i>
-            <a href="https://github.com/Johlevic/"><span>GitHub</span> <b>&#64;Johlevic</b></a>
+      <div
+        class="bg-white dark:bg-gray-800/40 backdrop-blur-sm rounded-2xl shadow-xl dark:shadow-2xl dark:shadow-blue-500/5 p-6 border border-gray-100 dark:border-gray-800/50"
+      >
+        <h3
+          class="text-blue-600 dark:text-blue-400 font-bold text-lg mb-6 flex items-center gap-2"
+        >
+          <i class="bi bi-share text-blue-500"></i>
+          {{ languageService.t("contact.social.title") }}
+        </h3>
+        <ul class="grid grid-cols-2 gap-3">
+          <li>
+            <a
+              href="https://github.com/Johlevic/"
+              target="_blank"
+              class="flex items-center gap-2 bg-gray-50 dark:bg-gray-900/30 rounded-xl p-3 hover:bg-gray-100 dark:hover:bg-gray-700/50 border border-gray-200 dark:border-gray-800/30 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all duration-300 group"
+            >
+              <i
+                class="bi bi-github text-blue-600 dark:text-blue-500/70 text-lg group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors"
+              ></i>
+              <span class="flex flex-col">
+                <span
+                  class="text-xs text-gray-700 dark:text-gray-300 font-medium"
+                  >GitHub</span
+                >
+                <b class="text-[10px] text-gray-500 dark:text-gray-500"
+                  >&#64;Johlevic</b
+                >
+              </span>
+            </a>
           </li>
-          <li class="link">
-            <i class="bi bi-facebook"></i>
-            <a href="https://web.facebook.com/CodeJhoLe/"><span>Facebook</span> <b>&#64;CodeJhoLe</b></a>
+          <li>
+            <a
+              href="https://www.linkedin.com/in/jhony-lezama/"
+              target="_blank"
+              class="flex items-center gap-2 bg-gray-50 dark:bg-gray-900/30 rounded-xl p-3 hover:bg-gray-100 dark:hover:bg-gray-700/50 border border-gray-200 dark:border-gray-800/30 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all duration-300 group"
+            >
+              <i
+                class="bi bi-linkedin text-blue-600 dark:text-blue-500/70 text-lg group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors"
+              ></i>
+              <span class="flex flex-col">
+                <span
+                  class="text-xs text-gray-700 dark:text-gray-300 font-medium"
+                  >LinkedIn</span
+                >
+                <b class="text-[10px] text-gray-500 dark:text-gray-500"
+                  >&#64;jhony-lezama</b
+                >
+              </span>
+            </a>
           </li>
-          <li class="link">
-            <i class="bi bi-youtube"></i>
-            <a href="https://www.youtube.com/@CodeJL-Tech"><span>YouTube</span> <b>&#64;CodeJL-Tech</b></a>
+          <li>
+            <a
+              href="https://web.facebook.com/CodeJhoLe/"
+              target="_blank"
+              class="flex items-center gap-2 bg-gray-50 dark:bg-gray-900/30 rounded-xl p-3 hover:bg-gray-100 dark:hover:bg-gray-700/50 border border-gray-200 dark:border-gray-800/30 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all duration-300 group"
+            >
+              <i
+                class="bi bi-facebook text-blue-600 dark:text-blue-500/70 text-lg group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors"
+              ></i>
+              <span class="flex flex-col">
+                <span
+                  class="text-xs text-gray-700 dark:text-gray-300 font-medium"
+                  >Facebook</span
+                >
+                <b class="text-[10px] text-gray-500 dark:text-gray-500"
+                  >&#64;CodeJhoLe</b
+                >
+              </span>
+            </a>
           </li>
-          <li class="link">
-            <i class="bi bi-tiktok"></i>
-            <a href="https://www.tiktok.com/@code_jl"><span>TikTok </span> <b>&#64;code_jl</b></a>
+          <li>
+            <a
+              href="https://www.youtube.com/&#64;CodeJL-Tech"
+              target="_blank"
+              class="flex items-center gap-2 bg-gray-50 dark:bg-gray-900/30 rounded-xl p-3 hover:bg-gray-100 dark:hover:bg-gray-700/50 border border-gray-200 dark:border-gray-800/30 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all duration-300 group"
+            >
+              <i
+                class="bi bi-youtube text-blue-600 dark:text-blue-500/70 text-lg group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors"
+              ></i>
+              <span class="flex flex-col">
+                <span
+                  class="text-xs text-gray-700 dark:text-gray-300 font-medium"
+                  >YouTube</span
+                >
+                <b class="text-[10px] text-gray-500 dark:text-gray-500"
+                  >&#64;CodeJL-Tech</b
+                >
+              </span>
+            </a>
           </li>
-          <li class="link">
-            <i class="bi bi-instagram"></i>
-            <a href="https://www.instagram.com/codejl_tech/"><span>Instagram</span> <b>&#64;codejl_tech</b></a>
+          <li>
+            <a
+              href="https://www.tiktok.com/&#64;code_jl"
+              target="_blank"
+              class="flex items-center gap-2 bg-gray-50 dark:bg-gray-900/30 rounded-xl p-3 hover:bg-gray-100 dark:hover:bg-gray-700/50 border border-gray-200 dark:border-gray-800/30 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all duration-300 group"
+            >
+              <i
+                class="bi bi-tiktok text-blue-600 dark:text-blue-500/70 text-lg group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors"
+              ></i>
+              <span class="flex flex-col">
+                <span
+                  class="text-xs text-gray-700 dark:text-gray-300 font-medium"
+                  >TikTok</span
+                >
+                <b class="text-[10px] text-gray-500 dark:text-gray-500"
+                  >&#64;code_jl</b
+                >
+              </span>
+            </a>
           </li>
-          <li class="link">
-            <img src="assets/icon/X_logo.svg" alt="X" width="20" height="20">
-
-            <a href="https://x.com/EJLeVic/"><span>X</span><b><b>&#64;EJLeVic</b></b></a>
+          <li>
+            <a
+              href="https://x.com/EJLeVic/"
+              target="_blank"
+              class="flex items-center gap-2 bg-gray-50 dark:bg-gray-900/30 rounded-xl p-3 hover:bg-gray-100 dark:hover:bg-gray-700/50 border border-gray-200 dark:border-gray-800/30 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all duration-300 group"
+            >
+              <img
+                src="assets/icon/X_logo.svg"
+                alt="X"
+                class="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity"
+              />
+              <span class="flex flex-col">
+                <span
+                  class="text-xs text-gray-700 dark:text-gray-300 font-medium"
+                  >X</span
+                >
+                <b class="text-[10px] text-gray-500 dark:text-gray-500"
+                  >&#64;EJLeVic</b
+                >
+              </span>
+            </a>
           </li>
         </ul>
-
       </div>
 
-      <div class="card-servicios">
-        <h3>Servicios</h3>
-        <ul>
-          <li>Desarrollo Web Full-Stack</li>
-          <li>Aplicaciones Móviles</li>
-          <li>Consultoría Técnica</li>
-          <li>Auditoría de Código</li>
-          <li>Mentoring & Formación</li>
+      <div
+        class="bg-white dark:bg-gray-800/40 backdrop-blur-sm rounded-2xl shadow-xl dark:shadow-2xl dark:shadow-blue-500/5 p-6 border border-gray-100 dark:border-gray-800/50"
+      >
+        <h3
+          class="text-blue-600 dark:text-blue-400 font-bold text-lg mb-6 flex items-center gap-2"
+        >
+          <i class="bi bi-briefcase text-blue-500"></i>
+          {{ languageService.t("contact.services.title") }}
+        </h3>
+        <ul class="space-y-2.5 text-gray-700 dark:text-gray-300 text-sm">
+          <li class="flex items-center gap-2">
+            <i
+              class="bi bi-check-circle-fill text-blue-500/90 dark:text-blue-500/60 text-xs"
+            ></i>
+            {{ languageService.t("contact.services.fullstack") }}
+          </li>
+          <li class="flex items-center gap-2">
+            <i
+              class="bi bi-check-circle-fill text-blue-500/90 dark:text-blue-500/60 text-xs"
+            ></i>
+            {{ languageService.t("contact.services.mobile") }}
+          </li>
+          <li class="flex items-center gap-2">
+            <i
+              class="bi bi-check-circle-fill text-blue-500/90 dark:text-blue-500/60 text-xs"
+            ></i>
+            {{ languageService.t("contact.services.consulting") }}
+          </li>
+          <li class="flex items-center gap-2">
+            <i
+              class="bi bi-check-circle-fill text-blue-500/90 dark:text-blue-500/60 text-xs"
+            ></i>
+            {{ languageService.t("contact.services.audit") }}
+          </li>
+          <li class="flex items-center gap-2">
+            <i
+              class="bi bi-check-circle-fill text-blue-500/90 dark:text-blue-500/60 text-xs"
+            ></i>
+            {{ languageService.t("contact.services.mentoring") }}
+          </li>
         </ul>
       </div>
-
     </div>
   </div>
 
-  <footer class="contact-footer">
-    <span class="time">Tiempo de respuesta promedio: 24 horas</span>
+  <footer
+    class="text-center mt-12 text-gray-500 text-xs flex items-center justify-center gap-2"
+  >
+    <i class="bi bi-clock"></i>
+    <span>{{ languageService.t("contact.responseTime") }}</span>
   </footer>
-
-
-
 </section>

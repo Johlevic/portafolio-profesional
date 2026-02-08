@@ -1,38 +1,112 @@
-<section class="skills-section">
-  <h2>Habilidades Técnicas</h2>
-  <p class="section-description">
-    Tecnologías y herramientas que domino para crear soluciones completas.
-  </p>
-  <div class="skills-grid">
-    <article
-      class="skill-category"
-      *ngFor="let category of skills"
-      [class.collapsed]="category.isCollapsed"
+<section
+  class="py-16 lg:py-24 px-6 max-w-7xl mx-auto text-gray-800 dark:text-gray-200 transition-colors duration-300"
+>
+  <div class="text-center mb-16 lg:mb-20">
+    <h2
+      class="text-4xl lg:text-5xl font-bold text-blue-600 dark:text-blue-400 mb-6 tracking-tight"
     >
-      <h4 (click)="toggleCollapse(category)">
-        <i class="bi" [class]="category.icon"></i>
-        <span>{{ category.title }}</span>
-        <i
-          class="bi collapse-icon"
-          [ngClass]="{
-            'bi-chevron-down': category.isCollapsed,
-            'bi-chevron-up': !category.isCollapsed
-          }"
-        ></i>
-      </h4>
-      <ul class="skills-list">
-        <li class="skill-item" *ngFor="let skill of category.skills">
-          <span class="skill-name">{{ skill.name }}</span>
-          <div class="progress-bar-container">
+      {{ languageService.t("skills.title") }}
+    </h2>
+    <div class="w-16 h-1 bg-blue-500 mx-auto rounded-full mb-6"></div>
+    <p
+      class="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto font-light leading-relaxed"
+    >
+      {{ languageService.t("skills.description") }}
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 items-start">
+    <article
+      class="bg-white/40 dark:bg-gray-800/40 backdrop-blur-md border border-gray-200 dark:border-gray-800/50 rounded-2xl p-6 lg:p-8 shadow-lg shadow-blue-500/5 hover:shadow-2xl hover:shadow-blue-500/10 hover:border-blue-400/50 dark:hover:border-blue-500/40 transition-all duration-500 flex flex-col group hover:-translate-y-2 relative overflow-hidden"
+      *ngFor="let category of skills"
+    >
+      <!-- Gradient Glow Effect -->
+      <div
+        class="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-all duration-700"
+      ></div>
+
+      <header
+        class="flex justify-between items-center cursor-pointer mb-2 relative z-10"
+        (click)="toggleCollapse(category)"
+      >
+        <div class="flex items-center gap-4">
+          <span
+            class="p-3.5 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 dark:from-blue-500/20 dark:to-indigo-500/20 rounded-xl group-hover:scale-110 transition-transform duration-300 text-xl border border-blue-500/10 shadow-sm"
+          >
+            <i
+              class="bi bg-gradient-to-br from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 text-transparent bg-clip-text"
+              [class]="category.icon"
+            ></i>
+          </span>
+          <h4
+            class="text-gray-800 dark:text-gray-100 text-xl font-bold tracking-wide transition-colors duration-300"
+          >
+            {{ languageService.t(category.title) }}
+          </h4>
+        </div>
+
+        <div
+          class="p-2 text-blue-600/60 dark:text-blue-400/60 transition-transform duration-500 group-hover:text-blue-600 dark:group-hover:text-blue-400"
+          [ngClass]="{ 'rotate-180': !category.isCollapsed }"
+        >
+          <i class="bi bi-chevron-down"></i>
+        </div>
+      </header>
+
+      <div
+        class="overflow-hidden transition-all duration-700 ease-in-out"
+        [class.max-h-0]="category.isCollapsed"
+        [class.max-h-[1000px]]="!category.isCollapsed"
+        [class.mt-8]="!category.isCollapsed"
+      >
+        <ul class="flex flex-col gap-6">
+          <li
+            class="flex flex-col gap-2.5 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors duration-300"
+            *ngFor="let skill of category.skills"
+          >
+            <div class="flex items-center justify-between text-sm">
+              <span
+                class="text-gray-700 dark:text-gray-300 font-medium tracking-wide transition-colors duration-300 flex items-center gap-2"
+              >
+                <i class="bi bi-check-circle-fill text-blue-500/40 text-xs"></i>
+                {{ skill.name }}
+              </span>
+              <span
+                class="text-blue-600 dark:text-blue-400 font-bold font-mono text-xs bg-blue-500/10 px-2 py-0.5 rounded-md"
+                >{{ skill.level }}%</span
+              >
+            </div>
             <div
-              class="progress-bar"
-              [appAnimateOnDisplay]="!category.isCollapsed"
-              [skillLevel]="skill.level"
-            ></div>
-          </div>
-          <span class="skill-percentage">{{ skill.level }}%</span>
-        </li>
-      </ul>
+              class="w-full h-2 bg-gray-100 dark:bg-gray-900/50 rounded-full overflow-hidden border border-gray-200 dark:border-gray-800/30 transition-colors duration-300"
+            >
+              <div
+                class="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.4)] relative overflow-hidden"
+                [appAnimateOnDisplay]="!category.isCollapsed"
+                [skillLevel]="skill.level"
+              >
+                <div
+                  class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 animate-shimmer"
+                ></div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </article>
   </div>
 </section>
+
+<!-- Add keyframe for shimmer effect if not in global styles -->
+<style>
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%) skewX(-12deg);
+    }
+    100% {
+      transform: translateX(200%) skewX(-12deg);
+    }
+  }
+  .animate-shimmer {
+    animation: shimmer 2s infinite linear;
+  }
+</style>
