@@ -92,6 +92,7 @@ export class ExperienceComponent implements OnInit, AfterViewInit {
           if (index !== undefined && this.experiences[+index]) {
             this.experiences[+index].isVisible = true;
             this.updateTracingHeight();
+            observer.unobserve(entry.target); // Dejar de observar una vez que es visible
           }
         }
       });

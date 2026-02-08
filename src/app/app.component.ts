@@ -7,15 +7,15 @@ import {
   ViewChildren,
   QueryList,
   ElementRef,
+  PLATFORM_ID,
 } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, CommonModule, isPlatformBrowser } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SkeletonLoaderComponent } from './components/shared/skeleton-loader/skeleton-loader.component';
 import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
-import { CommonModule } from '@angular/common';
 import { ThemeService } from './services/theme.service';
 import { LanguageService } from './services/language.service';
 import { BottomSheetService } from './services/bottom-sheet.service';
@@ -62,11 +62,24 @@ export class AppComponent implements OnInit {
     });
   }
 
+  private platformId = inject(PLATFORM_ID);
+  private readonly LOADER_KEY = 'hasSeenLoader_v1';
+
   ngOnInit() {
-    // Simular carga de recursos
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 1200);
+    if (isPlatformBrowser(this.platformId)) {
+      const hasSeen = localStorage.getItem(this.LOADER_KEY);
+      if (hasSeen) {
+        this.isLoading = false;
+      } else {
+        // Simular carga de recursos para la primera vez
+        setTimeout(() => {
+          this.isLoading = false;
+          localStorage.setItem(this.LOADER_KEY, 'true');
+        }, 1500);
+      }
+    } else {
+      this.isLoading = false; // Fallback para SSR
+    }
 
     // Auto-scroll logic for bottom sheet history
     this.bottomSheetService.isOpen$.subscribe((isOpen) => {
