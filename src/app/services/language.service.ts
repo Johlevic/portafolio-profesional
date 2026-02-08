@@ -331,6 +331,9 @@ export class LanguageService {
           madeWith: 'Hecho con',
           in: 'en',
         },
+        common: {
+          close: 'Cerrar',
+        },
       },
       en: {
         meta: {
@@ -516,6 +519,9 @@ export class LanguageService {
           rights: 'All rights reserved',
           madeWith: 'Made with',
           in: 'in',
+        },
+        common: {
+          close: 'Close',
         },
       },
     });

@@ -9,6 +9,8 @@ import { LanguageSelectorComponent } from './components/language-selector/langua
 import { CommonModule } from '@angular/common';
 import { ThemeService } from './services/theme.service';
 import { LanguageService } from './services/language.service';
+import { BottomSheetService } from './services/bottom-sheet.service';
+import { AnimateOnDisplayDirective } from './animate-on-display.directive';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +23,7 @@ import { LanguageService } from './services/language.service';
     ThemeToggleComponent,
     LanguageSelectorComponent,
     CommonModule,
+    AnimateOnDisplayDirective,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -34,7 +37,8 @@ export class AppComponent {
 
   // Inyectar servicios para inicializarlos
   private themeService = inject(ThemeService);
-  private languageService = inject(LanguageService);
+  public languageService = inject(LanguageService);
+  public bottomSheetService = inject(BottomSheetService);
   private router = inject(Router);
 
   constructor(@Inject(DOCUMENT) private document: Document) {
@@ -55,8 +59,17 @@ export class AppComponent {
   }
 
   @HostListener('window:scroll', [])
-  onWindowScroll() {
+  @HostListener('window:resize', [])
+  onWindowAction() {
     this.checkScroll();
+    this.checkResponsiveState();
+  }
+
+  private checkResponsiveState() {
+    if (window.innerWidth >= 768) {
+      // md breakpoint
+      this.bottomSheetService.close();
+    }
   }
 
   private checkScroll() {

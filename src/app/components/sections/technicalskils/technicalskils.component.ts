@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SkillCategory } from '../../../models/skill';
 import { AnimateOnDisplayDirective } from '../../../animate-on-display.directive';
 import { LanguageService } from '@/app/services/language.service';
+import { BottomSheetService } from '@/app/services/bottom-sheet.service';
 
 @Component({
   selector: 'app-technicalskils',
@@ -13,6 +14,7 @@ import { LanguageService } from '@/app/services/language.service';
 })
 export class TechnicalskilsComponent {
   languageService = inject(LanguageService);
+  private bottomSheetService = inject(BottomSheetService);
 
   skills: SkillCategory[] = [
     {
@@ -102,5 +104,9 @@ export class TechnicalskilsComponent {
 
   toggleCollapse(category: SkillCategory): void {
     category.isCollapsed = !category.isCollapsed;
+  }
+
+  openBottomSheet(category: SkillCategory): void {
+    this.bottomSheetService.open(category);
   }
 }

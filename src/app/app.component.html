@@ -71,3 +71,66 @@
     </button>
   </div>
 }
+
+<!-- TIKTOK STYLE BOTTOM SHEET (Global) - Solo en móviles -->
+<div
+  class="bottom-sheet-backdrop md:hidden"
+  [class.active]="bottomSheetService.isOpen$ | async"
+  (click)="bottomSheetService.close()"
+></div>
+
+<div
+  class="bottom-sheet-container md:hidden bg-white dark:bg-[#0f172a] border-t border-transparent dark:border-white/10"
+  [class.active]="bottomSheetService.isOpen$ | async"
+>
+  <div
+    class="sheet-handle bg-gray-300 dark:bg-gray-700"
+    (click)="bottomSheetService.close()"
+  ></div>
+
+  <div
+    class="sheet-content"
+    *ngIf="bottomSheetService.activeCategory$ | async as activeCategory"
+  >
+    <div class="flex items-center gap-4 mb-8">
+      <span class="p-4 bg-blue-500/10 dark:bg-blue-500/20 rounded-2xl text-2xl">
+        <i
+          class="bi bg-gradient-to-br from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 text-transparent bg-clip-text"
+          [class]="activeCategory.icon"
+        ></i>
+      </span>
+      <h3 class="text-2xl font-bold text-gray-900 dark:text-white">
+        {{ languageService.t(activeCategory.title) }}
+      </h3>
+    </div>
+
+    <ul class="space-y-6">
+      <li *ngFor="let skill of activeCategory.skills">
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-medium text-gray-700 dark:text-gray-200">{{
+            skill.name
+          }}</span>
+          <span class="text-blue-500 dark:text-blue-400 font-bold font-mono"
+            >{{ skill.level }}%</span
+          >
+        </div>
+        <div
+          class="w-full h-2.5 bg-gray-100 dark:bg-gray-800/50 rounded-full overflow-hidden"
+        >
+          <div
+            class="h-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-all duration-1000 ease-out"
+            [appAnimateOnDisplay]="true"
+            [skillLevel]="skill.level"
+          ></div>
+        </div>
+      </li>
+    </ul>
+
+    <button
+      (click)="bottomSheetService.close()"
+      class="w-full mt-10 py-4 bg-gray-100 dark:bg-gray-800/50 text-gray-800 dark:text-white font-bold rounded-2xl active:scale-95 transition-all"
+    >
+      {{ languageService.t("common.close") }}
+    </button>
+  </div>
+</div>

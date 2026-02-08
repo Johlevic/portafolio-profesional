@@ -15,7 +15,8 @@
     </p>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 items-start">
+  <!-- DESKTOP/TABLET GRID (Hidden on mobile) -->
+  <div class="hidden md:grid grid-cols-2 xl:grid-cols-3 gap-8 items-start">
     <article
       class="bg-white/40 dark:bg-gray-800/40 backdrop-blur-md border border-gray-200 dark:border-gray-800/50 rounded-2xl p-6 lg:p-8 shadow-lg shadow-blue-500/5 hover:shadow-2xl hover:shadow-blue-500/10 hover:border-blue-400/50 dark:hover:border-blue-500/40 transition-all duration-500 flex flex-col group hover:-translate-y-2 relative overflow-hidden"
       *ngFor="let category of skills"
@@ -93,6 +94,18 @@
         </ul>
       </div>
     </article>
+  </div>
+
+  <!-- MOBILE GRID (3 columns icons) -->
+  <div class="mobile-skills-grid md:hidden">
+    <button
+      *ngFor="let category of skills"
+      (click)="openBottomSheet(category)"
+      class="skill-icon-card animate-fade-in"
+    >
+      <i [class]="category.icon"></i>
+      <span>{{ languageService.t(category.title).split(" ")[0] }}</span>
+    </button>
   </div>
 </section>
 
