@@ -4,18 +4,18 @@
 >
   <div class="container mx-auto flex justify-between items-center px-6">
     <div class="flex items-center space-x-3">
-      <div class="p-2 rounded-lg bg-blue-500/10 border border-blue-500/20">
-        <span class="text-2xl font-mono text-blue-400 font-bold leading-none"
+      <div class="p-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20">
+        <span class="text-xl font-mono text-blue-400 font-bold leading-none"
           >&lt;/&gt;</span
         >
       </div>
       <div class="flex flex-col">
         <span
-          class="text-xl font-bold text-gray-800 dark:text-white font-['Orbitron'] tracking-wide transition-colors duration-300"
+          class="text-lg font-bold text-gray-800 dark:text-white font-['Orbitron'] tracking-wide transition-colors duration-300"
           >JHONY</span
         >
         <span
-          class="text-[10px] text-blue-400 font-bold uppercase tracking-[0.3em] leading-none"
+          class="text-[9px] text-blue-400 font-bold uppercase tracking-[0.3em] leading-none"
           >{{ languageService.t("header.role") }}</span
         >
       </div>
@@ -38,7 +38,7 @@
         (click)="toggleMobileMenu()"
         class="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-blue-600 dark:text-blue-400 hover:bg-gray-200 dark:hover:text-white transition-all active:scale-90 flex items-center justify-center duration-300"
       >
-        <i class="bi bi-grid-3x3-gap-fill text-2xl"></i>
+        <i class="bi bi-grid-3x3-gap-fill text-xl"></i>
       </button>
     </div>
   </div>
@@ -202,7 +202,7 @@
 ></div>
 
 <nav
-  class="fixed top-0 left-0 h-screen w-[85%] sm:w-80 bg-white dark:bg-gray-900 z-[70] shadow-[10px_0_30px_rgba(0,0,0,0.5)] transform transition-all duration-300 ease-out md:hidden flex flex-col border-r border-gray-200 dark:border-blue-500/20"
+  class="fixed top-0 left-0 h-screen w-full bg-white dark:bg-gray-900 z-[70] shadow-[10px_0_30px_rgba(0,0,0,0.5)] transform transition-all duration-300 ease-out md:hidden flex flex-col border-r border-gray-200 dark:border-blue-500/20"
   [class.-translate-x-full]="!mobileMenuOpen"
   [class.translate-x-0]="mobileMenuOpen"
 >
@@ -255,7 +255,7 @@
           <i
             class="bi bi-house-door text-xl group-hover:scale-110 transition-transform"
           ></i>
-          <span class="text-lg font-medium">{{
+          <span class="text-base font-medium">{{
             languageService.t("nav.home")
           }}</span>
         </a>
@@ -268,7 +268,7 @@
           <i
             class="bi bi-person text-xl group-hover:scale-110 transition-transform"
           ></i>
-          <span class="text-lg font-medium">{{
+          <span class="text-base font-medium">{{
             languageService.t("nav.about")
           }}</span>
         </a>
@@ -281,7 +281,7 @@
           <i
             class="bi bi-tools text-xl group-hover:scale-110 transition-transform"
           ></i>
-          <span class="text-lg font-medium">{{
+          <span class="text-base font-medium">{{
             languageService.t("nav.skills")
           }}</span>
         </a>
@@ -294,7 +294,7 @@
           <i
             class="bi bi-folder2-open text-xl group-hover:scale-110 transition-transform"
           ></i>
-          <span class="text-lg font-medium">{{
+          <span class="text-base font-medium">{{
             languageService.t("nav.projects")
           }}</span>
         </a>
@@ -307,7 +307,7 @@
           <i
             class="bi bi-briefcase text-xl group-hover:scale-110 transition-transform"
           ></i>
-          <span class="text-lg font-medium">{{
+          <span class="text-base font-medium">{{
             languageService.t("nav.experience")
           }}</span>
         </a>
@@ -320,7 +320,7 @@
           <i
             class="bi bi-envelope text-xl group-hover:scale-110 transition-transform"
           ></i>
-          <span class="text-lg font-medium">{{
+          <span class="text-base font-medium">{{
             languageService.t("nav.contact")
           }}</span>
         </a>

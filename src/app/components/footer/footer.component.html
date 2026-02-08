@@ -13,17 +13,19 @@
           </div>
           <div>
             <h3
-              class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400"
+              class="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400"
             >
               Jhony Lezama
             </h3>
-            <p class="text-sm text-gray-500 dark:text-slate-400">
+            <p class="text-xs text-gray-500 dark:text-slate-400">
               {{ languageService.t("hero.role") }}
             </p>
           </div>
         </div>
 
-        <p class="text-gray-600 dark:text-slate-400 leading-relaxed max-w-sm">
+        <p
+          class="text-gray-600 dark:text-slate-400 leading-relaxed max-w-sm text-xs md:text-sm"
+        >
           {{ languageService.t("hero.description") }}
         </p>
 
@@ -82,21 +84,27 @@
 
       <!-- Connect & Socials -->
       <div [class.lg:col-span-2]="!isMobile" class="flex flex-col gap-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
           <a
             href="mailto:jlezamavictorio@gmail.com"
             class="flex items-center justify-center gap-3 py-3 px-6 rounded-2xl bg-gray-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all border border-gray-200 dark:border-slate-700"
+            [title]="languageService.t('contact.info.emailBtn')"
           >
-            <i class="bi bi-envelope-fill"></i>
-            {{ languageService.t("contact.info.emailBtn") }}
+            <i class="bi bi-envelope-fill text-xl"></i>
+            <span class="hidden md:inline">{{
+              languageService.t("contact.info.emailBtn")
+            }}</span>
           </a>
           <a
             href="https://wa.me/51980609176"
             target="_blank"
             class="flex items-center justify-center gap-3 py-3 px-6 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 transition-all border border-emerald-100 dark:border-emerald-800/30"
+            [title]="languageService.t('contact.info.whatsappBtn')"
           >
-            <i class="bi bi-whatsapp"></i>
-            {{ languageService.t("contact.info.whatsappBtn") }}
+            <i class="bi bi-whatsapp text-xl"></i>
+            <span class="hidden md:inline">{{
+              languageService.t("contact.info.whatsappBtn")
+            }}</span>
           </a>
         </div>
 
@@ -124,7 +132,7 @@
 
     <!-- Bottom Bar -->
     <div
-      class="pt-8 border-t border-gray-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-500 dark:text-slate-500 text-sm"
+      class="pt-8 border-t border-gray-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-500 dark:text-slate-500 text-xs md:text-sm"
     >
       <div class="flex items-center gap-2">
         <span
@@ -145,7 +153,7 @@
         <span class="hidden sm:inline text-gray-300 dark:text-slate-700"
           >|</span
         >
-        <span class="text-xs">Versión 2.0.0</span>
+        <span class="text-[10px] md:text-xs">Versión 2.0.0</span>
       </div>
     </div>
   </div>
