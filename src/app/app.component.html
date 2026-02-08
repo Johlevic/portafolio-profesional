@@ -90,40 +90,109 @@
 
   <div
     class="sheet-content"
-    *ngIf="bottomSheetService.activeCategory$ | async as activeCategory"
+    *ngIf="bottomSheetService.content$ | async as content"
   >
     <div class="flex items-center gap-4 mb-8">
       <span class="p-4 bg-blue-500/10 dark:bg-blue-500/20 rounded-2xl text-2xl">
         <i
           class="bi bg-gradient-to-br from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 text-transparent bg-clip-text"
-          [class]="activeCategory.icon"
+          [class]="content.icon"
         ></i>
       </span>
       <h3 class="text-2xl font-bold text-gray-900 dark:text-white">
-        {{ languageService.t(activeCategory.title) }}
+        {{ content.title }}
       </h3>
     </div>
 
-    <ul class="space-y-6">
-      <li *ngFor="let skill of activeCategory.skills">
-        <div class="flex items-center justify-between mb-2">
-          <span class="font-medium text-gray-700 dark:text-gray-200">{{
-            skill.name
-          }}</span>
-          <span class="text-blue-500 dark:text-blue-400 font-bold font-mono"
-            >{{ skill.level }}%</span
-          >
-        </div>
-        <div
-          class="w-full h-2.5 bg-gray-100 dark:bg-gray-800/50 rounded-full overflow-hidden"
-        >
+    <!-- Contenido dinámico según el tipo -->
+    <ul class="space-y-6" [ngSwitch]="content.type">
+      <!-- Caso: Habilidades (con barras de progreso) -->
+      <ng-container *ngSwitchCase="'skills'">
+        <li *ngFor="let skill of content.items">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-medium text-gray-700 dark:text-gray-200">{{
+              skill.label
+            }}</span>
+            <span class="text-blue-500 dark:text-blue-400 font-bold font-mono"
+              >{{ skill.level }}%</span
+            >
+          </div>
           <div
-            class="h-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-all duration-1000 ease-out"
-            [appAnimateOnDisplay]="true"
-            [skillLevel]="skill.level"
-          ></div>
-        </div>
-      </li>
+            class="w-full h-2.5 bg-gray-100 dark:bg-gray-800/50 rounded-full overflow-hidden"
+          >
+            <div
+              class="h-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-all duration-1000 ease-out"
+              [appAnimateOnDisplay]="true"
+              [skillLevel]="skill.level || 0"
+            ></div>
+          </div>
+        </li>
+      </ng-container>
+
+      <!-- Caso: Lista simple (Contacto/Info) -->
+      <ng-container *ngSwitchCase="'list'">
+        <li
+          *ngFor="let item of content.items"
+          class="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/30 border border-gray-100 dark:border-gray-800/50"
+        >
+          <i
+            *ngIf="item.icon"
+            [class]="item.icon"
+            class="text-xl text-blue-500 mt-1"
+          ></i>
+          <div class="flex flex-col">
+            <span
+              class="text-xs text-gray-500 dark:text-gray-500 font-medium uppercase tracking-wider"
+              >{{ item.label }}</span
+            >
+            <span class="text-gray-900 dark:text-gray-100 font-medium">{{
+              item.value
+            }}</span>
+          </div>
+        </li>
+      </ng-container>
+
+      <!-- Caso: Redes Sociales -->
+      <ng-container *ngSwitchCase="'social'">
+        <li *ngFor="let item of content.items">
+          <a
+            [href]="item.link"
+            target="_blank"
+            class="flex items-center justify-between p-4 rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-100 dark:border-gray-800/50 active:scale-95 transition-all"
+          >
+            <div class="flex items-center gap-4">
+              <i
+                *ngIf="item.icon"
+                [class]="item.icon"
+                class="text-2xl text-blue-500"
+              ></i>
+              <div class="flex flex-col">
+                <span class="text-sm font-bold text-gray-900 dark:text-white">{{
+                  item.label
+                }}</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400">{{
+                  item.value
+                }}</span>
+              </div>
+            </div>
+            <i class="bi bi-box-arrow-up-right text-gray-400"></i>
+          </a>
+        </li>
+      </ng-container>
+
+      <!-- Caso: Artículo / Historia (Párrafos largos) -->
+      <ng-container *ngSwitchCase="'article'">
+        <li
+          *ngFor="let item of content.items; let i = index"
+          #historyItem
+          class="relative p-2 transition-all duration-700"
+        >
+          <p
+            class="text-gray-700 dark:text-gray-300 leading-relaxed font-light text-base"
+            [innerHTML]="item.value"
+          ></p>
+        </li>
+      </ng-container>
     </ul>
 
     <button

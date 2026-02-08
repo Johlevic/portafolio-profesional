@@ -22,9 +22,13 @@
     >
       <p [innerHTML]="languageService.t('history.p1')"></p>
       <p [innerHTML]="languageService.t('history.p2')"></p>
-      <p [innerHTML]="languageService.t('history.p3')"></p>
-      <p [innerHTML]="languageService.t('history.p4')"></p>
-      <p [innerHTML]="languageService.t('history.p5')"></p>
+
+      <!-- Hidden on mobile snippet, shown if expanded or desktop -->
+      <ng-container *ngIf="expanded || isLargeScreen">
+        <p [innerHTML]="languageService.t('history.p3')"></p>
+        <p [innerHTML]="languageService.t('history.p4')"></p>
+        <p [innerHTML]="languageService.t('history.p5')"></p>
+      </ng-container>
     </div>
 
     <!-- Botón ver más / ver menos -->

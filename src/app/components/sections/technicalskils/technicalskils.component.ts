@@ -107,6 +107,14 @@ export class TechnicalskilsComponent {
   }
 
   openBottomSheet(category: SkillCategory): void {
-    this.bottomSheetService.open(category);
+    this.bottomSheetService.open({
+      title: this.languageService.t(category.title),
+      icon: category.icon,
+      type: 'skills',
+      items: category.skills.map((s) => ({
+        label: s.name,
+        level: s.level,
+      })),
+    });
   }
 }

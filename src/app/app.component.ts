@@ -1,4 +1,13 @@
-import { Component, OnInit, inject, HostListener, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  HostListener,
+  Inject,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+} from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
@@ -28,7 +37,9 @@ import { AnimateOnDisplayDirective } from './animate-on-display.directive';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  @ViewChildren('historyItem') historyItems!: QueryList<ElementRef>;
+
   title = 'my-portafolio';
   isLoading = true;
   showProfileInfo = false;
@@ -52,10 +63,33 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    // Simular carga de recursos (fuentes, imágenes, etc.)
+    // Simular carga de recursos
     setTimeout(() => {
       this.isLoading = false;
-    }, 1200); // 1.2 segundos para una carga profesional
+    }, 1200);
+
+    // Auto-scroll logic for bottom sheet history
+    this.bottomSheetService.isOpen$.subscribe((isOpen) => {
+      if (isOpen) {
+        const content = this.bottomSheetService.getContent();
+        if (
+          content?.type === 'article' &&
+          content.highlightIndex !== undefined
+        ) {
+          const index = content.highlightIndex;
+          // Esperamos a que la animación de apertura termine y el contenido se renderice
+          setTimeout(() => {
+            const target = this.historyItems.toArray()[index];
+            if (target) {
+              target.nativeElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+              });
+            }
+          }, 600); // 500ms de transición + 100ms de margen
+        }
+      }
+    });
   }
 
   @HostListener('window:scroll', [])

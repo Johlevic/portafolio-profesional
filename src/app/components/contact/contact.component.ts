@@ -5,6 +5,7 @@ import { environment } from '@/environments/environment';
 import { CommonModule } from '@angular/common';
 import { AlertComponent } from '@/app/components/alerts/alert/alert.component';
 import { LanguageService } from '@/app/services/language.service';
+import { BottomSheetService } from '@/app/services/bottom-sheet.service';
 
 type AlertType = 'success' | 'error' | 'warning' | 'info' | 'question';
 
@@ -17,6 +18,7 @@ type AlertType = 'success' | 'error' | 'warning' | 'info' | 'question';
 })
 export class ContactComponent {
   languageService = inject(LanguageService);
+  private bottomSheetService = inject(BottomSheetService);
 
   @ViewChild('formRef', { read: ElementRef })
   formRef!: ElementRef<HTMLFormElement>;
@@ -119,5 +121,81 @@ export class ContactComponent {
 
   cerrarAlerta() {
     this.alert = null;
+  }
+
+  openContactSheet(): void {
+    this.bottomSheetService.open({
+      title: this.languageService.t('contact.info.title'),
+      icon: 'bi bi-info-circle',
+      type: 'list',
+      items: [
+        {
+          label: this.languageService.t('contact.info.email'),
+          value: 'jlezamavictorio@gmail.com',
+          icon: 'bi bi-envelope-fill',
+        },
+        {
+          label: this.languageService.t('contact.info.phone'),
+          value: '+51 980609176',
+          icon: 'bi bi-telephone-fill',
+        },
+        {
+          label: this.languageService.t('contact.info.location'),
+          value: 'Trujillo, Perú',
+          icon: 'bi bi-geo-alt-fill',
+        },
+        {
+          label: this.languageService.t('contact.info.availability'),
+          value: this.languageService.t('contact.info.hours'),
+          icon: 'bi bi-calendar-fill',
+        },
+      ],
+    });
+  }
+
+  openSocialSheet(): void {
+    this.bottomSheetService.open({
+      title: this.languageService.t('contact.social.title'),
+      icon: 'bi bi-share',
+      type: 'social',
+      items: [
+        {
+          label: 'GitHub',
+          value: '@Johlevic',
+          icon: 'bi bi-github',
+          link: 'https://github.com/Johlevic/',
+        },
+        {
+          label: 'LinkedIn',
+          value: '@jhony-lezama',
+          icon: 'bi bi-linkedin',
+          link: 'https://www.linkedin.com/in/jhony-lezama/',
+        },
+        {
+          label: 'Facebook',
+          value: '@CodeJhoLe',
+          icon: 'bi bi-facebook',
+          link: 'https://web.facebook.com/CodeJhoLe/',
+        },
+        {
+          label: 'YouTube',
+          value: '@CodeJL-Tech',
+          icon: 'bi bi-youtube',
+          link: 'https://www.youtube.com/@CodeJL-Tech',
+        },
+        {
+          label: 'TikTok',
+          value: '@code_jl',
+          icon: 'bi bi-tiktok',
+          link: 'https://www.tiktok.com/@code_jl',
+        },
+        {
+          label: 'X (Twitter)',
+          value: '@EJLeVic',
+          icon: 'bi bi-twitter-x',
+          link: 'https://x.com/EJLeVic/',
+        },
+      ],
+    });
   }
 }
