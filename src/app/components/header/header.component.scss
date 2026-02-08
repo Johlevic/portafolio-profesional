@@ -1,4 +1,3 @@
-
 .nav-item {
   position: relative;
   display: inline-block; /* Ensure the span aligns correctly */
@@ -46,7 +45,7 @@ nav.fixed {
   ul li {
     animation: fadeInUp 0.4s ease forwards;
     opacity: 0;
-    
+
     @for $i from 1 through 10 {
       &:nth-child(#{$i}) {
         animation-delay: #{$i * 0.05}s;
@@ -79,6 +78,77 @@ aside {
   &:hover {
     scrollbar-width: thin;
     scrollbar-color: rgba(59, 130, 246, 0.3) transparent;
+  }
+}
+
+/* Adaptación Inteligente para Viewports Pequeños (Altitud) */
+.mobile-nav-container {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+
+  .mobile-menu-header {
+    padding: 2rem 1.5rem;
+    transition: padding 0.3s ease;
+  }
+
+  .mobile-menu-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+
+  .mobile-menu-footer {
+    padding: 1.5rem;
+    transition: padding 0.3s ease;
+  }
+
+  /* Ajustes para pantallas cortas (ej. móviles en horizontal o dispositivos pequeños) */
+  @media (max-height: 740px) {
+    .mobile-menu-header {
+      padding: 1.25rem 1.5rem;
+      .flex-items-between {
+        margin-bottom: 0.75rem !important;
+      }
+      h2 {
+        font-size: 1.25rem !important;
+      }
+      p {
+        font-size: 0.75rem !important;
+      }
+    }
+    .mobile-menu-body {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+    .mobile-menu-footer {
+      padding: 1rem 1.5rem;
+      p {
+        margin-bottom: 1rem !important;
+      }
+    }
+    .nav-link-item {
+      padding-top: 0.75rem !important;
+      padding-bottom: 0.75rem !important;
+      span {
+        font-size: 0.9rem !important;
+      }
+    }
+  }
+
+  @media (max-height: 600px) {
+    .mobile-menu-header {
+      padding: 0.75rem 1.5rem;
+      .flex-items-between {
+        margin-bottom: 0.5rem !important;
+      }
+    }
+    .mobile-menu-footer {
+      padding: 0.75rem 1.5rem;
+      p {
+        display: none;
+      } // Ocultar "Encuéntrame en" si es muy pequeño
+    }
   }
 }
 
