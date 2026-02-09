@@ -20,6 +20,7 @@ import { ThemeService } from './services/theme.service';
 import { LanguageService } from './services/language.service';
 import { BottomSheetService } from './services/bottom-sheet.service';
 import { AnimateOnDisplayDirective } from './animate-on-display.directive';
+import { LoadingModalService } from './services/loading-modal.service';
 
 @Component({
   selector: 'app-root',
@@ -51,6 +52,7 @@ export class AppComponent implements OnInit {
   private themeService = inject(ThemeService);
   public languageService = inject(LanguageService);
   public bottomSheetService = inject(BottomSheetService);
+  public loadingModalService = inject(LoadingModalService);
   private router = inject(Router);
 
   constructor(@Inject(DOCUMENT) private document: Document) {

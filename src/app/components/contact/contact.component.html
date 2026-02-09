@@ -29,7 +29,7 @@
   >
     <!-- Card Formulario -->
     <div
-      class="lg:col-span-2 bg-white dark:bg-gray-800/40 backdrop-blur-sm rounded-2xl shadow-xl dark:shadow-2xl dark:shadow-blue-500/5 p-4 md:p-10 border border-gray-100 dark:border-gray-800/50"
+      class="lg:col-span-2 bg-white dark:bg-gray-800/40 backdrop-blur-sm rounded-2xl shadow-xl dark:shadow-2xl dark:shadow-blue-500/5 p-6 md:p-10 border border-gray-100 dark:border-gray-800/50 glass-card"
       appScrollReveal
     >
       <form
@@ -46,29 +46,30 @@
         </h3>
         <input type="hidden" name="time" />
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div class="flex flex-col group">
-            <label
-              for="nombre"
-              class="text-gray-600 dark:text-gray-400 font-medium mb-3 text-sm"
-              >{{ languageService.t("contact.form.name") }}*</label
-            >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div
+            class="input-group"
+            [class.has-error]="
+              name.invalid && (name.touched || formRef.submitted)
+            "
+          >
             <input
               type="text"
-              id="nombre"
-              name="nombre"
+              id="name"
+              name="name"
               ngModel
               required
-              [placeholder]="languageService.t('contact.form.namePlaceholder')"
-              #nombre="ngModel"
-              class="bg-transparent border-0 border-b-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white px-0 py-3 focus:outline-none focus:border-blue-500 transition-all duration-300 placeholder:text-gray-400 dark:placeholder:text-gray-600"
-              [class.border-red-500]="
-                nombre.invalid && (nombre.touched || formRef.submitted)
-              "
+              placeholder=" "
+              #name="ngModel"
+              class="input-field"
             />
-            @if (nombre.invalid && (nombre.touched || formRef.submitted)) {
+            <label for="name" class="input-label">
+              {{ languageService.t("contact.form.name") }}*
+            </label>
+
+            @if (name.invalid && (name.touched || formRef.submitted)) {
               <div
-                class="text-red-500 dark:text-red-400 text-xs mt-2 flex items-center gap-1"
+                class="text-red-500 dark:text-red-400 text-[10px] mt-1 flex items-center gap-1 absolute -bottom-5"
               >
                 <i class="bi bi-exclamation-circle"></i>
                 {{ languageService.t("contact.form.required") }}
@@ -76,28 +77,29 @@
             }
           </div>
 
-          <div class="flex flex-col group">
-            <label
-              for="email"
-              class="text-gray-600 dark:text-gray-400 font-medium mb-3 text-sm"
-              >{{ languageService.t("contact.form.email") }}*</label
-            >
+          <div
+            class="input-group"
+            [class.has-error]="
+              email.invalid && (email.touched || formRef.submitted)
+            "
+          >
             <input
               type="email"
               id="email"
               name="email"
               ngModel
               required
-              placeholder="tu@email.com"
+              placeholder=" "
               #email="ngModel"
-              class="bg-transparent border-0 border-b-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white px-0 py-3 focus:outline-none focus:border-blue-500 transition-all duration-300 placeholder:text-gray-400 dark:placeholder:text-gray-600"
-              [class.border-red-500]="
-                email.invalid && (email.touched || formRef.submitted)
-              "
+              class="input-field"
             />
+            <label for="email" class="input-label">
+              {{ languageService.t("contact.form.email") }}*
+            </label>
+
             @if (email.invalid && (email.touched || formRef.submitted)) {
               <div
-                class="text-red-500 dark:text-red-400 text-xs mt-2 flex items-center gap-1"
+                class="text-red-500 dark:text-red-400 text-[10px] mt-1 flex items-center gap-1 absolute -bottom-5"
               >
                 <i class="bi bi-exclamation-circle"></i>
                 {{ languageService.t("contact.form.required") }}
@@ -106,28 +108,28 @@
           </div>
         </div>
 
-        <div class="flex flex-col group">
-          <label
-            for="asunto"
-            class="text-gray-600 dark:text-gray-400 font-medium mb-3 text-sm"
-            >{{ languageService.t("contact.form.subject") }}*</label
-          >
+        <div
+          class="input-group"
+          [class.has-error]="
+            subject.invalid && (subject.touched || formRef.submitted)
+          "
+        >
           <input
             type="text"
-            id="asunto"
-            name="asunto"
+            id="subject"
+            name="subject"
             ngModel
             required
-            [placeholder]="languageService.t('contact.form.subjectPlaceholder')"
-            #asunto="ngModel"
-            class="bg-transparent border-0 border-b-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white px-0 py-3 focus:outline-none focus:border-blue-500 transition-all duration-300 placeholder:text-gray-400 dark:placeholder:text-gray-600"
-            [class.border-red-500]="
-              asunto.invalid && (asunto.touched || formRef.submitted)
-            "
+            placeholder=" "
+            #subject="ngModel"
+            class="input-field"
           />
-          @if (asunto.invalid && (asunto.touched || formRef.submitted)) {
+          <label for="subject" class="input-label">
+            {{ languageService.t("contact.form.subject") }}*
+          </label>
+          @if (subject.invalid && (subject.touched || formRef.submitted)) {
             <div
-              class="text-red-500 dark:text-red-400 text-xs mt-2 flex items-center gap-1"
+              class="text-red-500 dark:text-red-400 text-[10px] mt-1 flex items-center gap-1 absolute -bottom-5"
             >
               <i class="bi bi-exclamation-circle"></i>
               {{ languageService.t("contact.form.required") }}
@@ -135,20 +137,18 @@
           }
         </div>
 
-        <div class="flex flex-col group">
-          <label
-            for="mensaje"
-            class="text-gray-600 dark:text-gray-400 font-medium mb-3 text-sm"
-            >{{ languageService.t("contact.form.message") }}</label
-          >
+        <div class="input-group">
           <textarea
-            id="mensaje"
-            name="mensaje"
+            id="message"
+            name="message"
             ngModel
-            [placeholder]="languageService.t('contact.form.messagePlaceholder')"
-            #mensaje="ngModel"
-            class="bg-transparent border-0 border-b-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white px-0 py-3 min-h-[120px] focus:outline-none focus:border-blue-500 transition-all duration-300 placeholder:text-gray-400 dark:placeholder:text-gray-600 resize-none"
+            placeholder=" "
+            #message="ngModel"
+            class="input-field"
           ></textarea>
+          <label for="message" class="input-label">
+            {{ languageService.t("contact.form.message") }}
+          </label>
         </div>
 
         <button

@@ -1,7 +1,8 @@
 // src/environments/environment.prod.ts
 export const environment = {
   production: true,
-  emailServiceID: 'service_8hin2cp', // <-- Agrega estas propiedades
-  emailTemplateID: 'template_xvv0fg9', // <-- Agrega estas propiedades
+  emailServiceID: 'service_s4e1jex', // <-- Agrega estas propiedades
+  emailTemplateID: 'template_41qz04r', // <-- Agrega estas propiedades
+  emailConfirmationTemplateID: 'template_xj28jbs', // <-- ID de la plantilla de confirmación
   emailUserID: '6sq4pbjag3PPdrsyC', // <-- Agrega estas propiedades
 };

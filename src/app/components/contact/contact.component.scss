@@ -1,0 +1,134 @@
+
+.input-group {
+  position: relative;
+  margin-top: 1.5rem;
+  width: 100%;
+
+  .input-field {
+    width: 100%;
+    padding: 1.125rem 1.25rem;
+    font-size: 1rem;
+    color: #111827; // Gray 900
+    background: #ffffff;
+    border: 1px solid #e5e7eb; // Gray 200
+    border-radius: 1rem;
+    transition: all 0.25s ease;
+    outline: none;
+
+    &::placeholder {
+      color: transparent;
+    }
+
+    &:focus {
+      border-color: #3b82f6; // Blue 500
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.08);
+    }
+
+    // Floating label logic
+    &:focus + .input-label,
+    &:not(:placeholder-shown) + .input-label {
+      transform: translateY(-2.15rem) scale(0.85);
+      color: #2563eb;
+      font-weight: 600;
+      padding: 0 4px;
+      background: transparent; // If you want it above. 
+      // If you want it ON the line, use background: white; and left: 1rem;
+    }
+  }
+
+  .input-label {
+    position: absolute;
+    left: 1.25rem;
+    top: 1.125rem;
+    font-size: 1rem;
+    color: #6b7280; // Gray 500
+    pointer-events: none;
+    transition: all 0.25s ease;
+    transform-origin: left top;
+  }
+
+  // Error state
+  &.has-error {
+    .input-field {
+      border-color: #ef4444 !important;
+      background: #fef2f2;
+      &:focus {
+        box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+      }
+    }
+    .input-label {
+      color: #ef4444 !important;
+    }
+  }
+}
+
+:host-context(.dark) {
+  .input-group {
+    .input-field {
+      background: rgba(31, 41, 55, 0.5); // Gray 800/50
+      border-color: #374151; // Gray 700
+      color: #f9fafb;
+
+      &:focus {
+        border-color: #60a5fa; // Blue 400
+        background: rgba(31, 41, 55, 0.8);
+        box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.15);
+      }
+
+      &:focus + .input-label,
+      &:not(:placeholder-shown) + .input-label {
+        color: #60a5fa;
+      }
+    }
+
+    .input-label {
+      color: #9ca3af; // Gray 400
+    }
+
+    &.has-error {
+      .input-field {
+        border-color: #f87171 !important;
+        background: rgba(127, 29, 29, 0.1);
+      }
+      .input-label {
+        color: #f87171 !important;
+      }
+    }
+  }
+}
+
+.glass-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+:host-context(.dark) .glass-card:hover {
+  box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.2);
+  border-color: rgba(96, 165, 250, 0.3);
+}
+
+// Ensure no double lines on textarea
+textarea.input-field {
+  min-height: 120px;
+  resize: vertical;
+}
+
+// Remove the old active-line if it exists in HTML we'll clean it up there too
+.active-line {
+  display: none;
+}
+
+:host-context(.dark) {
+  .stroke-blue-500 {
+    filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.4));
+  }
+}
+
+// Ensure backdrop blur works on all browsers
+.backdrop-blur-md {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}

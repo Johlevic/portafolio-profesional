@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { AlertComponent } from '@/app/components/alerts/alert/alert.component';
 import { LanguageService } from '@/app/services/language.service';
 import { BottomSheetService } from '@/app/services/bottom-sheet.service';
+import { LoadingModalService } from '@/app/services/loading-modal.service';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
 type AlertType = 'success' | 'error' | 'warning' | 'info' | 'question';
@@ -20,6 +21,7 @@ type AlertType = 'success' | 'error' | 'warning' | 'info' | 'question';
 export class ContactComponent {
   languageService = inject(LanguageService);
   private bottomSheetService = inject(BottomSheetService);
+  private loadingModalService = inject(LoadingModalService);
 
   @ViewChild('formRef', { read: ElementRef })
   formRef!: ElementRef<HTMLFormElement>;
@@ -27,29 +29,31 @@ export class ContactComponent {
   // Alerta
   alert: { type: AlertType; title: string; message: string } | null = null;
 
+  // Estados de envío
+  private progressInterval: any;
+
   enviarMensaje() {
     if (!this.formRef) return;
     const formEl = this.formRef.nativeElement;
 
     // Obtener valores
-    const nombre = (
-      formEl.querySelector<HTMLInputElement>('input[name="nombre"]')?.value ||
-      ''
+    const name = (
+      formEl.querySelector<HTMLInputElement>('input[name="name"]')?.value || ''
     ).trim();
     const email = (
       formEl.querySelector<HTMLInputElement>('input[name="email"]')?.value || ''
     ).trim();
-    const asunto = (
-      formEl.querySelector<HTMLInputElement>('input[name="asunto"]')?.value ||
+    const subject = (
+      formEl.querySelector<HTMLInputElement>('input[name="subject"]')?.value ||
       ''
     ).trim();
-    const mensaje = (
-      formEl.querySelector<HTMLTextAreaElement>('textarea[name="mensaje"]')
+    const message = (
+      formEl.querySelector<HTMLTextAreaElement>('textarea[name="message"]')
         ?.value || ''
     ).trim();
 
-    // Validaciones (mensaje es opcional)
-    if (!nombre || !email || !asunto) {
+    // Validaciones (message es opcional)
+    if (!name || !email || !subject) {
       this.alert = {
         type: 'error',
         title: 'Error',
@@ -79,43 +83,69 @@ export class ContactComponent {
       formEl.querySelector<HTMLInputElement>('input[name="time"]');
     if (hiddenInput) hiddenInput.value = horaLocal;
 
-    // Mostrar indicador de carga
-    this.alert = {
-      type: 'info',
-      title: 'Enviando...',
-      message: 'Por favor espera mientras se envía tu mensaje',
-    };
+    // Activar Modal de Carga
+    this.loadingModalService.show('contact.form.sending', 'contact.form.wait');
 
-    // Enviar con EmailJS
-    emailjs
-      .sendForm(
+    // Simular progreso hasta el 90%
+    this.progressInterval = setInterval(() => {
+      const currentProgress = this.loadingModalService.state().progress;
+      if (currentProgress < 90) {
+        this.loadingModalService.setProgress(
+          currentProgress + Math.random() * 15,
+        );
+        if (this.loadingModalService.state().progress > 90) {
+          this.loadingModalService.setProgress(90);
+        }
+      }
+    }, 200);
+
+    // Enviar con EmailJS (Dual: Notificación al dueño y Confirmación al usuario)
+    const emailPromises = [];
+
+    // 1. Notificación al dueño (siempre se envía)
+    emailPromises.push(
+      emailjs.sendForm(
         environment.emailServiceID,
         environment.emailTemplateID,
         formEl,
         environment.emailUserID,
-      )
-      .then((response) => {
-        console.log('✅ Mensaje enviado exitosamente:', response);
-        formEl.reset();
-        this.alert = {
-          type: 'success',
-          title: '¡Éxito!',
-          message: 'Tu mensaje fue enviado con éxito. Te responderé pronto.',
-        };
+      ),
+    );
+
+    // 2. Confirmación al usuario (solo si existe el Template ID en environment)
+    if (environment.emailConfirmationTemplateID) {
+      emailPromises.push(
+        emailjs.sendForm(
+          environment.emailServiceID,
+          environment.emailConfirmationTemplateID,
+          formEl,
+          environment.emailUserID,
+        ),
+      );
+    }
+
+    Promise.all(emailPromises)
+      .then((responses) => {
+        console.log('✅ Correos enviados exitosamente:', responses);
+        clearInterval(this.progressInterval);
+        this.loadingModalService.setProgress(100);
+        this.loadingModalService.setSuccess(true);
+
+        // Limpiar formulario y cerrar modal después de 2.5 segundos
+        setTimeout(() => {
+          formEl.reset();
+          this.loadingModalService.hide();
+        }, 2500);
       })
       .catch((error) => {
         console.error('❌ Error al enviar mensaje:', error);
-        console.error('Detalles del error:', {
-          status: error.status,
-          text: error.text,
-          serviceID: environment.emailServiceID,
-          templateID: environment.emailTemplateID,
-        });
+        clearInterval(this.progressInterval);
+        this.loadingModalService.hide();
         this.alert = {
           type: 'error',
           title: 'Error al enviar',
           message:
-            'Hubo un problema al enviar el mensaje. Por favor intenta de nuevo o contáctame directamente por email.',
+            'Hubo un problema al enviar el mensaje. Tu notificación podría no haberse enviado correctamente.',
         };
       });
   }

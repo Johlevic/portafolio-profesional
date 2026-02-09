@@ -207,3 +207,93 @@
     </button>
   </div>
 </div>
+
+<!-- MODAL DE CARGA GLOBAL -->
+@if (loadingModalService.state().isActive) {
+  <div
+    class="fixed inset-0 z-[100000] flex items-center justify-center p-4 backdrop-blur-md bg-white/10 dark:bg-black/20 transition-all duration-500"
+  >
+    <div
+      class="bg-white dark:bg-gray-900 rounded-3xl p-10 shadow-2xl border border-gray-100 dark:border-gray-800 flex flex-col items-center max-w-sm w-full animate-zoom-in"
+    >
+      <div class="relative w-32 h-32 mb-6">
+        <!-- Círculo de fondo -->
+        <svg class="w-full h-full transform -rotate-90">
+          <circle
+            cx="64"
+            cy="64"
+            r="60"
+            fill="transparent"
+            stroke-width="8"
+            class="stroke-gray-100 dark:stroke-gray-800"
+          />
+          <!-- Círculo de progreso -->
+          <circle
+            cx="64"
+            cy="64"
+            r="60"
+            fill="transparent"
+            stroke-width="8"
+            stroke-linecap="round"
+            class="stroke-blue-600 dark:stroke-blue-500 transition-all duration-500 ease-out"
+            [style.stroke-dasharray]="377"
+            [style.stroke-dashoffset]="
+              377 - (377 * loadingModalService.state().progress) / 100
+            "
+          />
+        </svg>
+
+        <!-- Porcentaje Numérico -->
+        <div
+          class="absolute inset-0 flex items-center justify-center transition-opacity duration-300"
+          [class.opacity-0]="loadingModalService.state().showSuccess"
+        >
+          <span
+            class="text-2xl font-black text-blue-600 dark:text-blue-500 font-mono"
+          >
+            {{ loadingModalService.state().progress | number: "1.0-0" }}%
+          </span>
+        </div>
+
+        <!-- Icono de Check -->
+        <div
+          class="absolute inset-0 flex items-center justify-center transition-all duration-500"
+          [class.opacity-0]="!loadingModalService.state().showSuccess"
+          [class.scale-50]="!loadingModalService.state().showSuccess"
+          [class.opacity-100]="loadingModalService.state().showSuccess"
+          [class.scale-100]="loadingModalService.state().showSuccess"
+        >
+          <div
+            class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center shadow-lg shadow-green-500/30"
+          >
+            <i class="bi bi-check-lg text-white text-4xl"></i>
+          </div>
+        </div>
+      </div>
+
+      <h3
+        class="text-xl font-bold text-gray-900 dark:text-white mb-2 text-center"
+      >
+        {{
+          loadingModalService.state().showSuccess
+            ? languageService.t(
+                loadingModalService.state().titleKey || "contact.form.success"
+              )
+            : languageService.t(
+                loadingModalService.state().titleKey || "contact.form.sending"
+              )
+        }}
+      </h3>
+      <p class="text-gray-500 dark:text-gray-400 text-sm text-center">
+        {{
+          loadingModalService.state().showSuccess
+            ? languageService.t(
+                loadingModalService.state().descriptionKey ||
+                  "contact.form.successDesc"
+              )
+            : languageService.t("contact.form.wait")
+        }}
+      </p>
+    </div>
+  </div>
+}

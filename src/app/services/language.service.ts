@@ -304,6 +304,11 @@ export class LanguageService {
             message: 'Mensaje',
             messagePlaceholder: 'Escribe tu mensaje aquí...',
             send: 'Enviar Mensaje',
+            sending: 'Enviando...',
+            success: '¡Mensaje Enviado!',
+            successDesc:
+              'Tu mensaje ha sido recibido con éxito. Te responderé pronto.',
+            wait: 'Cargando...',
             required: 'Este campo es obligatorio',
           },
           info: {
@@ -495,6 +500,11 @@ export class LanguageService {
             message: 'Message',
             messagePlaceholder: 'Write your message here...',
             send: 'Send Message',
+            sending: 'Sending...',
+            success: 'Message Sent!',
+            successDesc:
+              'Your message has been received successfully. I will get back to you soon.',
+            wait: 'Loading...',
             required: 'This field is required',
           },
           info: {
