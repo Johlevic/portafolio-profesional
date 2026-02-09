@@ -7,10 +7,15 @@ import {
   QueryList,
   ViewChildren,
   PLATFORM_ID,
+  HostListener,
+  ViewChild,
+  TemplateRef,
+  OnDestroy,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Experience } from '../../../models/experience';
 import { LanguageService } from '@/app/services/language.service';
+import { HeaderPortalService } from '@/app/services/header-portal.service';
 
 @Component({
   selector: 'app-experience',
@@ -19,11 +24,20 @@ import { LanguageService } from '@/app/services/language.service';
   templateUrl: './experience.component.html',
   styleUrls: ['./experience.component.scss'],
 })
-export class ExperienceComponent implements OnInit, AfterViewInit {
+export class ExperienceComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren('timelineItem') timelineItems!: QueryList<ElementRef>;
+
+  @ViewChild('headerRef') headerRef!: ElementRef;
+  @ViewChild('stickyTitleTemplate') stickyTitleTemplate!: TemplateRef<any>;
+
   languageService = inject(LanguageService);
+  private headerPortalService = inject(HeaderPortalService);
+  private elementRef = inject(ElementRef);
   private platformId = inject(PLATFORM_ID);
+
   tracingHeight = 0;
+  private isStickyVisible = false;
+  isDesktop = false;
 
   experiences: Experience[] = [
     {
@@ -67,7 +81,18 @@ export class ExperienceComponent implements OnInit, AfterViewInit {
     },
   ].map((exp) => ({ ...exp, isVisible: false }));
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.isDesktop = window.innerWidth >= 768; // Consistent with md:hidden in template
+    }
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.isDesktop = window.innerWidth >= 768;
+    }
+  }
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
@@ -108,5 +133,34 @@ export class ExperienceComponent implements OnInit, AfterViewInit {
 
   toggleExpand(exp: Experience) {
     exp.isExpanded = !exp.isExpanded;
+  }
+
+  ngOnDestroy() {
+    this.headerPortalService.clearPortalContent();
+  }
+
+  @HostListener('window:scroll')
+  onScroll() {
+    if (!isPlatformBrowser(this.platformId) || !this.headerRef) return;
+
+    const headerRect = this.headerRef.nativeElement.getBoundingClientRect();
+    const componentRect = this.elementRef.nativeElement.getBoundingClientRect();
+    const headerBottomThreshold = 80;
+
+    // Show when header is scrolled out AND component is still visible
+    if (
+      headerRect.bottom < headerBottomThreshold &&
+      componentRect.bottom > headerBottomThreshold
+    ) {
+      if (!this.isStickyVisible) {
+        this.headerPortalService.setPortalContent(this.stickyTitleTemplate);
+        this.isStickyVisible = true;
+      }
+    } else {
+      if (this.isStickyVisible) {
+        this.headerPortalService.clearPortalContent();
+        this.isStickyVisible = false;
+      }
+    }
   }
 }

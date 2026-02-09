@@ -1,13 +1,24 @@
-import { Component, ViewChild, ElementRef, inject } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  ElementRef,
+  inject,
+  HostListener,
+  TemplateRef,
+  OnDestroy,
+  PLATFORM_ID,
+  Inject,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import emailjs from '@emailjs/browser';
 import { environment } from '@/environments/environment';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AlertComponent } from '@/app/components/alerts/alert/alert.component';
 import { LanguageService } from '@/app/services/language.service';
 import { BottomSheetService } from '@/app/services/bottom-sheet.service';
 import { LoadingModalService } from '@/app/services/loading-modal.service';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
+import { HeaderPortalService } from '@/app/services/header-portal.service';
 
 type AlertType = 'success' | 'error' | 'warning' | 'info' | 'question';
 
@@ -18,10 +29,19 @@ type AlertType = 'success' | 'error' | 'warning' | 'info' | 'question';
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss'],
 })
-export class ContactComponent {
+export class ContactComponent implements OnDestroy {
   languageService = inject(LanguageService);
   private bottomSheetService = inject(BottomSheetService);
   private loadingModalService = inject(LoadingModalService);
+  private headerPortalService = inject(HeaderPortalService);
+  private el = inject(ElementRef);
+
+  @ViewChild('headerRef') headerRef!: ElementRef;
+  @ViewChild('stickyTitleTemplate') stickyTitleTemplate!: TemplateRef<any>;
+
+  private isStickyVisible = false;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   @ViewChild('formRef', { read: ElementRef })
   formRef!: ElementRef<HTMLFormElement>;
@@ -126,7 +146,6 @@ export class ContactComponent {
 
     Promise.all(emailPromises)
       .then(() => {
-       
         clearInterval(this.progressInterval);
         this.loadingModalService.setProgress(100);
         this.loadingModalService.setSuccess(true);
@@ -138,7 +157,6 @@ export class ContactComponent {
         }, 2500);
       })
       .catch((error) => {
-       
         clearInterval(this.progressInterval);
         this.loadingModalService.hide();
         this.alert = {
@@ -228,5 +246,33 @@ export class ContactComponent {
         },
       ],
     });
+  }
+
+  ngOnDestroy() {
+    this.headerPortalService.clearPortalContent();
+  }
+
+  @HostListener('window:scroll')
+  onScroll() {
+    if (!isPlatformBrowser(this.platformId) || !this.headerRef) return;
+
+    const headerRect = this.headerRef.nativeElement.getBoundingClientRect();
+    const componentRect = this.el.nativeElement.getBoundingClientRect();
+    const headerBottomThreshold = 80;
+
+    if (
+      headerRect.bottom < headerBottomThreshold &&
+      componentRect.bottom > headerBottomThreshold
+    ) {
+      if (!this.isStickyVisible) {
+        this.headerPortalService.setPortalContent(this.stickyTitleTemplate);
+        this.isStickyVisible = true;
+      }
+    } else {
+      if (this.isStickyVisible) {
+        this.headerPortalService.clearPortalContent();
+        this.isStickyVisible = false;
+      }
+    }
   }
 }

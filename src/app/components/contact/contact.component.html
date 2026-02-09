@@ -1,7 +1,7 @@
 <section
-  class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 py-16 lg:py-24 px-0 md:px-6 transition-colors duration-300"
+  class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 py-10 lg:py-10 px-0 md:px-6 transition-colors duration-300"
 >
-  <header class="text-center mb-16" appScrollReveal>
+  <header class="text-center mb-16" appScrollReveal #headerRef>
     <h2
       class="text-3xl lg:text-5xl font-bold text-blue-600 dark:text-blue-400 mb-4"
     >
@@ -461,4 +461,16 @@
     <i class="bi bi-clock"></i>
     <span>{{ languageService.t("contact.responseTime") }}</span>
   </footer>
+  <!-- STICKY TITLE TEMPLATE -->
+  <ng-template #stickyTitleTemplate>
+    <div
+      class="flex items-center px-4 py-2 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg border border-gray-200 dark:border-gray-700/50 animate-fade-in"
+    >
+      <span
+        class="text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 text-transparent bg-clip-text"
+      >
+        {{ languageService.t("contact.title") }}
+      </span>
+    </div>
+  </ng-template>
 </section>

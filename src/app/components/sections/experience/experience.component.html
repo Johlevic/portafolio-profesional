@@ -1,35 +1,43 @@
 <section
   class="py-16 lg:py-24 px-0 max-w-3xl mx-auto text-gray-800 dark:text-gray-200 transition-colors duration-300"
 >
-  <h2
-    class="text-4xl lg:text-5xl font-bold text-center text-blue-600 dark:text-blue-400 mb-4"
-  >
-    {{ languageService.t("experience.title") }}
-  </h2>
-  <p
-    class="text-lg md:text-xl text-center mb-12 text-gray-600 dark:text-gray-400"
-  >
-    {{ languageService.t("experience.subtitle") }}
-  </p>
-
-  <div class="relative flex flex-col items-start">
-    <div
-      class="absolute left-5 top-10 w-0.5 h-[calc(100%-40px)] bg-gray-200 dark:bg-gray-800 z-0"
+  <div #headerRef>
+    <h2
+      class="text-4xl lg:text-5xl font-bold text-center text-blue-600 dark:text-blue-400 mb-4"
     >
-      <div
-        class="w-full bg-blue-500 transition-all duration-1000"
-        [style.height.%]="tracingHeight"
-      ></div>
-    </div>
+      {{ languageService.t("experience.title") }}
+    </h2>
+    <p
+      class="text-lg md:text-xl text-center mb-12 text-gray-600 dark:text-gray-400"
+    >
+      {{ languageService.t("experience.subtitle") }}
+    </p>
+  </div>
+
+  <div class="relative flex flex-col items-start px-2 md:px-0">
+    <!-- Removed global timeline line -->
 
     <article
       #timelineItem
-      *ngFor="let exp of experiences; let i = index"
+      *ngFor="let exp of experiences; let i = index; let last = last"
       [attr.data-index]="i"
       class="relative flex items-start gap-4 mb-12 w-full transition-all duration-700 opacity-0 transform translate-y-10"
       [class.opacity-100]="exp.isVisible"
       [class.translate-y-0]="exp.isVisible"
     >
+      <!-- Timeline Line (Interrupted) -->
+      <!-- Only show if not the last item -->
+      <div
+        *ngIf="!last"
+        class="absolute left-[19px] top-10 w-0.5 h-full bg-gray-200 dark:bg-gray-800 -z-10"
+      >
+        <!-- Animated Blue Line Overlay -->
+        <div
+          class="w-full bg-blue-600 transition-all duration-1000 delay-500 ease-out origin-top"
+          [style.height.%]="exp.isVisible ? 100 : 0"
+        ></div>
+      </div>
+
       <div
         class="relative z-10 flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-lg border-2 transition-all duration-700 scale-0"
         [class.scale-100]="exp.isVisible"
@@ -71,7 +79,7 @@
 
         <ul
           class="space-y-3 text-sm text-gray-700 dark:text-gray-300 border-l-2 border-gray-100 pl-4 overflow-hidden transition-all duration-500"
-          [style.max-height]="exp.isExpanded ? '1000px' : '85px'"
+          [style.max-height]="isDesktop || exp.isExpanded ? '1000px' : '85px'"
           *ngIf="exp.responsibilities.length > 0"
         >
           <li *ngFor="let resp of exp.responsibilities">
@@ -80,7 +88,7 @@
         </ul>
 
         <button
-          class="mt-4 flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold"
+          class="mt-4 flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold md:hidden"
           *ngIf="exp.responsibilities.length > 0"
           (click)="toggleExpand(exp)"
         >
@@ -93,4 +101,17 @@
       </div>
     </article>
   </div>
+
+  <!-- STICKY TITLE TEMPLATE -->
+  <ng-template #stickyTitleTemplate>
+    <div
+      class="flex items-center px-4 py-2 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg border border-gray-200 dark:border-gray-700/50 animate-fade-in"
+    >
+      <span
+        class="text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 text-transparent bg-clip-text"
+      >
+        {{ languageService.t("experience.title") }}
+      </span>
+    </div>
+  </ng-template>
 </section>

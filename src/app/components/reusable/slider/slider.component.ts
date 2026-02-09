@@ -50,12 +50,12 @@ export class SliderComponent implements OnInit, OnDestroy, AfterViewInit {
     dotsData: false,
     navSpeed: 600,
     navText: ['', ''],
-    margin: 16,
+    margin: 10,
     nav: false,
     autoplayHoverPause: true,
     autoWidth: false,
     items: 1, // Mobile: always 1 item
-    stagePadding: 20, // Show a peek of next/prev slides
+    stagePadding: 0, // Removed stage padding to make item wider
     center: true,
   };
 

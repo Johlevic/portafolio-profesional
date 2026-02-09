@@ -4,6 +4,10 @@ import {
   Inject,
   PLATFORM_ID,
   inject,
+  ViewChild,
+  ElementRef,
+  TemplateRef,
+  OnDestroy,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HistoryComponent } from '../sections/history/history.component';
@@ -16,6 +20,7 @@ import { LanguageService } from '@/app/services/language.service';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 
 import { RouterModule } from '@angular/router';
+import { HeaderPortalService } from '@/app/services/header-portal.service';
 
 @Component({
   selector: 'app-home',
@@ -36,6 +41,7 @@ import { RouterModule } from '@angular/router';
       <!-- ✅ Hero Section -->
       <section
         id="inicio"
+        #headerRef
         class="py-16 md:py-24 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-900 text-gray-800 dark:text-gray-200 min-h-[80vh] flex items-center transition-colors duration-300"
       >
         <div class="container mx-auto px-0 lg:px-4">
@@ -242,6 +248,19 @@ import { RouterModule } from '@angular/router';
         </section>
       </div>
     </div>
+
+    <!-- STICKY TITLE TEMPLATE -->
+    <ng-template #stickyTitleTemplate>
+      <div
+        class="flex items-center px-4 py-2 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg border border-gray-200 dark:border-gray-700/50 animate-fade-in"
+      >
+        <span
+          class="text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 text-transparent bg-clip-text"
+        >
+          {{ languageService.t('nav.home') }}
+        </span>
+      </div>
+    </ng-template>
   `,
   styles: [
     `
@@ -251,8 +270,13 @@ import { RouterModule } from '@angular/router';
     `,
   ],
 })
-export class HomeComponent {
+export class HomeComponent implements OnDestroy {
   languageService = inject(LanguageService);
+  private headerPortalService = inject(HeaderPortalService);
+  private el = inject(ElementRef);
+
+  @ViewChild('headerRef') headerRef!: ElementRef;
+  @ViewChild('stickyTitleTemplate') stickyTitleTemplate!: TemplateRef<any>;
 
   technologies = [
     'Angular',
@@ -267,6 +291,8 @@ export class HomeComponent {
   currentIndex = 0;
   intervalId: any;
   isMobile = false;
+  isDesktop = false;
+  private isStickyVisible = false;
 
   constructor(@Inject(PLATFORM_ID) private platformId: any) {
     this.checkIfMobile();
@@ -279,7 +305,45 @@ export class HomeComponent {
 
   private checkIfMobile() {
     if (isPlatformBrowser(this.platformId)) {
-      this.isMobile = window.innerWidth < 768; // md breakpoint
+      const width = window.innerWidth;
+      this.isMobile = width < 768; // md breakpoint
+      this.isDesktop = width >= 1024; // lg/xl breakpoint (adjust as needed, consistent with Projects)
+    }
+  }
+
+  ngOnDestroy() {
+    this.stopAutoPlay();
+    this.headerPortalService.clearPortalContent();
+  }
+
+  @HostListener('window:scroll')
+  onScroll() {
+    // Desktop only for Home sticky
+    if (
+      !this.isDesktop ||
+      !isPlatformBrowser(this.platformId) ||
+      !this.headerRef
+    )
+      return;
+
+    const headerRect = this.headerRef.nativeElement.getBoundingClientRect();
+    const componentRect = this.el.nativeElement.getBoundingClientRect();
+    const headerBottomThreshold = 80;
+
+    // Show when header (Hero) is scrolled out AND wrapper is still visible
+    if (
+      headerRect.bottom < headerBottomThreshold &&
+      componentRect.bottom > headerBottomThreshold
+    ) {
+      if (!this.isStickyVisible) {
+        this.headerPortalService.setPortalContent(this.stickyTitleTemplate);
+        this.isStickyVisible = true;
+      }
+    } else {
+      if (this.isStickyVisible) {
+        this.headerPortalService.clearPortalContent();
+        this.isStickyVisible = false;
+      }
     }
   }
 
@@ -307,10 +371,6 @@ export class HomeComponent {
 
   ngOnInit() {
     this.startAutoPlay();
-  }
-
-  ngOnDestroy() {
-    this.stopAutoPlay();
   }
 
   nextSlide() {

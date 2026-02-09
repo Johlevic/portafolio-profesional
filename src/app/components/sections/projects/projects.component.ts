@@ -5,11 +5,16 @@ import {
   Inject,
   PLATFORM_ID,
   inject,
+  ViewChild,
+  ElementRef,
+  TemplateRef,
+  OnDestroy,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SliderComponent } from '../../reusable/slider/slider.component';
 import { ProjectCardComponent } from '../../shared/project-card/project-card.component';
 import { LanguageService } from '@/app/services/language.service';
+import { HeaderPortalService } from '@/app/services/header-portal.service';
 
 @Component({
   selector: 'app-projects',
@@ -18,11 +23,18 @@ import { LanguageService } from '@/app/services/language.service';
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss',
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, OnDestroy {
   languageService = inject(LanguageService);
+  private headerPortalService = inject(HeaderPortalService);
+  private el = inject(ElementRef);
+
   isTablet = false;
   isDesktop = false;
   showAll = false;
+  private isStickyVisible = false;
+
+  @ViewChild('headerRef') headerRef!: ElementRef;
+  @ViewChild('stickyTitleTemplate') stickyTitleTemplate!: TemplateRef<any>;
 
   projects = [
     {
@@ -87,6 +99,40 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit() {
     this.checkIfTablet();
+  }
+
+  ngOnDestroy() {
+    this.headerPortalService.clearPortalContent();
+  }
+
+  @HostListener('window:scroll')
+  onScroll() {
+    if (
+      !this.isDesktop ||
+      !isPlatformBrowser(this.platformId) ||
+      !this.headerRef
+    )
+      return;
+
+    const headerRect = this.headerRef.nativeElement.getBoundingClientRect();
+    const componentRect = this.el.nativeElement.getBoundingClientRect();
+    const headerBottomThreshold = 80;
+
+    // Show when header is scrolled out AND component is still visible
+    if (
+      headerRect.bottom < headerBottomThreshold &&
+      componentRect.bottom > headerBottomThreshold
+    ) {
+      if (!this.isStickyVisible) {
+        this.headerPortalService.setPortalContent(this.stickyTitleTemplate);
+        this.isStickyVisible = true;
+      }
+    } else {
+      if (this.isStickyVisible) {
+        this.headerPortalService.clearPortalContent();
+        this.isStickyVisible = false;
+      }
+    }
   }
 
   @HostListener('window:resize')

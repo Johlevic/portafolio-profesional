@@ -11,7 +11,7 @@
         [id]="'slide-' + project.title"
         *ngFor="let project of projects; trackBy: trackByFn"
       >
-        <div class="p-4 flex flex-col items-center justify-center">
+        <div class="px-4 py-2 flex flex-col items-center justify-center">
           <app-project-card [project]="project"></app-project-card>
         </div>
       </ng-template>
