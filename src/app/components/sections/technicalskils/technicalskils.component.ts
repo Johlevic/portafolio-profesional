@@ -1,10 +1,22 @@
-import { Component, inject, Renderer2 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  inject,
+  Renderer2,
+  HostListener,
+  PLATFORM_ID,
+  Inject,
+  ViewChild,
+  TemplateRef,
+  ElementRef,
+  OnDestroy,
+} from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SkillCategory } from '../../../models/skill';
 import { AnimateOnDisplayDirective } from '../../../animate-on-display.directive';
 import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directive';
 import { LanguageService } from '@/app/services/language.service';
 import { BottomSheetService } from '@/app/services/bottom-sheet.service';
+import { HeaderPortalService } from '@/app/services/header-portal.service';
 
 @Component({
   selector: 'app-technicalskils',
@@ -13,9 +25,19 @@ import { BottomSheetService } from '@/app/services/bottom-sheet.service';
   templateUrl: './technicalskils.component.html',
   styleUrl: './technicalskils.component.scss',
 })
-export class TechnicalskilsComponent {
+export class TechnicalskilsComponent implements OnDestroy {
   languageService = inject(LanguageService);
   private bottomSheetService = inject(BottomSheetService);
+  private headerPortalService = inject(HeaderPortalService);
+  private el = inject(ElementRef);
+
+  @ViewChild('stickyTabsTemplate') stickyTabsTemplate!: TemplateRef<any>;
+  @ViewChild('tabsContainer') tabsContainer!: ElementRef;
+
+  // Tab management for desktop
+  selectedTab: number = 0;
+  isDesktop: boolean = false;
+  private isStickyVisible = false;
 
   skills: SkillCategory[] = [
     {
@@ -102,6 +124,74 @@ export class TechnicalskilsComponent {
       isCollapsed: true, // Estado inicial: colapsado
     },
   ];
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.checkBreakpoint();
+  }
+
+  @HostListener('window:scroll')
+  onScroll() {
+    if (!this.isDesktop || !isPlatformBrowser(this.platformId)) return;
+
+    // Safety check if tabsContainer is available
+    if (!this.tabsContainer) return;
+
+    const tabsRect = this.tabsContainer.nativeElement.getBoundingClientRect();
+
+    // Fix: If the element is hidden (e.g. on Home page desktop where it's md:hidden),
+    // dimensions will be 0. We shouldn't trigger sticky tabs in this case.
+    if (tabsRect.height === 0 || tabsRect.width === 0) {
+      if (this.isStickyVisible) {
+        this.headerPortalService.clearPortalContent();
+        this.isStickyVisible = false;
+      }
+      return;
+    }
+
+    const componentRect = this.el.nativeElement.getBoundingClientRect();
+    const headerBottomThreshold = 100; // Height of the header + some buffer
+
+    // Show sticky tabs ONLY when:
+    // 1. The main tabs have scrolled completely past the header (tabsRect.bottom < threshold)
+    // 2. The component is STILL in view (componentRect.bottom > threshold) - prevents staying visible in next sections
+    if (
+      tabsRect.bottom < headerBottomThreshold &&
+      componentRect.bottom > headerBottomThreshold
+    ) {
+      if (!this.isStickyVisible) {
+        this.headerPortalService.setPortalContent(this.stickyTabsTemplate);
+        this.isStickyVisible = true;
+      }
+    } else {
+      if (this.isStickyVisible) {
+        this.headerPortalService.clearPortalContent();
+        this.isStickyVisible = false;
+      }
+    }
+  }
+
+  ngOnDestroy() {
+    this.headerPortalService.clearPortalContent();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.checkBreakpoint();
+  }
+
+  private checkBreakpoint() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.isDesktop = window.innerWidth >= 1024;
+      if (!this.isDesktop) {
+        this.headerPortalService.clearPortalContent();
+        this.isStickyVisible = false;
+      }
+    }
+  }
+
+  selectTab(index: number): void {
+    this.selectedTab = index;
+  }
 
   toggleCollapse(category: SkillCategory): void {
     category.isCollapsed = !category.isCollapsed;

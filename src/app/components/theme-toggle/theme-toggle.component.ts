@@ -9,7 +9,7 @@ import { ThemeService } from '@/app/services/theme.service';
   template: `
     <button
       (click)="toggleTheme()"
-      class="w-12 h-12 flex items-center justify-center rounded-xl bg-white/40 dark:bg-gray-800/40 backdrop-blur-md border border-gray-300/30 dark:border-gray-600/30 shadow-lg hover:shadow-blue-500/20 hover:border-blue-500/50 hover:scale-105 active:scale-95 transition-all duration-300 group"
+      class="w-12 h-12 flex items-center justify-center rounded-3xl bg-white/40 dark:bg-gray-800/40 backdrop-blur-md border border-gray-300/30 dark:border-gray-600/30 shadow-lg hover:shadow-blue-500/20 hover:border-blue-500/50 hover:scale-105 active:scale-95 transition-all duration-300 group"
       [attr.aria-label]="
         themeService.theme() === 'dark'
           ? 'Cambiar a modo claro'

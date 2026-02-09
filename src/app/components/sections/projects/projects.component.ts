@@ -21,6 +21,7 @@ import { LanguageService } from '@/app/services/language.service';
 export class ProjectsComponent implements OnInit {
   languageService = inject(LanguageService);
   isTablet = false;
+  isDesktop = false;
   showAll = false;
 
   projects = [
@@ -96,16 +97,26 @@ export class ProjectsComponent implements OnInit {
   private checkIfTablet() {
     if (isPlatformBrowser(this.platformId)) {
       const width = window.innerWidth;
-      // Tablet range: 768px to 1024px (exclusive)
-      this.isTablet = width >= 768 && width < 1024;
+      // Mobile: < 768px (show slider)
+      // Tablet: 768px - 1023px (show grid 2 cols)
+      // Desktop: >= 1024px (show grid 3 cols)
+      this.isTablet = width >= 768;
+      this.isDesktop = width >= 1024;
     }
   }
 
   get displayedProjects() {
     if (this.isTablet && !this.showAll) {
-      return this.projects.slice(0, 4);
+      // Desktop: show 6, Tablet: show 4
+      return this.projects.slice(0, this.isDesktop ? 6 : 4);
     }
     return this.projects;
+  }
+
+  get showMoreButton() {
+    // Desktop: show button if > 6, Tablet: show button if > 4
+    const limit = this.isDesktop ? 6 : 4;
+    return this.projects.length > limit;
   }
 
   toggleShowAll() {

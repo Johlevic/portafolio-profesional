@@ -12,14 +12,16 @@
     {{ languageService.t("projects.subtitle") }}
   </p>
   @if (isTablet) {
-    <!-- ✅ Grid view for Tablets -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full">
+    <!-- ✅ Grid view for Tablets & Desktop -->
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full p-4"
+    >
       @for (project of displayedProjects; track project.title) {
         <app-project-card [project]="project"></app-project-card>
       }
     </div>
 
-    @if (projects.length > 4) {
+    @if (showMoreButton) {
       <div class="mt-12 flex justify-center">
         <button
           (click)="toggleShowAll()"

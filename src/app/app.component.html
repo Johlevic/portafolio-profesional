@@ -20,14 +20,21 @@
 
       <!-- Theme & Language Controls (Desktop Only) -->
       <div
-        class="hidden md:flex fixed top-0 right-0 left-0 md:left-24 lg:left-72 z-[9998] items-center justify-end px-6 py-4 transition-all duration-500"
+        class="hidden md:flex fixed top-0 right-0 left-0 md:left-24 lg:left-72 z-[9998] items-center justify-between px-6 py-4 transition-all duration-500"
         [ngClass]="{
           'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-sm h-20':
             isScrolled,
           'h-24 bg-transparent': !isScrolled,
         }"
       >
-        <!-- Controls Pill -->
+        <!-- Left Side: Sticky Tabs Portal -->
+        <div>
+          <ng-container
+            *ngTemplateOutlet="headerPortalService.portalContent$ | async"
+          ></ng-container>
+        </div>
+
+        <!-- Right Side: Controls Pill -->
         <div
           class="flex items-center rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg border border-gray-200 dark:border-gray-700/50 transition-all duration-500 p-1.5"
         >
@@ -65,7 +72,7 @@
       <button
         *ngIf="isScrolled"
         (click)="scrollToTop()"
-        class="md:hidden fixed bottom-6 right-6 z-[9999] w-12 h-12 flex items-center justify-center rounded-full bg-blue-600/90 text-white shadow-lg backdrop-blur-md border border-white/20 active:scale-95 transition-all duration-300 animate-fade-in"
+        class="md:hidden fixed bottom-6 right-6 z-[50] w-12 h-12 flex items-center justify-center rounded-full bg-blue-600/90 text-white shadow-lg backdrop-blur-md border border-white/20 active:scale-95 transition-all duration-300 animate-fade-in"
         aria-label="Volver arriba"
       >
         <i class="bi bi-arrow-up text-2xl"></i>

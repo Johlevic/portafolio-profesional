@@ -21,6 +21,7 @@ import { LanguageService } from './services/language.service';
 import { BottomSheetService } from './services/bottom-sheet.service';
 import { AnimateOnDisplayDirective } from './animate-on-display.directive';
 import { LoadingModalService } from './services/loading-modal.service';
+import { HeaderPortalService } from '@/app/services/header-portal.service';
 
 @Component({
   selector: 'app-root',
@@ -53,6 +54,7 @@ export class AppComponent implements OnInit {
   public languageService = inject(LanguageService);
   public bottomSheetService = inject(BottomSheetService);
   public loadingModalService = inject(LoadingModalService);
+  public headerPortalService = inject(HeaderPortalService);
   private router = inject(Router);
 
   constructor(@Inject(DOCUMENT) private document: Document) {

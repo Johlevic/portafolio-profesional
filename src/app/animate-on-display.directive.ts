@@ -14,10 +14,9 @@ export class AnimateOnDisplayDirective implements OnChanges {
 
   ngOnChanges(): void {
     const progressBar = this.el.nativeElement as HTMLElement;
-    const isMobile = window.innerWidth <= 767;
 
-    if (isMobile && this.appAnimateOnDisplay) {
-      if (this.hasAnimated) return; // Ya se animó, no hacer nada
+    if (this.appAnimateOnDisplay) {
+      if (this.hasAnimated) return;
 
       progressBar.style.width = '0';
       setTimeout(() => {
@@ -26,12 +25,8 @@ export class AnimateOnDisplayDirective implements OnChanges {
         this.hasAnimated = true;
       }, 50);
     } else {
-      // Pantallas grandes o no móvil: barra llena
-      progressBar.style.width = `${this.skillLevel}%`;
-      progressBar.style.transition = 'none';
-      if (isMobile && !this.appAnimateOnDisplay) {
-        // Si es móvil pero aún no es visible, nos aseguramos de que esté en 0 si aún no ha animado
-        if (!this.hasAnimated) progressBar.style.width = '0';
+      if (!this.hasAnimated) {
+        progressBar.style.width = '0';
       }
     }
   }

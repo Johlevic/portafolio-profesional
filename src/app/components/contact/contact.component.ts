@@ -125,8 +125,8 @@ export class ContactComponent {
     }
 
     Promise.all(emailPromises)
-      .then((responses) => {
-        console.log('✅ Correos enviados exitosamente:', responses);
+      .then(() => {
+       
         clearInterval(this.progressInterval);
         this.loadingModalService.setProgress(100);
         this.loadingModalService.setSuccess(true);
@@ -138,7 +138,7 @@ export class ContactComponent {
         }, 2500);
       })
       .catch((error) => {
-        console.error('❌ Error al enviar mensaje:', error);
+       
         clearInterval(this.progressInterval);
         this.loadingModalService.hide();
         this.alert = {

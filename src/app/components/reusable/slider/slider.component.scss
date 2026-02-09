@@ -32,34 +32,71 @@
   100% { transform: translateX(-50%); } /* Changed to -50% for duplicated content */
 }
 
-/* Force dots interaction */
+/* Premium Dot Navigation */
 :host ::ng-deep {
   .owl-dots {
     position: relative;
     z-index: 50;
     pointer-events: auto !important;
-    margin-top: 20px;
+    margin-top: 24px;
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
 
     .owl-dot {
       pointer-events: auto !important;
       cursor: pointer !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       
       span {
-        pointer-events: none; /* Let the button handle the click */
+        display: block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #cbd5e1; /* Light mode: gray */
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+      }
+
+      &:hover span {
+        background: #94a3b8;
+        transform: scale(1.2);
+      }
+
+      &.active span {
+        width: 24px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+      }
+    }
+  }
+
+  /* Dark mode dots */
+  :host-context(.dark) .owl-dots {
+    .owl-dot {
+      span {
+        background: #475569;
+      }
+
+      &:hover span {
+        background: #64748b;
+      }
+
+      &.active span {
+        background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+        box-shadow: 0 2px 12px rgba(59, 130, 246, 0.5);
       }
     }
   }
 
   .owl-carousel {
-    pointer-events: none; /* Disable carousel-wide blockade */
+    pointer-events: none;
     
     .owl-stage-outer,
     .owl-nav,
     .owl-dots {
-      pointer-events: auto !important; /* Re-enable for interaction areas */
+      pointer-events: auto !important;
     }
   }
 }

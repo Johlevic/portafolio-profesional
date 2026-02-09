@@ -36,28 +36,27 @@ export interface Project {
 })
 export class SliderComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() projects: Project[] = [];
-  @ViewChild('carouselContainer') carouselContainer!: ElementRef;
-
   isReady = false;
-  private resizeObserver: any;
 
   customOptions: OwlOptions = {
     loop: true,
     autoplay: true,
-    autoplaySpeed: 1000,
-    autoplayTimeout: 5000,
+    autoplaySpeed: 800,
+    autoplayTimeout: 4000,
     mouseDrag: true,
     touchDrag: true,
     pullDrag: true,
     dots: true,
-    dotsData: false, // Use standard dots
-    navSpeed: 700,
+    dotsData: false,
+    navSpeed: 600,
     navText: ['', ''],
-    margin: 24, // Consistent spacing between items
+    margin: 16,
     nav: false,
     autoplayHoverPause: true,
     autoWidth: false,
-    items: 3, // Default, will be overwritten by ResizeObserver
+    items: 1, // Mobile: always 1 item
+    stagePadding: 20, // Show a peek of next/prev slides
+    center: true,
   };
 
   constructor(
@@ -73,49 +72,13 @@ export class SliderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
-      this.initResizeObserver();
+      this.isReady = true;
+      this.cdr.detectChanges();
     }
   }
 
   ngOnDestroy() {
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect();
-    }
-  }
-
-  private initResizeObserver() {
-    this.resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        this.calculateItems(entry.contentRect.width);
-      }
-    });
-
-    if (this.carouselContainer) {
-      this.resizeObserver.observe(this.carouselContainer.nativeElement);
-    }
-  }
-
-  private calculateItems(width: number) {
-    let items = 1;
-    if (width >= 1024) {
-      items = 3;
-    } else if (width >= 640) {
-      items = 2;
-    }
-
-    // Force re-render of carousel with new options to ensure exact item count
-    this.isReady = false; // Briefly hide to reset
-    this.cdr.detectChanges();
-
-    this.customOptions = {
-      ...this.customOptions,
-      items: items,
-    };
-
-    setTimeout(() => {
-      this.isReady = true;
-      this.cdr.detectChanges();
-    }, 0);
+    // Cleanup if needed
   }
 
   trackByFn(index: number, project: Project): string {

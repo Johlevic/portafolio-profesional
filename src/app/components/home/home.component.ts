@@ -126,7 +126,7 @@ import { RouterModule } from '@angular/router';
           <h2
             class="text-3xl font-bold text-center text-blue-600 dark:text-blue-400 mb-8"
           >
-            {{ languageService.t('nav.skills') }}
+            {{ languageService.t('about.technologiesTitle') }}
           </h2>
 
           <div class="relative overflow-hidden lg:hidden">

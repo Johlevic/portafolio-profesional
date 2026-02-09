@@ -15,8 +15,88 @@
     </p>
   </div>
 
-  <!-- DESKTOP/TABLET GRID (Hidden on mobile) -->
-  <div class="hidden md:grid grid-cols-2 xl:grid-cols-3 gap-8 items-start">
+  <!-- DESKTOP TABS (≥1024px) -->
+  <div class="hidden lg:block">
+    <!-- Tab Buttons - Single Row -->
+    <div class="flex gap-2 mb-12" #tabsContainer>
+      <button
+        *ngFor="let category of skills; let i = index"
+        (click)="selectTab(i)"
+        class="group relative rounded-2xl transition-all duration-500 ease-in-out border-2 flex items-center justify-center overflow-hidden"
+        [ngClass]="{
+          'bg-gradient-to-br from-blue-500 to-indigo-600 border-blue-500 shadow-xl shadow-blue-500/30 px-6 py-6 gap-3':
+            selectedTab === i,
+          'bg-white/40 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-lg hover:px-6 px-4 py-6 gap-0 hover:gap-3':
+            selectedTab !== i,
+        }"
+        appScrollReveal
+      >
+        <!-- Icon -->
+        <i
+          [class]="category.icon"
+          class="transition-all duration-500 ease-in-out flex-shrink-0"
+          [ngClass]="{
+            'text-3xl text-white': selectedTab === i,
+            'text-2xl text-blue-600 dark:text-blue-400 group-hover:scale-110':
+              selectedTab !== i,
+          }"
+        ></i>
+        <!-- Title - visible on active OR hover -->
+        <span
+          class="text-sm font-bold tracking-wide whitespace-nowrap transition-all duration-500 ease-in-out"
+          [ngClass]="{
+            'text-white opacity-100 max-w-xs': selectedTab === i,
+            'text-gray-700 dark:text-gray-300 opacity-0 max-w-0 group-hover:opacity-100 group-hover:max-w-xs':
+              selectedTab !== i,
+          }"
+        >
+          {{ languageService.t(category.title) }}
+        </span>
+      </button>
+    </div>
+
+    <!-- Separator -->
+    <div
+      class="w-full h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent mb-8"
+    ></div>
+
+    <!-- Tab Content -->
+    <div
+      class="bg-white/40 dark:bg-gray-800/40 backdrop-blur-md border border-gray-200 dark:border-gray-800/50 rounded-2xl p-8 shadow-xl"
+    >
+      <div class="grid grid-cols-2 gap-6">
+        <div
+          *ngFor="let skill of skills[selectedTab].skills"
+          class="flex flex-col gap-2.5 p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all duration-300"
+        >
+          <div class="flex items-center justify-between text-sm">
+            <span
+              class="text-gray-700 dark:text-gray-300 font-medium tracking-wide flex items-center gap-2"
+            >
+              <i class="bi bi-check-circle-fill text-blue-500/40 text-xs"></i>
+              {{ skill.name }}
+            </span>
+            <span
+              class="text-blue-600 dark:text-blue-400 font-bold font-mono text-xs bg-blue-500/10 px-2 py-0.5 rounded-md"
+            >
+              {{ skill.level }}%
+            </span>
+          </div>
+          <div
+            class="w-full h-2 bg-gray-100 dark:bg-gray-900/50 rounded-full overflow-hidden border border-gray-200 dark:border-gray-800/30"
+          >
+            <div
+              class="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.4)] transition-all duration-1000 ease-out"
+              [style.width.%]="skill.level"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLET ACCORDION (768px - 1023px) -->
+  <div class="hidden md:grid lg:hidden grid-cols-2 gap-8 items-start">
     <article
       class="bg-white/40 dark:bg-gray-800/40 backdrop-blur-md border border-gray-200 dark:border-gray-800/50 rounded-2xl p-6 lg:p-8 shadow-lg shadow-blue-500/5 hover:shadow-2xl hover:shadow-blue-500/10 hover:border-blue-400/50 dark:hover:border-blue-500/40 transition-all duration-500 flex flex-col group hover:-translate-y-2 relative overflow-hidden"
       *ngFor="let category of skills"
@@ -106,9 +186,57 @@
       appScrollReveal
     >
       <i [class]="category.icon"></i>
-      <span>{{ languageService.t(category.title).split(" ")[0] }}</span>
+      <span>{{ languageService.t(category.title) }}</span>
     </button>
   </div>
+
+  <!-- STICKY TABS TEMPLATE (Proyectado en el header) -->
+  <ng-template #stickyTabsTemplate>
+    <div
+      class="flex items-center gap-1 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg border border-gray-200 dark:border-gray-700/50 p-1.5 animate-fade-in"
+    >
+      <!-- Sticky Title -->
+      <div
+        class="hidden xl:flex items-center px-3 border-r border-gray-200 dark:border-gray-700/50 mr-1"
+      >
+        <span
+          class="text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 text-transparent bg-clip-text"
+        >
+          {{ languageService.t("skills.title") }}
+        </span>
+      </div>
+
+      <button
+        *ngFor="let category of skills; let i = index"
+        (click)="selectTab(i)"
+        class="group relative rounded-full transition-all duration-300 ease-in-out border flex items-center justify-center overflow-hidden"
+        [ngClass]="{
+          'bg-blue-600 border-blue-600 text-white px-4 py-2 gap-2':
+            selectedTab === i,
+          'bg-transparent border-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 px-3 py-2 gap-0 hover:gap-2':
+            selectedTab !== i,
+        }"
+      >
+        <i
+          [class]="category.icon"
+          class="transition-all duration-300 flex-shrink-0 text-sm"
+          [ngClass]="{
+            'text-white': selectedTab === i,
+          }"
+        ></i>
+        <span
+          class="text-xs font-bold whitespace-nowrap transition-all duration-300 ease-in-out overflow-hidden"
+          [ngClass]="{
+            'max-w-[100px] opacity-100': selectedTab === i,
+            'max-w-0 opacity-0 group-hover:max-w-[100px] group-hover:opacity-100':
+              selectedTab !== i,
+          }"
+        >
+          {{ languageService.t(category.title) }}
+        </span>
+      </button>
+    </div>
+  </ng-template>
 </section>
 
 <!-- Add keyframe for shimmer effect if not in global styles -->
