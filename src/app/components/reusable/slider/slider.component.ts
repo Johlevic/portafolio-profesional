@@ -24,7 +24,9 @@ export interface Project {
   image: string;
   technologies: Technology[];
   repoLink: string;
-  projectLink: string;
+  projectLink?: string;
+  projectLinkLabelKey?: string;
+  repoOnly?: boolean;
 }
 
 @Component({
@@ -87,28 +89,18 @@ export class SliderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public sampleProjects: Project[] = [
     {
-      title: 'E-Commerce para Pantallas LED',
-      image: 'assets/img/projects/pantallas-led.png',
+      title: 'projects.ledWeb',
+      image: 'assets/img/projects/led-web/led-web.jpeg',
       technologies: [
         { name: 'Laravel', icon: 'fab fa-laravel' },
-        { name: 'TypeScript', icon: 'fab fa-js' },
         { name: 'React', icon: 'fab fa-react' },
-        { name: 'Tailwind CSS', icon: 'fab fa-css3-alt' },
         { name: 'Inertia' },
+        { name: 'Tailwind CSS', icon: 'fab fa-css3-alt' },
+        { name: 'MySQL', icon: 'fas fa-database' },
+        { name: 'Jetstream', icon: 'fas fa-shield-alt' },
       ],
-      repoLink: 'https://github.com/Johlevic/ledpantallas',
-      projectLink: 'https://ditechperu.com/',
-    },
-    {
-      title: 'Sistema de Gestión de Clientes',
-      image: 'assets/img/projects/apirest.png',
-      technologies: [
-        { name: 'React', icon: 'fab fa-react' },
-        { name: 'Node.js', icon: 'fab fa-node' },
-        { name: 'MongoDB', icon: 'fas fa-database' },
-      ],
-      repoLink: 'https://github.com/tu-usuario/tu-repositorio-crm',
-      projectLink: 'https://tu-proyecto-crm.com',
+      repoLink: 'https://github.com/Johlevic/led-web',
+      repoOnly: true,
     },
   ];
 }

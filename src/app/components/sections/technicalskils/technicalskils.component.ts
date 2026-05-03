@@ -53,6 +53,10 @@ export class TechnicalskilsComponent implements OnDestroy {
         { name: 'Tailwind CSS', level: 80 },
         { name: 'Bootstrap', level: 85 },
         { name: 'SCSS', level: 90 },
+        { name: 'Astro', level: 72 },
+        { name: 'Vite', level: 76 },
+        { name: 'Inertia.js', level: 74 },
+        { name: 'PWA', level: 70 },
       ],
       isCollapsed: true, // Estado inicial: colapsado
     },
@@ -68,6 +72,9 @@ export class TechnicalskilsComponent implements OnDestroy {
         { name: 'PHP', level: 80 },
         { name: 'Django', level: 70 },
         { name: 'REST APIs', level: 90 },
+        { name: 'Flyway', level: 68 },
+        { name: 'OpenAPI / Swagger', level: 72 },
+        { name: 'JWT', level: 72 },
       ],
       isCollapsed: true, // Estado inicial: colapsado
     },
@@ -90,8 +97,20 @@ export class TechnicalskilsComponent implements OnDestroy {
         { name: 'AWS', level: 60 },
         { name: 'Docker', level: 70 },
         { name: 'Git', level: 95 },
+        { name: 'Vercel', level: 72 },
+        { name: 'pnpm', level: 78 },
+        { name: 'Render', level: 65 },
       ],
       isCollapsed: true, // Estado inicial: colapsado
+    },
+    {
+      title: 'skills.desktop',
+      icon: 'bi bi-pc-display',
+      skills: [
+        { name: 'Tauri', level: 72 },
+        { name: 'Rust', level: 64 },
+      ],
+      isCollapsed: true,
     },
     {
       title: 'skills.mobile',

@@ -15,7 +15,7 @@ export interface Translations {
 export class LanguageService {
   private titleService = inject(Title);
   private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
+  private activatedRoute = inject(ActivatedRoute, { optional: true });
 
   // Signal para el idioma actual
   currentLanguage = signal<Language>(this.getInitialLanguage());
@@ -34,7 +34,7 @@ export class LanguageService {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
-        let route = this.activatedRoute;
+        let route = this.activatedRoute ?? this.router.routerState.root;
         while (route.firstChild) {
           route = route.firstChild;
         }
@@ -184,6 +184,7 @@ export class LanguageService {
           backend: 'Backend',
           database: 'Base de Datos',
           devops: 'DevOps & Cloud',
+          desktop: 'Escritorio & nativo',
           mobile: 'Móvil',
           ai: 'IA y RA',
           data_analyst: 'Analista de Datos',
@@ -196,11 +197,26 @@ export class LanguageService {
           viewLess: 'Ver menos',
           repo: 'Repositorio',
           live: 'Proyecto',
-          ecommerce: 'E-commerce Web',
-          blog: 'Blog Personal',
-          led: 'E-Commerce para Pantallas LED',
-          crm: 'Sistema de Gestión de Clientes',
-          portfolio: 'Portafolio Personal',
+          downloadDirect: 'Descargar',
+          techMore: 'más',
+          ditechPeru:
+            'Ditech Perú — Sitio y e-commerce de pantallas LED (marca y presencia comercial)',
+          ledWeb:
+            'LED Web — Plataforma Laravel + React + Inertia: productos, ventas, clientes y pedidos',
+          verses:
+            'Versiculos Biblicos - App web/PWA de meditacion biblica (ES/EN)',
+          amigoSecreto:
+            'Amigo Secreto — Web para añadir nombres y sortear (SweetAlert, confeti)',
+          juegoSecreto:
+            'Juego del número secreto — Adivina el número (HTML, CSS, JavaScript)',
+          capturaApp:
+            'CapturaApp — Windows: grabación, capturas y archivos locales (sin nube)',
+          foroHub:
+            'ForoHub — API REST para foro: temas, mensajes, cursos/autores y JWT',
+          conversorMonedas:
+            'Challenge Conversor de Monedas — CLI Java: más de 150 monedas en vivo (ExchangeRate-API)',
+          literalura:
+            'Literalura — Spring Boot + PostgreSQL: biblioteca personal con Gutendex (menú consola)',
         },
         experience: {
           title: 'Experiencia Profesional',
@@ -248,11 +264,20 @@ export class LanguageService {
           title: 'Mi Historia',
           p1: 'Curiosamente, mi camino hacia la ingeniería de software no fue el plan original. En un inicio pensé en estudiar ciencias médicas, pero con el tiempo descubrí un interés genuino por la tecnología y el mundo del desarrollo de software. Esa curiosidad inicial se transformó en una pasión que me llevó a elegir esta carrera.',
           p2: 'Hoy soy <strong class="text-blue-700 dark:text-blue-300 font-medium">Ingeniero de Software con especialización en Inteligencia Artificial</strong>, graduado de SENATI, y he tenido la oportunidad de trabajar en el desarrollo de aplicaciones web y móviles.',
-          p3: 'Domino tecnologías como <strong class="text-blue-700 dark:text-blue-300 font-medium">Java Spring Boot, Laravel, React, Xamarin.Forms y Firebase</strong>, aplicando arquitecturas <strong class="text-blue-700 dark:text-blue-300 font-medium">MVC</strong> y <strong class="text-blue-700 dark:text-blue-300 font-medium">MVVM</strong>. Entre mis experiencias más destacadas están la creación de <strong class="text-blue-700 dark:text-blue-300 font-medium">APIs REST, sistemas CRUD, carouseles dinámicos y soluciones de e-commerce</strong>.',
+          p3: 'Domino tecnologías como <strong class="text-blue-700 dark:text-blue-300 font-medium">Java Spring Boot, Laravel, React, Xamarin.Forms y Firebase</strong>, aplicando <strong class="text-blue-700 dark:text-blue-300 font-medium">patrones MVC y MVVM</strong>, <strong class="text-blue-700 dark:text-blue-300 font-medium">arquitectura limpia</strong>, diseño <strong class="text-blue-700 dark:text-blue-300 font-medium">en capas</strong>, estructura <strong class="text-blue-700 dark:text-blue-300 font-medium">modular</strong> y los <strong class="text-blue-700 dark:text-blue-300 font-medium">principios SOLID</strong>. Entre mis experiencias más destacadas están la creación de <strong class="text-blue-700 dark:text-blue-300 font-medium">APIs REST, sistemas CRUD, carouseles dinámicos y soluciones de e-commerce</strong>.',
           p4: 'Además, cuento con certificación en <em class="text-blue-600 dark:text-blue-300">Análisis de Datos – Google Analytics Capstone</em>, lo que me permite unir el desarrollo de software con el análisis inteligente de datos para tomar decisiones basadas en información real.',
           p5: 'Con el tiempo aprendí a valorar mi carrera, no solo como una profesión, sino como una oportunidad de crear soluciones escalables, seguras y centradas en el usuario. La innovación tecnológica se ha convertido en mi mayor motivación para seguir creciendo.',
           viewMore: 'Ver más',
           viewLess: 'Ver menos',
+          voiceIconPlay: 'Leer historia en voz',
+          voiceStopButton: 'Detener lectura',
+          voiceSpeedAria: 'Velocidad de lectura',
+          voiceSpeedSlow: 'Lenta',
+          voiceSpeedNormal: 'Normal',
+          voiceSpeedFast: 'Rápida',
+          voiceSpeedVeryFast: 'Muy rápida',
+          voiceApproxSec: '~{0} s',
+          voiceApproxMin: '~{0} min',
         },
         study: {
           title: 'Formación',
@@ -381,6 +406,7 @@ export class LanguageService {
           backend: 'Backend',
           database: 'Database',
           devops: 'DevOps & Cloud',
+          desktop: 'Desktop & native',
           mobile: 'Mobile',
           ai: 'AI & AR',
           data_analyst: 'Data Analyst',
@@ -392,11 +418,25 @@ export class LanguageService {
           viewLess: 'View less',
           repo: 'Repository',
           live: 'Live Project',
-          ecommerce: 'E-commerce Web',
-          blog: 'Personal Blog',
-          led: 'LED Screen E-Commerce',
-          crm: 'Customer Management System',
-          portfolio: 'Personal Portfolio',
+          downloadDirect: 'Download',
+          techMore: 'more',
+          ditechPeru:
+            'Ditech Peru — LED signage site & e-commerce (brand and commercial presence)',
+          ledWeb:
+            'LED Web — Laravel + React + Inertia: products, sales, customers & orders',
+          verses: 'Bible Verses - Bible meditation web/PWA app (ES/EN)',
+          amigoSecreto:
+            'Secret Santa — Add names and draw randomly (SweetAlert, confetti)',
+          juegoSecreto:
+            'Secret number game — Guess the number (HTML, CSS, JavaScript)',
+          capturaApp:
+            'CapturaApp — Windows: screen recording, captures & local files (no cloud)',
+          foroHub:
+            'ForoHub — REST API forum backend: threads, posts, courses/authors & JWT',
+          conversorMonedas:
+            'Currency Converter Challenge — Java CLI: 150+ live FX rates (ExchangeRate-API)',
+          literalura:
+            'Literalura — Spring Boot + PostgreSQL: personal library powered by Gutendex (CLI)',
         },
         experience: {
           title: 'Professional Experience',
@@ -444,11 +484,20 @@ export class LanguageService {
           title: 'My History',
           p1: 'Curiously, my path to software engineering was not the original plan. Initially, I thought about studying medical sciences, but over time I discovered a genuine interest in technology and the world of software development. That initial curiosity turned into a passion that led me to choose this career.',
           p2: 'Today I am a <strong class="text-blue-700 dark:text-blue-300 font-medium">Software Engineer with a specialization in Artificial Intelligence</strong>, graduated from SENATI, and I have had the opportunity to work on developing web and mobile applications.',
-          p3: 'I master technologies such as <strong class="text-blue-700 dark:text-blue-300 font-medium">Java Spring Boot, Laravel, React, Xamarin.Forms and Firebase</strong>, applying <strong class="text-blue-700 dark:text-blue-300 font-medium">MVC</strong> and <strong class="text-blue-700 dark:text-blue-300 font-medium">MVVM</strong> architectures. Among my most notable experiences are the creation of <strong class="text-blue-700 dark:text-blue-300 font-medium">REST APIs, CRUD systems, dynamic carousels and e-commerce solutions</strong>.',
+          p3: 'I master technologies such as <strong class="text-blue-700 dark:text-blue-300 font-medium">Java Spring Boot, Laravel, React, Xamarin.Forms and Firebase</strong>, applying <strong class="text-blue-700 dark:text-blue-300 font-medium">MVC and MVVM patterns</strong>, <strong class="text-blue-700 dark:text-blue-300 font-medium">Clean Architecture</strong>, <strong class="text-blue-700 dark:text-blue-300 font-medium">layered</strong> architecture, <strong class="text-blue-700 dark:text-blue-300 font-medium">modular</strong> structure and the <strong class="text-blue-700 dark:text-blue-300 font-medium">SOLID principles</strong>. Among my most notable experiences are the creation of <strong class="text-blue-700 dark:text-blue-300 font-medium">REST APIs, CRUD systems, dynamic carousels and e-commerce solutions</strong>.',
           p4: 'In addition, I have certification in <em class="text-blue-600 dark:text-blue-300">Data Analytics – Google Analytics Capstone</em>, which allows me to combine software development with intelligent data analysis to make decisions based on real information.',
           p5: 'Over time I learned to value my career, not only as a profession, but as an opportunity to create scalable, secure and user-centered solutions. Technological innovation has become my biggest motivation to keep growing.',
           viewMore: 'Read more',
           viewLess: 'Read less',
+          voiceIconPlay: 'Read story aloud',
+          voiceStopButton: 'Stop reading',
+          voiceSpeedAria: 'Reading speed',
+          voiceSpeedSlow: 'Slow',
+          voiceSpeedNormal: 'Normal',
+          voiceSpeedFast: 'Fast',
+          voiceSpeedVeryFast: 'Very fast',
+          voiceApproxSec: '~{0} s',
+          voiceApproxMin: '~{0} min',
         },
         study: {
           title: 'Education',

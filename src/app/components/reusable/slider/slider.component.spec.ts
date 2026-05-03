@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { provideRouter } from '@angular/router';
 
 import { SliderComponent } from './slider.component';
 
@@ -8,7 +10,8 @@ describe('SliderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SliderComponent]
+      imports: [SliderComponent],
+      providers: [provideRouter([]), provideNoopAnimations()]
     })
     .compileComponents();
     

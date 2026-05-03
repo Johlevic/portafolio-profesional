@@ -6,12 +6,56 @@
   >
     <hgroup class="mb-10">
       <h3
-        class="text-blue-600 dark:text-blue-400 text-2xl lg:text-3xl font-bold flex items-center gap-4"
+        class="text-blue-600 dark:text-blue-400 text-2xl lg:text-3xl font-bold flex flex-wrap items-center gap-3 sm:gap-4"
       >
-        <span class="p-3 bg-blue-500/10 rounded-xl">
-          <i class="bi bi-person-badge text-blue-500"></i>
+        <span class="flex min-w-0 flex-1 items-center gap-3 sm:gap-4">
+          <span class="shrink-0 p-3 bg-blue-500/10 rounded-xl">
+            <i class="bi bi-person-badge text-blue-500"></i>
+          </span>
+          <span class="min-w-0 leading-tight">{{
+            languageService.t("history.title")
+          }}</span>
         </span>
-        {{ languageService.t("history.title") }}
+        <div
+          *ngIf="speechSupported"
+          class="flex shrink-0 flex-wrap items-center gap-2"
+        >
+          <select
+            class="h-10 max-w-[min(100%,11rem)] min-w-[8.5rem] cursor-pointer rounded-xl border border-blue-500/25 bg-white/90 px-2 text-xs font-medium text-gray-800 shadow-sm transition hover:border-blue-500/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:bg-gray-900/90 dark:text-gray-100 dark:focus-visible:ring-offset-gray-900"
+            [attr.aria-label]="languageService.t('history.voiceSpeedAria')"
+            [value]="speechRate"
+            (change)="onSpeechSpeedChange($event)"
+          >
+            @for (rate of speechRatePresets; track rate) {
+              <option [value]="rate">
+                {{ speechRateOptionLabel(rate) }}
+              </option>
+            }
+          </select>
+        <button
+          type="button"
+          (click)="toggleVoiceRead()"
+          class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-blue-500/25 bg-blue-500/10 text-blue-600 transition hover:bg-blue-500/20 hover:text-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:text-blue-400 dark:hover:bg-blue-500/15 dark:hover:text-blue-300 dark:focus-visible:ring-offset-gray-900"
+          [attr.aria-pressed]="isSpeaking"
+          [attr.aria-label]="
+            isSpeaking
+              ? languageService.t('history.voiceStopButton')
+              : languageService.t('history.voiceIconPlay')
+          "
+          [title]="
+            isSpeaking
+              ? languageService.t('history.voiceStopButton')
+              : languageService.t('history.voiceIconPlay')
+          "
+        >
+          <i
+            class="bi text-xl leading-none"
+            [class.bi-stop-fill]="isSpeaking"
+            [class.bi-volume-up-fill]="!isSpeaking"
+            aria-hidden="true"
+          ></i>
+        </button>
+        </div>
       </h3>
     </hgroup>
 
