@@ -199,24 +199,16 @@ export class LanguageService {
           live: 'Proyecto',
           downloadDirect: 'Descargar',
           techMore: 'más',
-          ditechPeru:
-            'Ditech Perú — Sitio y e-commerce de pantallas LED (marca y presencia comercial)',
-          ledWeb:
-            'LED Web — Plataforma Laravel + React + Inertia: productos, ventas, clientes y pedidos',
-          verses:
-            'Versiculos Biblicos - App web/PWA de meditacion biblica (ES/EN)',
-          amigoSecreto:
-            'Amigo Secreto — Web para añadir nombres y sortear (SweetAlert, confeti)',
-          juegoSecreto:
-            'Juego del número secreto — Adivina el número (HTML, CSS, JavaScript)',
-          capturaApp:
-            'CapturaApp — Windows: grabación, capturas y archivos locales (sin nube)',
-          foroHub:
-            'ForoHub — API REST para foro: temas, mensajes, cursos/autores y JWT',
-          conversorMonedas:
-            'Challenge Conversor de Monedas — CLI Java: más de 150 monedas en vivo (ExchangeRate-API)',
-          literalura:
-            'Literalura — Spring Boot + PostgreSQL: biblioteca personal con Gutendex (menú consola)',
+          ditechPeru: 'Ditech Perú — Marca y e-commerce LED',
+          ledWeb: 'LED Web — Productos, ventas y pedidos',
+          verses: 'Versículos Bíblicos — Meditación (ES/EN)',
+          amigoSecreto: 'Amigo Secreto — Sorteo de nombres',
+          juegoSecreto: 'Juego del número secreto',
+          capturaApp: 'CapturaApp — Grabación y capturas en Windows',
+          foroHub: 'ForoHub — Foro y autenticación',
+          conversorMonedas: 'Conversor de monedas — Challenge CLI',
+          literalura: 'Literalura — Biblioteca con Gutendex',
+          nutriCalc: 'NutriCalc — Valoración nutricional en el navegador',
         },
         experience: {
           title: 'Experiencia Profesional',
@@ -420,23 +412,16 @@ export class LanguageService {
           live: 'Live Project',
           downloadDirect: 'Download',
           techMore: 'more',
-          ditechPeru:
-            'Ditech Peru — LED signage site & e-commerce (brand and commercial presence)',
-          ledWeb:
-            'LED Web — Laravel + React + Inertia: products, sales, customers & orders',
-          verses: 'Bible Verses - Bible meditation web/PWA app (ES/EN)',
-          amigoSecreto:
-            'Secret Santa — Add names and draw randomly (SweetAlert, confetti)',
-          juegoSecreto:
-            'Secret number game — Guess the number (HTML, CSS, JavaScript)',
-          capturaApp:
-            'CapturaApp — Windows: screen recording, captures & local files (no cloud)',
-          foroHub:
-            'ForoHub — REST API forum backend: threads, posts, courses/authors & JWT',
-          conversorMonedas:
-            'Currency Converter Challenge — Java CLI: 150+ live FX rates (ExchangeRate-API)',
-          literalura:
-            'Literalura — Spring Boot + PostgreSQL: personal library powered by Gutendex (CLI)',
+          ditechPeru: 'Ditech Peru — LED brand & e-commerce',
+          ledWeb: 'LED Web — Products, sales & orders',
+          verses: 'Bible Verses — Meditation (ES/EN)',
+          amigoSecreto: 'Secret Santa — Name draw',
+          juegoSecreto: 'Secret number game',
+          capturaApp: 'CapturaApp — Screen capture for Windows',
+          foroHub: 'ForoHub — Forum & authentication',
+          conversorMonedas: 'Currency converter — CLI challenge',
+          literalura: 'Literalura — Library with Gutendex',
+          nutriCalc: 'NutriCalc — Nutrition tools in the browser',
         },
         experience: {
           title: 'Professional Experience',

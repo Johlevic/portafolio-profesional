@@ -168,6 +168,20 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       repoLink: 'https://github.com/Johlevic/juegoSecreto',
       projectLink: 'https://juego-secreto-phi.vercel.app/',
     },
+    {
+      title: 'projects.nutriCalc',
+      image: 'assets/img/projects/nutri-calc/nutri-app.png',
+      technologies: [
+        { name: 'HTML5', icon: 'fab fa-html5' },
+        { name: 'CSS3', icon: 'fab fa-css3-alt' },
+        { name: 'JavaScript', icon: 'fab fa-js' },
+        { name: 'Font Awesome', icon: 'fab fa-font-awesome' },
+        { name: 'PWA' },
+        { name: 'Vercel' },
+      ],
+      repoLink: 'https://github.com/Johlevic/nutri-calc',
+      projectLink: 'https://nutri-calc-sysjol.vercel.app/',
+    },
   ];
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
