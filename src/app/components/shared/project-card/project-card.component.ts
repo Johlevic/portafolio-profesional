@@ -18,6 +18,11 @@ export interface Project {
   projectLinkLabelKey?: string;
   /** Backend / repo-only: shows only the repository button */
   repoOnly?: boolean;
+  /**
+   * ISO `YYYY-MM-DD` — referencia para ordenar “más recientes / más antiguos”.
+   * Actualiza la fecha al publicar o destacar el proyecto.
+   */
+  addedAt?: string;
 }
 
 /** Máximo de chips en tarjeta (rejilla 3×3). */

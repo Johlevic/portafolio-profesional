@@ -27,6 +27,7 @@ export interface Project {
   projectLink?: string;
   projectLinkLabelKey?: string;
   repoOnly?: boolean;
+  addedAt?: string;
 }
 
 @Component({
