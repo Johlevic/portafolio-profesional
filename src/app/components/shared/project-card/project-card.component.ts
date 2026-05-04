@@ -1,11 +1,5 @@
-import { Component, Input, inject, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  animate,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { LanguageService } from '@/app/services/language.service';
 
 export interface Technology {
@@ -26,27 +20,13 @@ export interface Project {
   repoOnly?: boolean;
 }
 
+/** Máximo de chips en tarjeta (rejilla 3×3). */
+const TECH_GRID_MAX = 9;
+
 @Component({
   selector: 'app-project-card',
   standalone: true,
   imports: [CommonModule],
-  animations: [
-    trigger('techExtraExpand', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(-8px)' }),
-        animate(
-          '340ms cubic-bezier(0.33, 1, 0.68, 1)',
-          style({ opacity: 1, transform: 'translateY(0)' }),
-        ),
-      ]),
-      transition(':leave', [
-        animate(
-          '260ms cubic-bezier(0.4, 0, 1, 1)',
-          style({ opacity: 0, transform: 'translateY(-6px)' }),
-        ),
-      ]),
-    ]),
-  ],
   template: `
     <div
       class="relative overflow-hidden bg-white dark:bg-gray-800/90 border border-gray-200/90 dark:border-slate-600/60 rounded-2xl p-4 md:p-6 shadow-md shadow-gray-200/50 dark:shadow-none text-center w-full h-full flex flex-col transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-xl hover:shadow-gray-300/40 dark:hover:border-blue-500/45 dark:hover:shadow-lg dark:hover:shadow-blue-950/40 group"
@@ -78,53 +58,25 @@ export interface Project {
         {{ languageService.t(project.title) }}
       </h3>
 
-      <div class="mb-0 self-stretch pt-2.5 md:pt-3 pb-3 md:pb-4">
+      <div class="mb-0 self-stretch pt-2.5 md:pt-3 pb-3 md:pb-4 min-h-[6.5rem] md:min-h-[7.25rem]">
         <div
-          class="flex flex-wrap justify-center gap-1.5 md:gap-2 min-h-[4.75rem] content-start"
+          class="grid grid-cols-3 gap-1.5 md:gap-2 auto-rows-fr content-start"
+          role="list"
         >
-          @for (tech of previewTechnologies; track tech.name) {
+          @for (tech of displayTechnologies; track tech.name) {
             <span
-              class="bg-blue-50/90 dark:bg-blue-600/15 text-blue-700 dark:text-blue-300 border border-blue-200/80 dark:border-blue-500/25 text-[11px] md:text-xs px-2 md:px-2.5 py-0.5 md:py-1 rounded-full whitespace-nowrap inline-flex items-center gap-1 transition-colors duration-200 hover:border-blue-300 dark:hover:border-blue-400/40"
+              role="listitem"
+              class="min-w-0 bg-blue-50/90 dark:bg-blue-600/15 text-blue-700 dark:text-blue-300 border border-blue-200/80 dark:border-blue-500/25 text-[10px] md:text-[11px] px-1.5 md:px-2 py-1 rounded-lg flex flex-col items-center justify-center gap-0.5 text-center leading-tight transition-colors duration-200 hover:border-blue-300 dark:hover:border-blue-400/40"
             >
               @if (tech.icon) {
-                <i [class]="tech.icon"></i>
+                <i [class]="tech.icon + ' text-[0.95em] shrink-0'"></i>
               }
-              {{ tech.name }}
+              <span class="line-clamp-2 break-words hyphens-auto">{{
+                tech.name
+              }}</span>
             </span>
           }
         </div>
-        @if (techExpanded && extraTechnologies.length > 0) {
-          <div
-            @techExtraExpand
-            class="flex flex-wrap justify-center gap-2 mt-2"
-          >
-            @for (tech of extraTechnologies; track tech.name) {
-              <span
-                class="bg-blue-50/90 dark:bg-blue-600/15 text-blue-700 dark:text-blue-300 border border-blue-200/80 dark:border-blue-500/25 text-[11px] md:text-xs px-2 md:px-2.5 py-0.5 md:py-1 rounded-full whitespace-nowrap inline-flex items-center gap-1 transition-colors duration-200 hover:border-blue-300 dark:hover:border-blue-400/40"
-              >
-                @if (tech.icon) {
-                  <i [class]="tech.icon"></i>
-                }
-                {{ tech.name }}
-              </span>
-            }
-          </div>
-        }
-        @if (extraTechnologies.length > 0) {
-          <button
-            type="button"
-            class="mt-1.5 w-full text-center text-[11px] md:text-xs font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded py-0.5 transition-colors duration-200"
-            (click)="toggleTechExpanded($event)"
-            [attr.aria-expanded]="techExpanded"
-          >
-            @if (techExpanded) {
-              {{ languageService.t('projects.viewLess') }}
-            } @else {
-              +{{ extraTechnologies.length }}
-              {{ languageService.t('projects.techMore') }}
-            }
-          </button>
-        }
       </div>
 
       <div
@@ -174,44 +126,19 @@ export interface Project {
     `,
   ],
 })
-export class ProjectCardComponent implements OnChanges {
+export class ProjectCardComponent {
   languageService = inject(LanguageService);
   @Input({ required: true }) project!: Project;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['project']) {
-      this.techExpanded = false;
-    }
-  }
-
-  /** Chips visibles antes de expandir (~2 filas alineadas entre tarjetas). */
-  private readonly techPreviewLimit = 6;
-  techExpanded = false;
-
-  /** Primeras tecnologías (siempre visibles; jerarquía por orden en el array). */
-  get previewTechnologies(): Technology[] {
+  /** Hasta 9 tecnologías (orden definido en cada proyecto). */
+  get displayTechnologies(): Technology[] {
     const list = this.project.technologies ?? [];
-    return list.slice(0, Math.min(this.techPreviewLimit, list.length));
-  }
-
-  /** Resto de tecnologías; se muestran con animación al expandir. */
-  get extraTechnologies(): Technology[] {
-    const list = this.project.technologies ?? [];
-    if (list.length <= this.techPreviewLimit) {
-      return [];
-    }
-    return list.slice(this.techPreviewLimit);
-  }
-
-  toggleTechExpanded(ev: Event): void {
-    ev.preventDefault();
-    ev.stopPropagation();
-    this.techExpanded = !this.techExpanded;
+    return list.slice(0, TECH_GRID_MAX);
   }
 
   get projectLinkLabel(): string {
     return this.languageService.t(
-      this.project.projectLinkLabelKey ?? 'projects.live'
+      this.project.projectLinkLabelKey ?? 'projects.live',
     );
   }
 
