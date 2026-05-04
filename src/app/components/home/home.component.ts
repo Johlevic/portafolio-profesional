@@ -109,9 +109,14 @@ import { HeaderPortalService } from '@/app/services/header-portal.service';
                   class="rounded-full object-cover w-40 h-40 md:w-60 md:h-60 border-4 border-blue-500 shadow-xl pointer-events-none"
                 />
                 <figcaption
-                  class="absolute bottom-0 md:bottom-2 px-3 py-1 bg-white dark:bg-gray-900 text-gray-900 dark:text-white text-xs md:text-sm rounded-md border-2 border-blue-500 animate-pulse shadow-lg"
+                  class="absolute bottom-0 md:bottom-2 px-2 md:px-3 py-1 bg-white dark:bg-gray-900 text-gray-900 dark:text-white text-xs md:text-sm rounded-md border-2 border-blue-500 animate-pulse shadow-lg"
                 >
-                  {{ languageService.t('hero.available') }}
+                  <span class="md:hidden">{{
+                    languageService.t('hero.availableShort')
+                  }}</span>
+                  <span class="hidden md:inline">{{
+                    languageService.t('hero.available')
+                  }}</span>
                 </figcaption>
               </figure>
               <!-- ✅ Modern Line (visible on mobile/tablet) -->
@@ -130,38 +135,42 @@ import { HeaderPortalService } from '@/app/services/header-portal.service';
       >
         <div class="container mx-auto px-0">
           <h2
-            class="text-3xl font-bold text-center text-blue-600 dark:text-blue-400 mb-8"
+            class="mb-4 text-center text-2xl font-bold text-blue-600 dark:text-blue-400 sm:mb-8 sm:text-3xl"
           >
             {{ languageService.t('about.technologiesTitle') }}
           </h2>
 
-          <div class="relative overflow-hidden lg:hidden">
+          <div class="relative overflow-hidden pb-6 lg:hidden">
             <div
               class="flex transition-transform duration-600 ease-in-out"
               [style.transform]="'translateX(-' + currentIndex * 100 + '%)'"
             >
               @for (i of pagesArray; track i) {
-                <div class="w-full flex-shrink-0 flex justify-center gap-4 p-4">
+                <div
+                  class="flex w-full flex-shrink-0 justify-center gap-2 px-1.5 py-2 sm:gap-4 sm:p-4"
+                >
                   <span
-                    class="flex-1 max-w-[45%] flex items-center justify-center gap-2 bg-gradient-to-br from-white to-gray-50 dark:from-gray-700 dark:to-gray-800 text-gray-800 dark:text-white py-4 px-2 rounded-xl shadow-md text-lg font-semibold border border-gray-200 dark:border-transparent"
+                    class="flex min-h-0 min-w-0 max-w-[48%] flex-1 items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-gradient-to-br from-white to-gray-50 px-1.5 py-2 text-xs font-semibold text-gray-800 shadow-sm dark:border-transparent dark:from-gray-700 dark:to-gray-800 dark:text-white sm:max-w-[45%] sm:gap-2 sm:rounded-xl sm:px-2 sm:py-4 sm:text-lg sm:shadow-md"
                   >
                     <img
                       [src]="getTechIcon(technologies[i * 2])"
                       alt=""
-                      class="w-8 h-8 tech-icon"
+                      class="h-6 w-6 shrink-0 tech-icon sm:h-8 sm:w-8"
                     />
-                    {{ technologies[i * 2] }}
+                    <span class="truncate">{{ technologies[i * 2] }}</span>
                   </span>
                   @if (i * 2 + 1 < technologies.length) {
                     <span
-                      class="flex-1 max-w-[45%] flex items-center justify-center gap-2 bg-gradient-to-br from-white to-gray-50 dark:from-gray-700 dark:to-gray-800 text-gray-800 dark:text-white py-4 px-2 rounded-xl shadow-md text-lg font-semibold border border-gray-200 dark:border-transparent"
+                      class="flex min-h-0 min-w-0 max-w-[48%] flex-1 items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-gradient-to-br from-white to-gray-50 px-1.5 py-2 text-xs font-semibold text-gray-800 shadow-sm dark:border-transparent dark:from-gray-700 dark:to-gray-800 dark:text-white sm:max-w-[45%] sm:gap-2 sm:rounded-xl sm:px-2 sm:py-4 sm:text-lg sm:shadow-md"
                     >
                       <img
                         [src]="getTechIcon(technologies[i * 2 + 1])"
                         alt=""
-                        class="w-8 h-8 tech-icon"
+                        class="h-6 w-6 shrink-0 tech-icon sm:h-8 sm:w-8"
                       />
-                      {{ technologies[i * 2 + 1] }}
+                      <span class="truncate">{{
+                        technologies[i * 2 + 1]
+                      }}</span>
                     </span>
                   }
                 </div>
@@ -169,26 +178,34 @@ import { HeaderPortalService } from '@/app/services/header-portal.service';
             </div>
 
             <button
-              class="absolute top-1/2 -translate-y-1/2 left-4 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-800 dark:text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none shadow-md"
+              type="button"
+              class="absolute left-1 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-sm leading-none text-gray-800 shadow backdrop-blur-sm transition-all duration-300 hover:bg-gray-100 focus:outline-none dark:bg-gray-700/90 dark:text-white dark:hover:bg-gray-600 sm:left-4 sm:h-10 sm:w-10 sm:text-2xl"
               (click)="prevSlide()"
+              [attr.aria-label]="
+                languageService.t('about.techCarouselPrev')
+              "
             >
               &#10094;
             </button>
             <button
-              class="absolute top-1/2 -translate-y-1/2 right-4 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-800 dark:text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none shadow-md"
+              type="button"
+              class="absolute right-1 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-sm leading-none text-gray-800 shadow backdrop-blur-sm transition-all duration-300 hover:bg-gray-100 focus:outline-none dark:bg-gray-700/90 dark:text-white dark:hover:bg-gray-600 sm:right-4 sm:h-10 sm:w-10 sm:text-2xl"
               (click)="nextSlide()"
+              [attr.aria-label]="
+                languageService.t('about.techCarouselNext')
+              "
             >
               &#10095;
             </button>
 
             <div
-              class="flex justify-center gap-2 mt-4 absolute bottom-0 w-full"
+              class="absolute bottom-0 flex w-full justify-center gap-1.5 pt-1"
             >
               @for (i of pagesArray; track i) {
                 <span
                   [class.bg-blue-500]="i === currentIndex"
                   [class.bg-gray-400]="i !== currentIndex"
-                  class="w-2 h-2 rounded-full cursor-pointer transition-colors duration-300"
+                  class="h-1.5 w-1.5 cursor-pointer rounded-full transition-colors duration-300 sm:h-2 sm:w-2"
                   (click)="goToSlide(i)"
                 ></span>
               }

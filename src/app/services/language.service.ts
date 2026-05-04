@@ -171,6 +171,8 @@ export class LanguageService {
         },
         about: {
           technologiesTitle: 'Tecnologías',
+          techCarouselPrev: 'Tecnologías anteriores',
+          techCarouselNext: 'Siguientes tecnologías',
           mastered: 'Masterizadas',
           title: 'Sobre Mí',
           description:
@@ -323,6 +325,7 @@ export class LanguageService {
           greeting: 'Hola, soy',
           role: 'Ingeniero de Software',
           available: 'Disponible para nuevos proyectos',
+          availableShort: 'Disponible',
           description:
             'Especialista en forjar experiencias digitales excepcionales con React, Angular y Node.js. Arquitecto de soluciones escalables que fusionan diseño premium con alto rendimiento tecnológico.',
           viewProjects: 'Ver mis Proyectos',
@@ -411,6 +414,8 @@ export class LanguageService {
         },
         about: {
           technologiesTitle: 'Technologies',
+          techCarouselPrev: 'Previous technologies',
+          techCarouselNext: 'Next technologies',
           mastered: 'Mastered',
           title: 'About Me',
           description:
@@ -562,6 +567,7 @@ export class LanguageService {
           greeting: "Hi, I'm",
           role: 'Software Engineer',
           available: 'Available for new projects',
+          availableShort: 'Available',
           description:
             'Specialist in crafting exceptional digital experiences with React, Angular and Node.js. Architect of scalable solutions that merge premium design with high technological performance.',
           viewProjects: 'View my Projects',

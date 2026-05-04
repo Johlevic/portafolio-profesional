@@ -46,8 +46,14 @@
           </span>
           <span
             class="text-[11px] md:text-sm font-medium text-emerald-600 dark:text-emerald-400 text-left leading-snug"
-            >{{ languageService.t("hero.available") }}</span
           >
+            <span class="md:hidden">{{
+              languageService.t("hero.availableShort")
+            }}</span>
+            <span class="hidden md:inline">{{
+              languageService.t("hero.available")
+            }}</span>
+          </span>
         </div>
       </div>
 

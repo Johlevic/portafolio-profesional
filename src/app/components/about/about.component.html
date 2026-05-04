@@ -29,7 +29,12 @@
               <span
                 class="inline-block px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 text-sm font-semibold tracking-wider uppercase"
               >
-                {{ languageService.t("hero.available") }}
+                <span class="md:hidden">{{
+                  languageService.t("hero.availableShort")
+                }}</span>
+                <span class="hidden md:inline">{{
+                  languageService.t("hero.available")
+                }}</span>
               </span>
               <h1
                 class="text-4xl md:text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-tight"

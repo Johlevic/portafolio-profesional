@@ -1,27 +1,29 @@
 <div class="w-full">
-  <!-- Historia personal -->
   <article
-    class="bg-white/40 dark:bg-gray-800/40 backdrop-blur-sm border border-gray-200 dark:border-gray-800/50 rounded-2xl p-8 lg:p-10 relative shadow-2xl shadow-blue-500/5 hover:border-blue-500/30 transition-all duration-500"
+    class="relative rounded-2xl border border-gray-200 bg-white/40 p-6 shadow-2xl shadow-blue-500/5 backdrop-blur-sm transition-all duration-500 hover:border-blue-500/30 dark:border-gray-800/50 dark:bg-gray-800/40 sm:p-8 lg:p-10"
     [class.expanded]="expanded"
   >
-    <hgroup class="mb-10">
-      <h3
-        class="text-blue-600 dark:text-blue-400 text-2xl lg:text-3xl font-bold flex flex-wrap items-center gap-3 sm:gap-4"
+    <hgroup class="mb-8 sm:mb-10">
+      <div
+        class="flex flex-col gap-4 sm:mb-0 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4"
       >
-        <span class="flex min-w-0 flex-1 items-center gap-3 sm:gap-4">
-          <span class="shrink-0 p-3 bg-blue-500/10 rounded-xl">
+        <h3
+          class="flex min-w-0 items-center gap-3 text-2xl font-bold leading-tight text-blue-600 dark:text-blue-400 sm:gap-4 lg:text-3xl"
+        >
+          <span class="shrink-0 rounded-xl bg-blue-500/10 p-3">
             <i class="bi bi-person-badge text-blue-500"></i>
           </span>
-          <span class="min-w-0 leading-tight">{{
+          <span class="min-w-0">{{
             languageService.t("history.title")
           }}</span>
-        </span>
+        </h3>
+
         <div
           *ngIf="speechSupported"
-          class="flex shrink-0 flex-wrap items-center gap-2"
+          class="flex w-full min-w-0 flex-wrap items-stretch gap-2 sm:w-auto sm:shrink-0 sm:justify-end"
         >
           <select
-            class="h-10 max-w-[min(100%,11rem)] min-w-[8.5rem] cursor-pointer rounded-xl border border-blue-500/25 bg-white/90 px-2 text-xs font-medium text-gray-800 shadow-sm transition hover:border-blue-500/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:bg-gray-900/90 dark:text-gray-100 dark:focus-visible:ring-offset-gray-900"
+            class="h-10 min-h-10 min-w-0 flex-1 cursor-pointer rounded-xl border border-blue-500/25 bg-white/90 px-2 text-xs font-medium text-gray-800 shadow-sm transition hover:border-blue-500/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:bg-gray-900/90 dark:text-gray-100 dark:focus-visible:ring-offset-gray-900 sm:max-w-[11rem] sm:flex-none sm:min-w-[8.5rem]"
             [attr.aria-label]="languageService.t('history.voiceSpeedAria')"
             [value]="speechRate"
             (change)="onSpeechSpeedChange($event)"
@@ -32,42 +34,41 @@
               </option>
             }
           </select>
-        <button
-          type="button"
-          (click)="toggleVoiceRead()"
-          class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-blue-500/25 bg-blue-500/10 text-blue-600 transition hover:bg-blue-500/20 hover:text-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:text-blue-400 dark:hover:bg-blue-500/15 dark:hover:text-blue-300 dark:focus-visible:ring-offset-gray-900"
-          [attr.aria-pressed]="isSpeaking"
-          [attr.aria-label]="
-            isSpeaking
-              ? languageService.t('history.voiceStopButton')
-              : languageService.t('history.voiceIconPlay')
-          "
-          [title]="
-            isSpeaking
-              ? languageService.t('history.voiceStopButton')
-              : languageService.t('history.voiceIconPlay')
-          "
-        >
-          <i
-            class="bi text-xl leading-none"
-            [class.bi-stop-fill]="isSpeaking"
-            [class.bi-volume-up-fill]="!isSpeaking"
-            aria-hidden="true"
-          ></i>
-        </button>
+          <button
+            type="button"
+            (click)="toggleVoiceRead()"
+            class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-blue-500/25 bg-blue-500/10 text-blue-600 transition hover:bg-blue-500/20 hover:text-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:text-blue-400 dark:hover:bg-blue-500/15 dark:hover:text-blue-300 dark:focus-visible:ring-offset-gray-900"
+            [attr.aria-pressed]="isSpeaking"
+            [attr.aria-label]="
+              isSpeaking
+                ? languageService.t('history.voiceStopButton')
+                : languageService.t('history.voiceIconPlay')
+            "
+            [title]="
+              isSpeaking
+                ? languageService.t('history.voiceStopButton')
+                : languageService.t('history.voiceIconPlay')
+            "
+          >
+            <i
+              class="bi text-xl leading-none"
+              [class.bi-stop-fill]="isSpeaking"
+              [class.bi-volume-up-fill]="!isSpeaking"
+              aria-hidden="true"
+            ></i>
+          </button>
         </div>
-      </h3>
+      </div>
     </hgroup>
 
     <div
-      class="overflow-hidden transition-all duration-700 ease-in-out text-gray-700 dark:text-gray-300 text-base leading-relaxed font-light tracking-wide space-y-6"
+      class="overflow-hidden text-base font-light leading-relaxed tracking-wide text-gray-700 transition-all duration-700 ease-in-out dark:text-gray-300 space-y-6"
       [class.max-h-64]="!expanded && !isLargeScreen"
       [class.max-h-full]="expanded || isLargeScreen"
     >
       <p [innerHTML]="languageService.t('history.p1')"></p>
       <p [innerHTML]="languageService.t('history.p2')"></p>
 
-      <!-- Hidden on mobile snippet, shown if expanded or desktop -->
       <ng-container *ngIf="expanded || isLargeScreen">
         <p [innerHTML]="languageService.t('history.p3')"></p>
         <p [innerHTML]="languageService.t('history.p4')"></p>
@@ -75,10 +76,9 @@
       </ng-container>
     </div>
 
-    <!-- Botón ver más / ver menos -->
     <button
       *ngIf="!isLargeScreen"
-      class="mt-10 w-full lg:w-auto text-blue-600 dark:text-blue-400 font-semibold hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200 focus:outline-none flex items-center justify-center lg:justify-start gap-3 py-3 px-6 rounded-xl border border-blue-500/20 bg-blue-500/5 hover:bg-blue-500/10"
+      class="mt-8 flex w-full items-center justify-center gap-3 rounded-xl border border-blue-500/20 bg-blue-500/5 px-6 py-3 font-semibold text-blue-600 transition-colors duration-200 hover:bg-blue-500/10 hover:text-blue-700 focus:outline-none dark:text-blue-400 dark:hover:text-blue-300 sm:mt-10 lg:w-auto lg:justify-start"
       (click)="toggleExpand()"
     >
       {{
