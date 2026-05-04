@@ -9,6 +9,7 @@ import { ContactComponent } from '../contact/contact.component';
 import { LanguageService } from '@/app/services/language.service';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 import { RouterModule } from '@angular/router';
+import { TypewriterTextComponent } from '../shared/typewriter-text/typewriter-text.component';
 
 @Component({
   selector: 'app-about',
@@ -23,6 +24,7 @@ import { RouterModule } from '@angular/router';
     ContactComponent,
     ScrollRevealDirective,
     RouterModule,
+    TypewriterTextComponent,
   ],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],

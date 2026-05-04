@@ -1,4 +1,11 @@
-import { Component, HostListener, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnInit,
+  inject,
+  Input,
+  booleanAttribute,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 type SectionKey = 'education' | 'certifications';
@@ -14,6 +21,9 @@ import { BottomSheetService } from '@/app/services/bottom-sheet.service';
   styleUrls: ['./study.component.scss'],
 })
 export class StudyComponent implements OnInit {
+  /** Fondos opacos para tapar la malla neuronal detrás (p. ej. vista Sobre mí). */
+  @Input({ transform: booleanAttribute }) solidOverMesh = false;
+
   languageService = inject(LanguageService);
   bottomSheetService = inject(BottomSheetService);
 

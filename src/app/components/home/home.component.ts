@@ -21,6 +21,8 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
 
 import { RouterModule } from '@angular/router';
 import { HeaderPortalService } from '@/app/services/header-portal.service';
+import { NeuralMeshLayerComponent } from '../shared/neural-mesh-layer/neural-mesh-layer.component';
+import { TypewriterTextComponent } from '../shared/typewriter-text/typewriter-text.component';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +30,8 @@ import { HeaderPortalService } from '@/app/services/header-portal.service';
   imports: [
     CommonModule,
     RouterModule,
+    NeuralMeshLayerComponent,
+    TypewriterTextComponent,
     HistoryComponent,
     StudyComponent,
     TechnicalskilsComponent,
@@ -42,9 +46,10 @@ import { HeaderPortalService } from '@/app/services/header-portal.service';
       <section
         id="inicio"
         #headerRef
-        class="py-16 md:py-24 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-900 text-gray-800 dark:text-gray-200 min-h-[80vh] flex items-center transition-colors duration-300"
+        class="relative overflow-hidden py-16 md:py-24 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-900 text-gray-800 dark:text-gray-200 min-h-[80vh] flex items-center transition-colors duration-300"
       >
-        <div class="container mx-auto px-0 lg:px-4">
+        <app-neural-mesh-layer />
+        <div class="relative z-10 container mx-auto px-0 lg:px-4">
           <div
             class="flex flex-col-reverse lg:flex-row items-center justify-center gap-8 lg:gap-16"
           >
@@ -63,9 +68,11 @@ import { HeaderPortalService } from '@/app/services/header-portal.service';
                   >
                 </h1>
                 <h2
-                  class="text-2xl lg:text-3xl font-medium text-blue-600 dark:text-blue-500 font-['Orbitron']"
+                  class="text-2xl lg:text-3xl font-medium text-blue-600 dark:text-blue-500 font-['Orbitron'] min-h-[2.5rem] md:min-h-[3rem]"
                 >
-                  {{ languageService.t('hero.role') }}
+                  <app-typewriter-text
+                    [text]="languageService.t('hero.role')"
+                  />
                 </h2>
               </div>
               <p
@@ -323,8 +330,8 @@ export class HomeComponent implements OnDestroy {
   private checkIfMobile() {
     if (isPlatformBrowser(this.platformId)) {
       const width = window.innerWidth;
-      this.isMobile = width < 768; // md breakpoint
-      this.isDesktop = width >= 1024; // lg/xl breakpoint (adjust as needed, consistent with Projects)
+      this.isMobile = width < 768;
+      this.isDesktop = width >= 1024;
     }
   }
 

@@ -1,7 +1,12 @@
 <div class="w-full">
   <article
-    class="relative rounded-2xl border border-gray-200 bg-white/40 p-6 shadow-2xl shadow-blue-500/5 backdrop-blur-sm transition-all duration-500 hover:border-blue-500/30 dark:border-gray-800/50 dark:bg-gray-800/40 sm:p-8 lg:p-10"
+    class="relative rounded-2xl border p-6 shadow-2xl shadow-blue-500/5 transition-all duration-500 hover:border-blue-500/30 sm:p-8 lg:p-10"
     [class.expanded]="expanded"
+    [ngClass]="
+      solidOverMesh
+        ? 'z-20 border-gray-200 bg-white hover:border-blue-500/30 dark:border-gray-700 dark:bg-gray-900'
+        : 'border-gray-200 bg-white/40 backdrop-blur-sm hover:border-blue-500/30 dark:border-gray-800/50 dark:bg-gray-800/40'
+    "
   >
     <hgroup class="mb-8 sm:mb-10">
       <div

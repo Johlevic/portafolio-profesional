@@ -8,6 +8,7 @@ import {
   QueryList,
   ElementRef,
   PLATFORM_ID,
+  signal,
 } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { DOCUMENT, CommonModule, isPlatformBrowser } from '@angular/common';
@@ -22,6 +23,10 @@ import { BottomSheetService } from './services/bottom-sheet.service';
 import { AnimateOnDisplayDirective } from './animate-on-display.directive';
 import { LoadingModalService } from './services/loading-modal.service';
 import { HeaderPortalService } from '@/app/services/header-portal.service';
+import { ToastContainerComponent } from './components/toast/toast-container.component';
+import { ToastService } from './services/toast.service';
+import { WelcomeOverlayComponent } from './components/welcome/welcome-overlay.component';
+import { WelcomeStorageService } from './services/welcome-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -35,6 +40,8 @@ import { HeaderPortalService } from '@/app/services/header-portal.service';
     LanguageSelectorComponent,
     CommonModule,
     AnimateOnDisplayDirective,
+    ToastContainerComponent,
+    WelcomeOverlayComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -48,6 +55,8 @@ export class AppComponent implements OnInit {
   isScrolled = false;
   isHome = true;
   isCvViewer = false;
+  /** Primera visita (localStorage): overlay de bienvenida tras el skeleton. */
+  readonly showWelcomeOverlay = signal(false);
 
   // Inyectar servicios para inicializarlos
   private themeService = inject(ThemeService);
@@ -55,6 +64,8 @@ export class AppComponent implements OnInit {
   public bottomSheetService = inject(BottomSheetService);
   public loadingModalService = inject(LoadingModalService);
   public headerPortalService = inject(HeaderPortalService);
+  private toastService = inject(ToastService);
+  private welcomeStorage = inject(WelcomeStorageService);
   private router = inject(Router);
 
   constructor(@Inject(DOCUMENT) private document: Document) {
@@ -69,13 +80,21 @@ export class AppComponent implements OnInit {
   }
 
   private platformId = inject(PLATFORM_ID);
-  private readonly LOADER_KEY = 'hasSeenLoader_v1';
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        this.toastService.warning(
+          this.languageService.t('toast.offlineBody'),
+          this.languageService.t('toast.offlineTitle'),
+        );
+      }
       // Mostrar siempre el skeleton en cada refresh
       setTimeout(() => {
         this.isLoading = false;
+        if (!this.welcomeStorage.hasSeenWelcome()) {
+          this.showWelcomeOverlay.set(true);
+        }
       }, 1500);
     } else {
       this.isLoading = false; // Fallback para SSR
@@ -143,5 +162,28 @@ export class AppComponent implements OnInit {
       top: 0,
       behavior: 'smooth',
     });
+  }
+
+  onWelcomeClosed(): void {
+    this.welcomeStorage.markWelcomeSeen();
+    this.showWelcomeOverlay.set(false);
+  }
+
+  @HostListener('window:offline')
+  onBrowserOffline(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.toastService.warning(
+      this.languageService.t('toast.offlineBody'),
+      this.languageService.t('toast.offlineTitle'),
+    );
+  }
+
+  @HostListener('window:online')
+  onBrowserOnline(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.toastService.info(
+      this.languageService.t('toast.onlineBody'),
+      this.languageService.t('toast.onlineTitle'),
+    );
   }
 }

@@ -304,3 +304,9 @@
     </div>
   </div>
 }
+
+@if (!isLoading && showWelcomeOverlay()) {
+  <app-welcome-overlay (closed)="onWelcomeClosed()" />
+}
+
+<app-toast-container />

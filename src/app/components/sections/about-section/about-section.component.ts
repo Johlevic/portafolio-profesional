@@ -15,6 +15,7 @@ import { StudyComponent } from '../study/study.component';
 import { LanguageService } from '@/app/services/language.service';
 import { ScrollRevealDirective } from '../../../directives/scroll-reveal.directive';
 import { HeaderPortalService } from '@/app/services/header-portal.service';
+import { NeuralMeshLayerComponent } from '../../shared/neural-mesh-layer/neural-mesh-layer.component';
 
 @Component({
   selector: 'app-about-section',
@@ -24,14 +25,20 @@ import { HeaderPortalService } from '@/app/services/header-portal.service';
     HistoryComponent,
     StudyComponent,
     ScrollRevealDirective,
+    NeuralMeshLayerComponent,
   ],
   template: `
     <section
-      class="bg-gray-50 dark:bg-gray-900 py-16 lg:py-24 overflow-hidden transition-colors duration-300"
+      class="relative overflow-hidden bg-gray-50/88 dark:bg-gray-900/82 backdrop-blur-[1px] py-16 lg:py-24 transition-colors duration-300"
     >
-      <div class="container mx-auto px-6 lg:px-12">
+      <app-neural-mesh-layer />
+      <div class="relative z-10 container mx-auto px-6 lg:px-12">
         <!-- Header -->
-        <div class="text-center mb-16 lg:mb-24" appScrollReveal #headerRef>
+        <div
+          class="relative z-20 mb-16 rounded-2xl bg-white/92 px-4 py-8 text-center shadow-sm dark:bg-gray-900/92 lg:mb-24 lg:px-8"
+          appScrollReveal
+          #headerRef
+        >
           <h1
             class="text-4xl lg:text-5xl font-bold text-blue-600 dark:text-blue-400 mb-6 tracking-tight"
           >
@@ -53,12 +60,12 @@ import { HeaderPortalService } from '@/app/services/header-portal.service';
         >
           <!-- Left Column: Biography -->
           <div class="xl:col-span-7">
-            <app-history></app-history>
+            <app-history solidOverMesh></app-history>
           </div>
 
           <!-- Right Column: Education & Stats -->
           <div class="xl:col-span-5">
-            <app-study></app-study>
+            <app-study solidOverMesh></app-study>
           </div>
         </div>
       </div>

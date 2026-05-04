@@ -6,6 +6,7 @@ import { ProjectsComponent } from './components/sections/projects/projects.compo
 import { ExperienceComponent } from './components/sections/experience/experience.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { CvViewerComponent } from './components/cv-viewer/cv-viewer.component';
+import { HttpErrorPageComponent } from './pages/http-error-page/http-error-page.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, data: { titleKey: 'nav.home' } },
@@ -39,5 +40,10 @@ export const routes: Routes = [
     component: CvViewerComponent,
     data: { titleKey: 'hero.viewCV' },
   },
-  { path: '**', redirectTo: '' },
+  {
+    path: 'error/:code',
+    component: HttpErrorPageComponent,
+    data: { titleKey: 'errors.pageTitle' },
+  },
+  { path: '**', redirectTo: 'error/404' },
 ];

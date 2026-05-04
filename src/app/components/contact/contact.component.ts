@@ -13,19 +13,17 @@ import { FormsModule } from '@angular/forms';
 import emailjs from '@emailjs/browser';
 import { environment } from '@/environments/environment';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { AlertComponent } from '@/app/components/alerts/alert/alert.component';
 import { LanguageService } from '@/app/services/language.service';
+import { ToastService } from '@/app/services/toast.service';
 import { BottomSheetService } from '@/app/services/bottom-sheet.service';
 import { LoadingModalService } from '@/app/services/loading-modal.service';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 import { HeaderPortalService } from '@/app/services/header-portal.service';
 
-type AlertType = 'success' | 'error' | 'warning' | 'info' | 'question';
-
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [FormsModule, CommonModule, AlertComponent, ScrollRevealDirective],
+  imports: [FormsModule, CommonModule, ScrollRevealDirective],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss'],
 })
@@ -34,6 +32,7 @@ export class ContactComponent implements OnDestroy {
   private bottomSheetService = inject(BottomSheetService);
   private loadingModalService = inject(LoadingModalService);
   private headerPortalService = inject(HeaderPortalService);
+  private toastService = inject(ToastService);
   private el = inject(ElementRef);
 
   @ViewChild('headerRef') headerRef!: ElementRef;
@@ -45,9 +44,6 @@ export class ContactComponent implements OnDestroy {
 
   @ViewChild('formRef', { read: ElementRef })
   formRef!: ElementRef<HTMLFormElement>;
-
-  // Alerta
-  alert: { type: AlertType; title: string; message: string } | null = null;
 
   // Estados de envío
   private progressInterval: any;
@@ -74,22 +70,27 @@ export class ContactComponent implements OnDestroy {
 
     // Validaciones (message es opcional)
     if (!name || !email || !subject) {
-      this.alert = {
-        type: 'error',
-        title: 'Error',
-        message:
-          'Completa todos los campos obligatorios (Nombre, Email y Asunto)',
-      };
+      this.toastService.error(
+        this.languageService.t('toast.contactValidationBody'),
+        this.languageService.t('toast.contactValidationTitle'),
+      );
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      this.alert = {
-        type: 'error',
-        title: 'Error',
-        message: 'Ingresa un correo válido',
-      };
+      this.toastService.error(
+        this.languageService.t('toast.contactEmailInvalidBody'),
+        this.languageService.t('toast.contactEmailInvalidTitle'),
+      );
+      return;
+    }
+
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      this.toastService.warning(
+        this.languageService.t('toast.offlineBody'),
+        this.languageService.t('toast.offlineTitle'),
+      );
       return;
     }
 
@@ -156,20 +157,14 @@ export class ContactComponent implements OnDestroy {
           this.loadingModalService.hide();
         }, 2500);
       })
-      .catch((error) => {
+      .catch(() => {
         clearInterval(this.progressInterval);
         this.loadingModalService.hide();
-        this.alert = {
-          type: 'error',
-          title: 'Error al enviar',
-          message:
-            'Hubo un problema al enviar el mensaje. Tu notificación podría no haberse enviado correctamente.',
-        };
+        this.toastService.error(
+          this.languageService.t('toast.contactSendFailedBody'),
+          this.languageService.t('toast.contactSendFailedTitle'),
+        );
       });
-  }
-
-  cerrarAlerta() {
-    this.alert = null;
   }
 
   openContactSheet(): void {

@@ -9,6 +9,8 @@ import {
   runInInjectionContext,
   effect,
   NgZone,
+  Input,
+  booleanAttribute,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LanguageService } from '@/app/services/language.service';
@@ -22,6 +24,12 @@ import { BottomSheetService } from '@/app/services/bottom-sheet.service';
   styleUrl: './history.component.scss',
 })
 export class HistoryComponent implements OnInit, OnDestroy {
+  /**
+   * Cuando es true (p. ej. Sobre mí con fondo de malla), la tarjeta usa fondo opaco
+   * para que la red quede solo detrás, no “dentro” del card.
+   */
+  @Input({ transform: booleanAttribute }) solidOverMesh = false;
+
   languageService = inject(LanguageService);
   private bottomSheetService = inject(BottomSheetService);
   private injector = inject(Injector);

@@ -384,6 +384,115 @@ export class LanguageService {
           madeWith: 'Hecho con',
           in: 'en',
         },
+        errors: {
+          pageTitle: 'Error',
+          backHome: 'Volver al inicio',
+          goContact: 'Ir a contacto',
+          tryAgain: 'Recargar página',
+          generic: {
+            title: 'Algo salió mal',
+            body: 'No pudimos mostrar lo que pediste. Prueba más tarde o vuelve al inicio.',
+          },
+          e400: {
+            title: 'Solicitud incorrecta',
+            body: 'La petición no es válida o está mal formada.',
+          },
+          e401: {
+            title: 'No autorizado',
+            body: 'Necesitas autenticarte para acceder a este recurso.',
+          },
+          e403: {
+            title: 'Acceso denegado',
+            body: 'No tienes permiso para ver esta página.',
+          },
+          e404: {
+            title: 'Página no encontrada',
+            body: 'La URL no existe o fue movida. Revisa el enlace o vuelve al inicio.',
+          },
+          e405: {
+            title: 'Método no permitido',
+            body: 'Esta acción no está permitida en este recurso.',
+          },
+          e408: {
+            title: 'Tiempo agotado',
+            body: 'La solicitud tardó demasiado. Inténtalo de nuevo.',
+          },
+          e409: {
+            title: 'Conflicto',
+            body: 'La petición no se pudo completar por un conflicto con el estado actual.',
+          },
+          e410: {
+            title: 'Ya no existe',
+            body: 'El recurso fue eliminado de forma permanente.',
+          },
+          e413: {
+            title: 'Contenido demasiado grande',
+            body: 'Lo que intentas enviar supera el tamaño permitido.',
+          },
+          e415: {
+            title: 'Formato no soportado',
+            body: 'El tipo de medio no es aceptado.',
+          },
+          e429: {
+            title: 'Demasiadas solicitudes',
+            body: 'Has superado el límite permitido. Espera un momento e inténtalo de nuevo.',
+          },
+          e500: {
+            title: 'Error del servidor',
+            body: 'Algo falló en el servidor. Inténtalo más tarde.',
+          },
+          e501: {
+            title: 'No implementado',
+            body: 'El servidor no puede completar esta solicitud.',
+          },
+          e502: {
+            title: 'Pasarela no válida',
+            body: 'El servidor intermedio recibió una respuesta inválida.',
+          },
+          e503: {
+            title: 'Servicio no disponible',
+            body: 'El servicio está en mantenimiento o saturado. Vuelve en unos minutos.',
+          },
+          e504: {
+            title: 'Tiempo de espera de pasarela',
+            body: 'El servidor tardó demasiado en responder.',
+          },
+        },
+        welcome: {
+          kicker: 'Bienvenido',
+          title: 'Jhony Lezama',
+          subtitle:
+            'Este es mi portafolio: proyectos, experiencia y formas de contacto. Gracias por visitar.',
+          cta: 'Entrar al portafolio',
+          hint: 'Solo verás esta pantalla una vez en este dispositivo. Puedes cambiar idioma y tema cuando quieras.',
+        },
+        toast: {
+          error: 'Error',
+          success: 'Correcto',
+          offlineTitle: 'Sin conexión',
+          offlineBody:
+            'No hay conexión a internet. Revisa tu red; los envíos y descargas pueden fallar.',
+          onlineTitle: 'Conexión restaurada',
+          onlineBody: 'Vuelves a tener conexión a internet.',
+          contactValidationTitle: 'Datos incompletos',
+          contactValidationBody:
+            'Completa los campos obligatorios: nombre, correo y asunto.',
+          contactEmailInvalidTitle: 'Correo no válido',
+          contactEmailInvalidBody: 'Introduce una dirección de correo válida.',
+          contactSendFailedTitle: 'No se pudo enviar',
+          contactSendFailedBody:
+            'El mensaje no se envió. Inténtalo más tarde o escríbeme por correo.',
+          downloadFailedTitle: 'Descarga fallida',
+          downloadFailedBody: 'No se pudo descargar el archivo.',
+          fileNotFoundTitle: 'Archivo no encontrado',
+          fileNotFoundBody:
+            'El archivo no está disponible o se movió de ubicación.',
+          networkTitle: 'Error de red',
+          networkBody:
+            'No se pudo completar la operación. Comprueba tu conexión.',
+          imageLoadTitle: 'Imagen no disponible',
+          imageLoadBody: 'Se muestra una imagen por defecto en la tarjeta.',
+        },
         common: {
           close: 'Cerrar',
         },
@@ -625,6 +734,115 @@ export class LanguageService {
           rights: 'All rights reserved',
           madeWith: 'Made with',
           in: 'in',
+        },
+        errors: {
+          pageTitle: 'Error',
+          backHome: 'Back to home',
+          goContact: 'Contact',
+          tryAgain: 'Reload page',
+          generic: {
+            title: 'Something went wrong',
+            body: 'We could not show what you requested. Try again later or go back home.',
+          },
+          e400: {
+            title: 'Bad request',
+            body: 'The request is invalid or malformed.',
+          },
+          e401: {
+            title: 'Unauthorized',
+            body: 'You need to sign in to access this resource.',
+          },
+          e403: {
+            title: 'Forbidden',
+            body: 'You do not have permission to view this page.',
+          },
+          e404: {
+            title: 'Page not found',
+            body: 'This URL does not exist or was moved. Check the link or return home.',
+          },
+          e405: {
+            title: 'Method not allowed',
+            body: 'This action is not allowed for this resource.',
+          },
+          e408: {
+            title: 'Request timeout',
+            body: 'The request took too long. Please try again.',
+          },
+          e409: {
+            title: 'Conflict',
+            body: 'The request could not be completed due to a conflict with the current state.',
+          },
+          e410: {
+            title: 'Gone',
+            body: 'This resource has been permanently removed.',
+          },
+          e413: {
+            title: 'Payload too large',
+            body: 'What you are trying to send exceeds the allowed size.',
+          },
+          e415: {
+            title: 'Unsupported media type',
+            body: 'The media type is not accepted.',
+          },
+          e429: {
+            title: 'Too many requests',
+            body: 'You have exceeded the allowed limit. Wait a moment and try again.',
+          },
+          e500: {
+            title: 'Internal server error',
+            body: 'Something went wrong on the server. Please try again later.',
+          },
+          e501: {
+            title: 'Not implemented',
+            body: 'The server cannot fulfill this request.',
+          },
+          e502: {
+            title: 'Bad gateway',
+            body: 'An upstream server returned an invalid response.',
+          },
+          e503: {
+            title: 'Service unavailable',
+            body: 'The service is under maintenance or overloaded. Try again shortly.',
+          },
+          e504: {
+            title: 'Gateway timeout',
+            body: 'The server took too long to respond.',
+          },
+        },
+        welcome: {
+          kicker: 'Welcome',
+          title: 'Jhony Lezama',
+          subtitle:
+            'This is my portfolio: projects, experience, and ways to get in touch. Thanks for stopping by.',
+          cta: 'Enter portfolio',
+          hint: 'You will only see this screen once on this device. You can switch language and theme anytime.',
+        },
+        toast: {
+          error: 'Error',
+          success: 'Done',
+          offlineTitle: 'You are offline',
+          offlineBody:
+            'There is no internet connection. Sending messages or downloading files may fail.',
+          onlineTitle: 'Back online',
+          onlineBody: 'Your internet connection was restored.',
+          contactValidationTitle: 'Missing fields',
+          contactValidationBody:
+            'Please fill in the required fields: name, email and subject.',
+          contactEmailInvalidTitle: 'Invalid email',
+          contactEmailInvalidBody: 'Enter a valid email address.',
+          contactSendFailedTitle: 'Message not sent',
+          contactSendFailedBody:
+            'The message could not be sent. Try again later or email me directly.',
+          downloadFailedTitle: 'Download failed',
+          downloadFailedBody: 'The file could not be downloaded.',
+          fileNotFoundTitle: 'File not found',
+          fileNotFoundBody:
+            'The file is not available or may have been moved.',
+          networkTitle: 'Network error',
+          networkBody:
+            'The operation could not be completed. Check your connection.',
+          imageLoadTitle: 'Image unavailable',
+          imageLoadBody: 'A placeholder image is shown on the card.',
         },
         common: {
           close: 'Close',

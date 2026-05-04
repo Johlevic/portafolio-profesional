@@ -15,15 +15,6 @@
     </p>
   </header>
 
-  <!-- ALERTA -->
-  <app-alert
-    *ngIf="alert"
-    [type]="alert.type"
-    [title]="alert.title"
-    [message]="alert.message"
-    (closed)="cerrarAlerta()"
-  ></app-alert>
-
   <div
     class="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12"
   >

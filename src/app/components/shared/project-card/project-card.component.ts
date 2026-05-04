@@ -1,6 +1,7 @@
 import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LanguageService } from '@/app/services/language.service';
+import { ToastService } from '@/app/services/toast.service';
 
 export interface Technology {
   name: string;
@@ -133,7 +134,10 @@ const TECH_GRID_MAX = 9;
 })
 export class ProjectCardComponent {
   languageService = inject(LanguageService);
+  private toastService = inject(ToastService);
   @Input({ required: true }) project!: Project;
+
+  private reportedImageError = false;
 
   /** Hasta 9 tecnologías (orden definido en cada proyecto). */
   get displayTechnologies(): Technology[] {
@@ -163,7 +167,15 @@ export class ProjectCardComponent {
     return this.project.image || 'assets/img/projects/pantallas-led.png';
   }
 
-  onImageError(event: any) {
-    event.target.src = 'assets/img/projects/pantallas-led.png';
+  onImageError(event: Event) {
+    const img = event.target as HTMLImageElement;
+    if (!this.reportedImageError) {
+      this.reportedImageError = true;
+      this.toastService.warning(
+        this.languageService.t('toast.imageLoadBody'),
+        this.languageService.t('toast.imageLoadTitle'),
+      );
+    }
+    img.src = 'assets/img/projects/pantallas-led.png';
   }
 }

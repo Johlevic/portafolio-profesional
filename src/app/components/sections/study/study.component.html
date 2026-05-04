@@ -1,23 +1,33 @@
 <div
   class="flex flex-col md:flex-row xl:flex-col gap-6 w-full max-w-none xl:max-w-sm ml-auto"
+  [class.relative]="solidOverMesh"
+  [class.z-20]="solidOverMesh"
 >
-  <!-- MOBILE/TABLET VIEW: Card Buttons -->
-  <div class="xl:hidden grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+  <!-- MOBILE/TABLET VIEW: Card Buttons (2 columnas en móvil; desktop xl+ usa bloque de abajo) -->
+  <div
+    class="xl:hidden grid w-full grid-cols-2 gap-3 sm:gap-4 md:gap-5 min-w-0"
+  >
     <!-- Education Button Card -->
     <button
       (click)="openEducationSheet()"
-      class="flex flex-col items-center justify-center p-8 rounded-2xl bg-white/80 dark:bg-gray-800/40 backdrop-blur-md shadow-xl border border-gray-100 dark:border-gray-800/50 active:scale-95 transition-all group hover:border-blue-500/30"
+      class="flex min-w-0 flex-col items-center justify-center rounded-2xl border p-4 shadow-xl transition-all active:scale-95 group hover:border-blue-500/30 sm:p-6 md:p-8"
+      [ngClass]="
+        solidOverMesh
+          ? 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700'
+          : 'bg-white/80 dark:bg-gray-800/40 backdrop-blur-md border-gray-100 dark:border-gray-800/50'
+      "
     >
       <div
-        class="p-4 bg-blue-500/10 dark:bg-blue-500/20 rounded-2xl mb-4 group-active:scale-110 transition-transform"
+        class="mb-3 rounded-2xl bg-blue-500/10 p-3 transition-transform group-active:scale-110 dark:bg-blue-500/20 sm:mb-4 sm:p-4"
       >
         <i
-          class="bi bi-mortarboard text-3xl text-blue-600 dark:text-blue-400"
+          class="bi bi-mortarboard text-2xl text-blue-600 dark:text-blue-400 sm:text-3xl"
         ></i>
       </div>
-      <span class="text-lg font-bold text-gray-900 dark:text-white mb-1">{{
-        languageService.t("study.title")
-      }}</span>
+      <span
+        class="mb-1 text-center text-sm font-bold text-gray-900 dark:text-white sm:text-base md:text-lg"
+        >{{ languageService.t("study.title") }}</span
+      >
       <span
         class="text-xs text-blue-500 font-semibold uppercase tracking-wider"
         >{{ languageService.t("projects.viewMore") }}</span
@@ -27,18 +37,24 @@
     <!-- Stats Button Card -->
     <button
       (click)="openStatsSheet()"
-      class="flex flex-col items-center justify-center p-8 rounded-2xl bg-white/80 dark:bg-gray-800/40 backdrop-blur-md shadow-xl border border-gray-100 dark:border-gray-800/50 active:scale-95 transition-all group hover:border-blue-500/30"
+      class="flex min-w-0 flex-col items-center justify-center rounded-2xl border p-4 shadow-xl transition-all active:scale-95 group hover:border-blue-500/30 sm:p-6 md:p-8"
+      [ngClass]="
+        solidOverMesh
+          ? 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700'
+          : 'bg-white/80 dark:bg-gray-800/40 backdrop-blur-md border-gray-100 dark:border-gray-800/50'
+      "
     >
       <div
-        class="p-4 bg-blue-500/10 dark:bg-blue-500/20 rounded-2xl mb-4 group-active:scale-110 transition-transform"
+        class="mb-3 rounded-2xl bg-blue-500/10 p-3 transition-transform group-active:scale-110 dark:bg-blue-500/20 sm:mb-4 sm:p-4"
       >
         <i
-          class="bi bi-lightning-charge text-3xl text-blue-600 dark:text-blue-400"
+          class="bi bi-lightning-charge text-2xl text-blue-600 dark:text-blue-400 sm:text-3xl"
         ></i>
       </div>
-      <span class="text-lg font-bold text-gray-900 dark:text-white mb-1">{{
-        languageService.t("study.stats.title")
-      }}</span>
+      <span
+        class="mb-1 text-center text-sm font-bold text-gray-900 dark:text-white sm:text-base md:text-lg"
+        >{{ languageService.t("study.stats.title") }}</span
+      >
       <span
         class="text-xs text-blue-500 font-semibold uppercase tracking-wider"
         >{{ languageService.t("projects.viewMore") }}</span
@@ -50,7 +66,12 @@
   <div class="hidden xl:flex flex-col gap-10 w-full animate-fade-in">
     <!-- Educación y Certificaciones -->
     <section
-      class="w-full bg-white/40 dark:bg-gray-800/40 backdrop-blur-sm border border-gray-200 dark:border-gray-800/50 rounded-2xl p-8 shadow-2xl shadow-blue-500/5 hover:border-blue-500/30 transition-all duration-500"
+      class="w-full border rounded-2xl p-8 shadow-2xl shadow-blue-500/5 hover:border-blue-500/30 transition-all duration-500"
+      [ngClass]="
+        solidOverMesh
+          ? 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700'
+          : 'bg-white/40 dark:bg-gray-800/40 backdrop-blur-sm border-gray-200 dark:border-gray-800/50'
+      "
     >
       <h3
         class="text-blue-600 dark:text-blue-400 text-2xl font-bold mb-8 flex items-center gap-4"
@@ -121,7 +142,12 @@
 
     <!-- Datos Rápidos -->
     <aside
-      class="w-full bg-white/40 dark:bg-gray-800/40 backdrop-blur-sm border border-gray-200 dark:border-gray-800/50 rounded-2xl p-8 shadow-2xl shadow-blue-500/5 hover:border-blue-500/30 transition-all duration-500"
+      class="w-full border rounded-2xl p-8 shadow-2xl shadow-blue-500/5 hover:border-blue-500/30 transition-all duration-500"
+      [ngClass]="
+        solidOverMesh
+          ? 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700'
+          : 'bg-white/40 dark:bg-gray-800/40 backdrop-blur-sm border-gray-200 dark:border-gray-800/50'
+      "
     >
       <h3
         class="text-blue-600 dark:text-blue-400 text-2xl font-bold mb-8 flex items-center gap-4"

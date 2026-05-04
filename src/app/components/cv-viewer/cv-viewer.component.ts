@@ -1,9 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LanguageService } from '@/app/services/language.service';
 import { ThemeService } from '@/app/services/theme.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ToastService } from '@/app/services/toast.service';
 
 @Component({
   selector: 'app-cv-viewer',
@@ -59,16 +60,17 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
         </div>
 
         <div class="flex items-center gap-3">
-          <a
-            [href]="rawCvPath"
-            download
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-all active:scale-95 flex items-center gap-2"
+          <button
+            type="button"
+            [disabled]="downloading"
+            (click)="downloadCvPdf()"
+            class="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:pointer-events-none text-white px-4 py-2 rounded-lg text-sm font-bold transition-all active:scale-95 flex items-center gap-2"
           >
             <i class="bi bi-download"></i>
             <span class="hidden sm:inline">{{
               languageService.t('hero.downloadCV')
             }}</span>
-          </a>
+          </button>
         </div>
       </div>
 
@@ -102,14 +104,75 @@ export class CvViewerComponent implements OnInit {
   languageService = inject(LanguageService);
   themeService = inject(ThemeService);
   private sanitizer = inject(DomSanitizer);
+  private toastService = inject(ToastService);
+  private platformId = inject(PLATFORM_ID);
 
   safeCvPath!: SafeResourceUrl;
   rawCvPath!: string;
+  downloading = false;
 
   ngOnInit() {
     this.rawCvPath = this.languageService.t('hero.cvPath');
     this.safeCvPath = this.sanitizer.bypassSecurityTrustResourceUrl(
       this.rawCvPath,
     );
+  }
+
+  async downloadCvPdf(): Promise<void> {
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      this.toastService.warning(
+        this.languageService.t('toast.offlineBody'),
+        this.languageService.t('toast.offlineTitle'),
+      );
+      return;
+    }
+    if (this.downloading) return;
+    this.downloading = true;
+    try {
+      const res = await fetch(this.rawCvPath, {
+        method: 'GET',
+        cache: 'no-store',
+      });
+      if (res.status === 404) {
+        this.toastService.error(
+          this.languageService.t('toast.fileNotFoundBody'),
+          this.languageService.t('toast.fileNotFoundTitle'),
+        );
+        return;
+      }
+      if (!res.ok) {
+        this.toastService.error(
+          this.languageService.t('toast.downloadFailedBody'),
+          this.languageService.t('toast.downloadFailedTitle'),
+        );
+        return;
+      }
+      const blob = await res.blob();
+      if (!blob || blob.size === 0) {
+        this.toastService.error(
+          this.languageService.t('toast.fileNotFoundBody'),
+          this.languageService.t('toast.fileNotFoundTitle'),
+        );
+        return;
+      }
+      const fileName = this.rawCvPath.split('/').pop() || 'cv.pdf';
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      a.rel = 'noopener';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch {
+      this.toastService.error(
+        this.languageService.t('toast.networkBody'),
+        this.languageService.t('toast.networkTitle'),
+      );
+    } finally {
+      this.downloading = false;
+    }
   }
 }
