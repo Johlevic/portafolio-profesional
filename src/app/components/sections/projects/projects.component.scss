@@ -2,6 +2,32 @@
   --filters-sheet-transition-ms: 320ms;
 }
 
+@keyframes projectsContentIn {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.projects-page-enter {
+  position: relative;
+  isolation: isolate;
+}
+
+.projects-page-enter > * {
+  animation: projectsContentIn 460ms ease-out 90ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projects-page-enter > * {
+    animation: none;
+  }
+}
+
 .projects-filters-sheet > button {
   opacity: 0;
   transition: opacity var(--filters-sheet-transition-ms) ease;

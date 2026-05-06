@@ -36,8 +36,10 @@ export class TechnicalskilsComponent implements OnDestroy {
 
   // Tab management for desktop
   selectedTab: number = 0;
+  desktopBarsAnimate = true;
   isDesktop: boolean = false;
   private isStickyVisible = false;
+  private desktopBarsTimer?: ReturnType<typeof setTimeout>;
 
   skills: SkillCategory[] = [
     {
@@ -190,6 +192,7 @@ export class TechnicalskilsComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
+    this.clearDesktopBarsTimer();
     this.headerPortalService.clearPortalContent();
   }
 
@@ -210,6 +213,11 @@ export class TechnicalskilsComponent implements OnDestroy {
 
   selectTab(index: number): void {
     this.selectedTab = index;
+    this.desktopBarsAnimate = false;
+    this.clearDesktopBarsTimer();
+    this.desktopBarsTimer = setTimeout(() => {
+      this.desktopBarsAnimate = true;
+    }, 20);
   }
 
   toggleCollapse(category: SkillCategory): void {
@@ -226,5 +234,11 @@ export class TechnicalskilsComponent implements OnDestroy {
         level: s.level,
       })),
     });
+  }
+
+  private clearDesktopBarsTimer(): void {
+    if (!this.desktopBarsTimer) return;
+    clearTimeout(this.desktopBarsTimer);
+    this.desktopBarsTimer = undefined;
   }
 }
