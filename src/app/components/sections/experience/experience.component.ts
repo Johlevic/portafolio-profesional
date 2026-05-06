@@ -11,11 +11,13 @@ import {
   ViewChild,
   TemplateRef,
   OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Experience } from '../../../models/experience';
 import { LanguageService } from '@/app/services/language.service';
 import { HeaderPortalService } from '@/app/services/header-portal.service';
+import { BottomSheetService } from '@/app/services/bottom-sheet.service';
 
 @Component({
   selector: 'app-experience',
@@ -32,12 +34,24 @@ export class ExperienceComponent implements OnInit, AfterViewInit, OnDestroy {
 
   languageService = inject(LanguageService);
   private headerPortalService = inject(HeaderPortalService);
+  private bottomSheetService = inject(BottomSheetService);
   private elementRef = inject(ElementRef);
   private platformId = inject(PLATFORM_ID);
+  private cdr = inject(ChangeDetectorRef);
 
   tracingHeight = 0;
   private isStickyVisible = false;
   isDesktop = false;
+
+  /**
+   * Card cuyo bloque atraviesa la línea de lectura (debajo del header fijo). Solo timeline `md+`.
+   */
+  activeExperienceIndex = 0;
+
+  /**
+   * Posición desde arriba del viewport; un card cuenta como “actual” cuando esta línea está entre su top y bottom.
+   */
+  private readonly stickyReadLinePx = 140;
 
   experiences: Experience[] = [
     {
@@ -91,6 +105,10 @@ export class ExperienceComponent implements OnInit, AfterViewInit, OnDestroy {
   onResize() {
     if (isPlatformBrowser(this.platformId)) {
       this.isDesktop = window.innerWidth >= 768;
+      if (this.isStickyVisible) {
+        this.syncActiveExperienceFromLayouts();
+        this.cdr.detectChanges();
+      }
     }
   }
 
@@ -99,7 +117,29 @@ export class ExperienceComponent implements OnInit, AfterViewInit, OnDestroy {
       // Pequeno delay para asegurar que el DOM este listo
       setTimeout(() => {
         this.setupIntersectionObserver();
+        this.syncActiveExperienceFromLayouts();
       }, 100);
+    }
+  }
+
+  /**
+   * Última experiencia del timeline cuyo `top` está por encima o en la línea de lectura (scroll spy).
+   */
+  private syncActiveExperienceFromLayouts(): void {
+    if (!this.isDesktop || !this.timelineItems?.length) {
+      return;
+    }
+    const line = this.stickyReadLinePx;
+    let next = 0;
+    this.timelineItems.forEach((_ref, i) => {
+      const r = _ref.nativeElement.getBoundingClientRect();
+      if (r.top <= line) {
+        next = i;
+      }
+    });
+    if (next !== this.activeExperienceIndex) {
+      this.activeExperienceIndex = next;
+      this.cdr.detectChanges();
     }
   }
 
@@ -135,8 +175,36 @@ export class ExperienceComponent implements OnInit, AfterViewInit, OnDestroy {
     exp.isExpanded = !exp.isExpanded;
   }
 
+  openTimelineSheet(): void {
+    const items = this.experiences.map((exp) => {
+      return {
+        label: this.languageService.t(exp.role),
+        value: this.languageService.t(exp.company),
+        subtitle: `${this.languageService.t(exp.duration)} | ${this.languageService.t(exp.location)}`,
+        details: exp.responsibilities.map((resp) => this.languageService.t(resp)),
+      };
+    });
+
+    this.bottomSheetService.open({
+      title: this.languageService.t('experience.timelineTitle'),
+      icon: 'bi bi-clock-history',
+      type: 'timeline',
+      items,
+    });
+  }
+
   ngOnDestroy() {
     this.headerPortalService.clearPortalContent();
+  }
+
+  /** Rol traducido del card activo para el portal (solo desktop con timeline). */
+  get stickyHeaderRoleTranslated(): string {
+    const idx = Math.min(
+      Math.max(0, this.activeExperienceIndex),
+      this.experiences.length - 1,
+    );
+    const key = this.experiences[idx]?.role;
+    return key ? this.languageService.t(key) : '';
   }
 
   @HostListener('window:scroll')
@@ -155,6 +223,9 @@ export class ExperienceComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!this.isStickyVisible) {
         this.headerPortalService.setPortalContent(this.stickyTitleTemplate);
         this.isStickyVisible = true;
+        this.syncActiveExperienceFromLayouts();
+      } else {
+        this.syncActiveExperienceFromLayouts();
       }
     } else {
       if (this.isStickyVisible) {

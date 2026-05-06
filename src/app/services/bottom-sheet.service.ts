@@ -4,6 +4,8 @@ import { BehaviorSubject } from 'rxjs';
 export interface BottomSheetItem {
   label?: string;
   value?: string;
+  subtitle?: string;
+  details?: string[];
   icon?: string;
   level?: number;
   link?: string;
@@ -13,7 +15,7 @@ export interface BottomSheetItem {
 export interface BottomSheetContent {
   title: string;
   icon: string;
-  type: 'skills' | 'list' | 'social' | 'article';
+  type: 'skills' | 'list' | 'social' | 'article' | 'timeline';
   items: BottomSheetItem[];
   highlightIndex?: number; // Index of the item to highlight (e.g., to continue reading)
 }

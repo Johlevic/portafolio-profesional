@@ -6,6 +6,7 @@ import {
   HostListener,
   TemplateRef,
   OnDestroy,
+  OnInit,
   PLATFORM_ID,
   Inject,
 } from '@angular/core';
@@ -19,15 +20,16 @@ import { BottomSheetService } from '@/app/services/bottom-sheet.service';
 import { LoadingModalService } from '@/app/services/loading-modal.service';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 import { HeaderPortalService } from '@/app/services/header-portal.service';
+import { MobileSheetComponent } from '../shared/mobile-sheet/mobile-sheet.component';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [FormsModule, CommonModule, ScrollRevealDirective],
+  imports: [FormsModule, CommonModule, ScrollRevealDirective, MobileSheetComponent],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss'],
 })
-export class ContactComponent implements OnDestroy {
+export class ContactComponent implements OnInit, OnDestroy {
   languageService = inject(LanguageService);
   private bottomSheetService = inject(BottomSheetService);
   private loadingModalService = inject(LoadingModalService);
@@ -47,6 +49,42 @@ export class ContactComponent implements OnDestroy {
 
   // Estados de envío
   private progressInterval: any;
+  isMobileViewport = false;
+  isMobileFormSheetOpen = false;
+
+  ngOnInit(): void {
+    this.updateViewportState();
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    this.updateViewportState();
+  }
+
+  private updateViewportState(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    this.isMobileViewport = window.innerWidth < 768;
+    if (!this.isMobileViewport && this.isMobileFormSheetOpen) {
+      this.closeMobileFormSheet();
+    }
+  }
+
+  openMobileFormSheet(): void {
+    this.isMobileFormSheetOpen = true;
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.classList.add('overflow-hidden');
+      document.body.classList.add('contact-sheet-open');
+    }
+  }
+
+  closeMobileFormSheet(): void {
+    this.isMobileFormSheetOpen = false;
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.classList.remove('overflow-hidden');
+      document.body.classList.remove('contact-sheet-open');
+    }
+  }
 
   enviarMensaje() {
     if (!this.formRef) return;
@@ -155,6 +193,9 @@ export class ContactComponent implements OnDestroy {
         setTimeout(() => {
           formEl.reset();
           this.loadingModalService.hide();
+          if (this.isMobileViewport) {
+            this.closeMobileFormSheet();
+          }
         }, 2500);
       })
       .catch(() => {
@@ -244,6 +285,10 @@ export class ContactComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.classList.remove('overflow-hidden');
+      document.body.classList.remove('contact-sheet-open');
+    }
     this.headerPortalService.clearPortalContent();
   }
 

@@ -1,7 +1,7 @@
 <section
-  class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 py-10 lg:py-10 px-0 md:px-6 transition-colors duration-300"
+  class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 py-10 lg:py-10 px-4 sm:px-6 md:px-8 box-border min-w-0 transition-colors duration-300"
 >
-  <header class="text-center mb-16" appScrollReveal #headerRef>
+  <header class="text-center mb-16 px-0 sm:px-2" appScrollReveal #headerRef>
     <h2
       class="text-3xl lg:text-5xl font-bold text-blue-600 dark:text-blue-400 mb-4"
     >
@@ -18,47 +18,108 @@
   <div
     class="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12"
   >
-    <!-- Card Formulario -->
-    <div
-      class="lg:col-span-2 bg-white dark:bg-gray-800/40 backdrop-blur-sm rounded-2xl shadow-xl dark:shadow-2xl dark:shadow-blue-500/5 p-6 md:p-10 border border-gray-100 dark:border-gray-800/50 glass-card"
-      appScrollReveal
-    >
-      <form
-        #formRef="ngForm"
-        id="contactForm"
-        (ngSubmit)="enviarMensaje()"
-        class="flex flex-col space-y-8"
+    @if (!isMobileViewport) {
+      <!-- Card Formulario (Desktop/Tablet) -->
+      <div
+        class="lg:col-span-2 bg-white dark:bg-gray-800/40 backdrop-blur-sm rounded-2xl shadow-xl dark:shadow-2xl dark:shadow-blue-500/5 p-6 md:p-10 border border-gray-100 dark:border-gray-800/50 glass-card"
+        appScrollReveal
       >
-        <h3
-          class="text-blue-600 dark:text-blue-400 font-bold text-2xl mb-2 flex items-center gap-3"
+        <form
+          #formRef="ngForm"
+          id="contactForm"
+          (ngSubmit)="enviarMensaje()"
+          class="flex flex-col space-y-8"
         >
-          <i class="bi bi-send text-blue-500"></i>
-          {{ languageService.t("contact.form.title") }}
-        </h3>
-        <input type="hidden" name="time" />
+          <h3
+            class="text-blue-600 dark:text-blue-400 font-bold text-2xl mb-2 flex items-center gap-3"
+          >
+            <i class="bi bi-send text-blue-500"></i>
+            {{ languageService.t("contact.form.title") }}
+          </h3>
+          <input type="hidden" name="time" />
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div
+              class="input-group"
+              [class.has-error]="
+                name.invalid && (name.touched || formRef.submitted)
+              "
+            >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                ngModel
+                required
+                placeholder=" "
+                #name="ngModel"
+                class="input-field"
+              />
+              <label for="name" class="input-label">
+                {{ languageService.t("contact.form.name") }}*
+              </label>
+
+              @if (name.invalid && (name.touched || formRef.submitted)) {
+                <div
+                  class="text-red-500 dark:text-red-400 text-[10px] mt-1 flex items-center gap-1 absolute -bottom-5"
+                >
+                  <i class="bi bi-exclamation-circle"></i>
+                  {{ languageService.t("contact.form.required") }}
+                </div>
+              }
+            </div>
+
+            <div
+              class="input-group"
+              [class.has-error]="
+                email.invalid && (email.touched || formRef.submitted)
+              "
+            >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                ngModel
+                required
+                placeholder=" "
+                #email="ngModel"
+                class="input-field"
+              />
+              <label for="email" class="input-label">
+                {{ languageService.t("contact.form.email") }}*
+              </label>
+
+              @if (email.invalid && (email.touched || formRef.submitted)) {
+                <div
+                  class="text-red-500 dark:text-red-400 text-[10px] mt-1 flex items-center gap-1 absolute -bottom-5"
+                >
+                  <i class="bi bi-exclamation-circle"></i>
+                  {{ languageService.t("contact.form.required") }}
+                </div>
+              }
+            </div>
+          </div>
+
           <div
             class="input-group"
             [class.has-error]="
-              name.invalid && (name.touched || formRef.submitted)
+              subject.invalid && (subject.touched || formRef.submitted)
             "
           >
             <input
               type="text"
-              id="name"
-              name="name"
+              id="subject"
+              name="subject"
               ngModel
               required
               placeholder=" "
-              #name="ngModel"
+              #subject="ngModel"
               class="input-field"
             />
-            <label for="name" class="input-label">
-              {{ languageService.t("contact.form.name") }}*
+            <label for="subject" class="input-label">
+              {{ languageService.t("contact.form.subject") }}*
             </label>
-
-            @if (name.invalid && (name.touched || formRef.submitted)) {
+            @if (subject.invalid && (subject.touched || formRef.submitted)) {
               <div
                 class="text-red-500 dark:text-red-400 text-[10px] mt-1 flex items-center gap-1 absolute -bottom-5"
               >
@@ -68,91 +129,46 @@
             }
           </div>
 
-          <div
-            class="input-group"
-            [class.has-error]="
-              email.invalid && (email.touched || formRef.submitted)
-            "
+          <div class="input-group">
+            <textarea
+              id="message"
+              name="message"
+              ngModel
+              placeholder=" "
+              #message="ngModel"
+              class="input-field"
+            ></textarea>
+            <label for="message" class="input-label">
+              {{ languageService.t("contact.form.message") }}
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            class="group relative bg-blue-600 hover:bg-blue-500 text-white py-4 px-8 rounded-2xl shadow-lg transition-all duration-300 mt-4 font-bold flex items-center justify-center gap-3 active:scale-95 hover:shadow-blue-500/30"
           >
-            <input
-              type="email"
-              id="email"
-              name="email"
-              ngModel
-              required
-              placeholder=" "
-              #email="ngModel"
-              class="input-field"
-            />
-            <label for="email" class="input-label">
-              {{ languageService.t("contact.form.email") }}*
-            </label>
-
-            @if (email.invalid && (email.touched || formRef.submitted)) {
-              <div
-                class="text-red-500 dark:text-red-400 text-[10px] mt-1 flex items-center gap-1 absolute -bottom-5"
-              >
-                <i class="bi bi-exclamation-circle"></i>
-                {{ languageService.t("contact.form.required") }}
-              </div>
-            }
-          </div>
-        </div>
-
-        <div
-          class="input-group"
-          [class.has-error]="
-            subject.invalid && (subject.touched || formRef.submitted)
-          "
-        >
-          <input
-            type="text"
-            id="subject"
-            name="subject"
-            ngModel
-            required
-            placeholder=" "
-            #subject="ngModel"
-            class="input-field"
-          />
-          <label for="subject" class="input-label">
-            {{ languageService.t("contact.form.subject") }}*
-          </label>
-          @if (subject.invalid && (subject.touched || formRef.submitted)) {
-            <div
-              class="text-red-500 dark:text-red-400 text-[10px] mt-1 flex items-center gap-1 absolute -bottom-5"
-            >
-              <i class="bi bi-exclamation-circle"></i>
-              {{ languageService.t("contact.form.required") }}
-            </div>
-          }
-        </div>
-
-        <div class="input-group">
-          <textarea
-            id="message"
-            name="message"
-            ngModel
-            placeholder=" "
-            #message="ngModel"
-            class="input-field"
-          ></textarea>
-          <label for="message" class="input-label">
-            {{ languageService.t("contact.form.message") }}
-          </label>
-        </div>
-
+            <i
+              class="bi bi-send-fill group-hover:translate-x-1 transition-transform duration-300"
+            ></i>
+            {{ languageService.t("contact.form.send") }}
+          </button>
+        </form>
+      </div>
+    } @else {
+      <!-- CTA móvil para abrir formulario -->
+      <div
+        class="lg:col-span-2 bg-white dark:bg-gray-800/40 backdrop-blur-sm rounded-2xl shadow-xl p-5 border border-gray-100 dark:border-gray-800/50"
+      >
         <button
-          type="submit"
-          class="group relative bg-blue-600 hover:bg-blue-500 text-white py-4 px-8 rounded-2xl shadow-lg transition-all duration-300 mt-4 font-bold flex items-center justify-center gap-3 active:scale-95 hover:shadow-blue-500/30"
+          type="button"
+          (click)="openMobileFormSheet()"
+          class="w-full inline-flex items-center justify-center gap-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white px-5 py-4 font-bold text-sm active:scale-95 transition-all duration-300 shadow-lg shadow-blue-500/20"
         >
-          <i
-            class="bi bi-send-fill group-hover:translate-x-1 transition-transform duration-300"
-          ></i>
-          {{ languageService.t("contact.form.send") }}
+          <i class="bi bi-rocket-takeoff-fill text-base"></i>
+          {{ languageService.t("contact.form.title") }}
         </button>
-      </form>
-    </div>
+      </div>
+    }
 
     <!-- Card Información y Redes (Desktop Only) -->
     <div class="flex flex-col gap-6">
@@ -445,6 +461,146 @@
       </div>
     </div>
   </div>
+
+  <app-mobile-sheet
+    [isOpen]="isMobileViewport && isMobileFormSheetOpen"
+    [ariaLabel]="languageService.t('contact.form.title')"
+    [title]="languageService.t('contact.form.title')"
+    [panelClass]="'bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700'"
+    [minHeightVh]="92"
+    [maxHeightVh]="96"
+    (closeRequested)="closeMobileFormSheet()"
+  >
+    <div
+      sheet-body
+      class="contact-mobile-sheet-scroll flex min-h-0 flex-1 flex-col overflow-hidden p-0"
+    >
+      <div
+        class="contact-mobile-sheet-fill flex min-h-0 flex-1 flex-col overflow-y-auto"
+      >
+        <div aria-hidden="true" class="contact-sheet-flex-spacer"></div>
+        <div
+          class="mx-auto flex w-full max-w-md shrink-0 flex-col items-stretch gap-6 px-4 pb-1 pt-1 sm:px-5"
+        >
+          <div class="grid w-full grid-cols-2 gap-2 sm:gap-3">
+            <span
+              class="contact-sheet-badge contact-sheet-badge--cell min-w-0 rounded-full border border-sky-200/80 bg-sky-500/10 px-2 py-2 text-[10px] font-semibold text-sky-900 dark:border-sky-500/35 dark:bg-sky-500/15 dark:text-sky-100 sm:px-3 sm:text-xs"
+            >
+              <i
+                class="bi bi-lightning-charge-fill shrink-0 text-sky-600 dark:text-sky-400"
+                aria-hidden="true"
+              ></i>
+              <span class="min-w-0 text-center">{{
+                languageService.t("contact.sheetBadges.instant")
+              }}</span>
+            </span>
+            <span
+              class="contact-sheet-badge contact-sheet-badge--cell min-w-0 rounded-full border border-blue-200/90 bg-blue-500/10 px-2 py-2 text-[10px] font-semibold text-blue-950 dark:border-blue-500/35 dark:bg-blue-500/15 dark:text-blue-100 sm:px-3 sm:text-xs"
+            >
+              <i
+                class="bi bi-award-fill shrink-0 text-blue-600 dark:text-blue-400"
+                aria-hidden="true"
+              ></i>
+              <span class="min-w-0 text-center">{{
+                languageService.t("contact.sheetBadges.experience")
+              }}</span>
+            </span>
+          </div>
+          <p
+            class="m-0 text-center text-[11px] leading-snug text-slate-500 dark:text-slate-400 sm:text-xs"
+          >
+            <i
+              class="bi bi-chat-dots mr-1 inline-block align-[-0.1em] text-slate-400 dark:text-slate-500"
+              aria-hidden="true"
+            ></i>
+            {{ languageService.t("contact.sheetReplyHint") }}
+          </p>
+
+          <form
+            #formRef="ngForm"
+            id="contactForm"
+            (ngSubmit)="enviarMensaje()"
+            class="contact-sheet-form flex flex-col space-y-6"
+          >
+      <input type="hidden" name="time" />
+
+      <div class="input-group" [class.has-error]="name.invalid && (name.touched || formRef.submitted)">
+        <input
+          type="text"
+          id="name"
+          name="name"
+          ngModel
+          required
+          placeholder=" "
+          #name="ngModel"
+          class="input-field"
+        />
+        <label for="name" class="input-label">
+          {{ languageService.t("contact.form.name") }}*
+        </label>
+      </div>
+
+      <div class="input-group" [class.has-error]="email.invalid && (email.touched || formRef.submitted)">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          ngModel
+          required
+          placeholder=" "
+          #email="ngModel"
+          class="input-field"
+        />
+        <label for="email" class="input-label">
+          {{ languageService.t("contact.form.email") }}*
+        </label>
+      </div>
+
+      <div class="input-group" [class.has-error]="subject.invalid && (subject.touched || formRef.submitted)">
+        <input
+          type="text"
+          id="subject"
+          name="subject"
+          ngModel
+          required
+          placeholder=" "
+          #subject="ngModel"
+          class="input-field"
+        />
+        <label for="subject" class="input-label">
+          {{ languageService.t("contact.form.subject") }}*
+        </label>
+      </div>
+
+      <div class="input-group">
+        <textarea
+          id="message"
+          name="message"
+          ngModel
+          placeholder=" "
+          #message="ngModel"
+          class="input-field"
+        ></textarea>
+        <label for="message" class="input-label">
+          {{ languageService.t("contact.form.message") }}
+        </label>
+      </div>
+
+          </form>
+        </div>
+        <div aria-hidden="true" class="contact-sheet-flex-spacer"></div>
+      </div>
+    </div>
+    <button
+      sheet-footer
+      type="submit"
+      form="contactForm"
+      class="group relative w-full bg-blue-600 hover:bg-blue-500 text-white py-3.5 px-6 rounded-2xl shadow-lg transition-all duration-300 font-bold flex items-center justify-center gap-3 active:scale-95"
+    >
+      <i class="bi bi-send-fill group-hover:translate-x-1 transition-transform duration-300"></i>
+      {{ languageService.t("contact.form.send") }}
+    </button>
+  </app-mobile-sheet>
 
   <footer
     class="text-center mt-12 text-gray-500 text-xs flex items-center justify-center gap-2"

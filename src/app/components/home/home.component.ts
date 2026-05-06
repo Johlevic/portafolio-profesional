@@ -49,7 +49,7 @@ import { TypewriterTextComponent } from '../shared/typewriter-text/typewriter-te
         class="relative overflow-hidden py-16 md:py-24 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-900 text-gray-800 dark:text-gray-200 min-h-[80vh] flex items-center transition-colors duration-300"
       >
         <app-neural-mesh-layer />
-        <div class="relative z-10 container mx-auto px-0 lg:px-4">
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-4">
           <div
             class="flex flex-col-reverse lg:flex-row items-center justify-center gap-8 lg:gap-16"
           >
@@ -107,23 +107,24 @@ import { TypewriterTextComponent } from '../shared/typewriter-text/typewriter-te
               class="w-full lg:w-1/3 flex flex-col justify-center items-center pb-8 lg:pb-0"
               appScrollReveal
             >
-              <figure
-                class="relative flex justify-center items-center rounded-xl"
-              >
-                <img
-                  src="assets/img/perfil.jpg"
-                  alt="Foto de Jhony Lezama"
-                  class="rounded-full object-cover w-40 h-40 md:w-60 md:h-60 border-4 border-blue-500 shadow-xl pointer-events-none"
-                />
-                <figcaption
-                  class="absolute bottom-0 md:bottom-2 px-2 md:px-3 py-1 bg-white dark:bg-gray-900 text-gray-900 dark:text-white text-xs md:text-sm rounded-md border-2 border-blue-500 animate-pulse shadow-lg"
+              <figure class="flex flex-col items-center shrink-0 gap-2">
+                <div
+                  class="h-40 w-40 shrink-0 overflow-hidden rounded-full border-4 border-white shadow-xl ring-[3px] ring-sky-400 dark:border-white dark:ring-sky-400 md:h-60 md:w-60"
                 >
-                  <span class="md:hidden">{{
-                    languageService.t('hero.availableShort')
-                  }}</span>
-                  <span class="hidden md:inline">{{
-                    languageService.t('hero.available')
-                  }}</span>
+                  <img
+                    src="assets/img/perfil.jpg"
+                    alt="Jhony Lezama — foto de perfil"
+                    class="pointer-events-none h-full w-full object-cover"
+                  />
+                </div>
+                <span
+                  class="pointer-events-none inline-flex max-w-full items-center justify-center rounded-full border border-sky-300/90 bg-sky-500 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-white shadow-sm dark:border-sky-400/80 dark:bg-sky-500 md:px-4 md:py-1.5 md:text-xs font-['DM_Sans']"
+                  aria-hidden="true"
+                >
+                  {{ languageService.t('hero.availableShort') | uppercase }}
+                </span>
+                <figcaption class="sr-only">
+                  {{ languageService.t('hero.available') }}
                 </figcaption>
               </figure>
               <!-- ✅ Modern Line (visible on mobile/tablet) -->

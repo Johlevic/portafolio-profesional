@@ -1,5 +1,5 @@
 <section
-  class="py-16 lg:py-24 px-0 max-w-3xl mx-auto text-gray-800 dark:text-gray-200 transition-colors duration-300"
+  class="py-16 lg:py-24 px-4 sm:px-5 md:px-6 max-w-3xl mx-auto box-border w-full min-w-0 text-gray-800 dark:text-gray-200 transition-colors duration-300"
 >
   <div #headerRef>
     <h2
@@ -14,7 +14,18 @@
     </p>
   </div>
 
-  <div class="relative flex flex-col items-start px-2 md:px-0">
+  <div class="md:hidden px-2 mb-8">
+    <button
+      type="button"
+      (click)="openTimelineSheet()"
+      class="w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white px-5 py-3.5 font-bold text-sm active:scale-95 transition-all duration-300 shadow-lg shadow-blue-500/20"
+    >
+      <i class="bi bi-clock-history"></i>
+      {{ languageService.t("experience.openTimeline") }}
+    </button>
+  </div>
+
+  <div class="relative hidden md:flex flex-col items-start px-2 md:px-0">
     <!-- Removed global timeline line -->
 
     <article
@@ -105,12 +116,27 @@
   <!-- STICKY TITLE TEMPLATE -->
   <ng-template #stickyTitleTemplate>
     <div
-      class="flex items-center px-4 py-2 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg border border-gray-200 dark:border-gray-700/50 animate-fade-in"
+      class="flex max-w-[min(100vw-10rem,28rem)] items-center px-4 py-2 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg border border-gray-200 dark:border-gray-700/50 animate-fade-in"
     >
       <span
-        class="text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 text-transparent bg-clip-text"
+        class="inline-flex min-w-0 flex-wrap items-baseline gap-x-1.5 gap-y-0.5 md:gap-x-2"
       >
-        {{ languageService.t("experience.title") }}
+        <span
+          class="shrink-0 text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400"
+        >
+          {{ languageService.t("experience.title") }}
+        </span>
+        @if (isDesktop && timelineItems.length) {
+          <span
+            class="shrink-0 text-sm font-semibold text-slate-400 dark:text-slate-500"
+            aria-hidden="true"
+            >|</span
+          >
+          <span
+            class="min-w-0 truncate text-sm font-semibold text-blue-700 dark:text-blue-300"
+            >{{ stickyHeaderRoleTranslated }}</span
+          >
+        }
       </span>
     </div>
   </ng-template>

@@ -244,6 +244,8 @@ export class LanguageService {
             'Mi trayectoria profesional y los roles donde he contribuido',
           viewMore: 'Ver más',
           viewLess: 'Ver menos',
+          openTimeline: 'Ver línea de tiempo',
+          timelineTitle: 'Línea de tiempo de experiencia',
           jobs: {
             blanc: {
               company: 'BLANC LABS',
@@ -340,6 +342,12 @@ export class LanguageService {
           description:
             'Estoy disponible para nuevos proyectos y colaboraciones. Hablemos sobre tu próxima idea y cómo puedo ayudarte a hacerla realidad.',
           responseTime: 'Tiempo de respuesta promedio: 24 horas',
+          sheetBadges: {
+            instant: 'Respuesta al instante',
+            experience: '+3 años de experiencia',
+          },
+          sheetReplyHint:
+            'Te responderé tan pronto como lea tu mensaje.',
           form: {
             title: 'Envíame un mensaje',
             name: 'Nombre',
@@ -383,6 +391,9 @@ export class LanguageService {
           rights: 'Todos los derechos reservados',
           madeWith: 'Hecho con',
           in: 'en',
+          /** Estado “disponible” solo en footer: mensaje corto + CTA. */
+          availabilityShort: 'Disponible',
+          availability: 'Listo para nuevos desafíos',
         },
         errors: {
           pageTitle: 'Error',
@@ -595,6 +606,8 @@ export class LanguageService {
             'My professional journey and the roles where I have contributed',
           viewMore: 'View more',
           viewLess: 'View less',
+          openTimeline: 'View timeline',
+          timelineTitle: 'Experience timeline',
           jobs: {
             blanc: {
               company: 'BLANC LABS',
@@ -691,6 +704,12 @@ export class LanguageService {
           description:
             "I'm available for new projects and collaborations. Let's talk about your next idea and how I can help you make it a reality.",
           responseTime: 'Average response time: 24 hours',
+          sheetBadges: {
+            instant: 'Fast reply',
+            experience: '3+ years experience',
+          },
+          sheetReplyHint:
+            "I'll reply as soon as I've read your message.",
           form: {
             title: 'Send me a message',
             name: 'Name',
@@ -734,6 +753,8 @@ export class LanguageService {
           rights: 'All rights reserved',
           madeWith: 'Made with',
           in: 'in',
+          availabilityShort: 'Available',
+          availability: 'Ready for new challenges',
         },
         errors: {
           pageTitle: 'Error',

@@ -54,7 +54,7 @@ nav.fixed {
   }
 }
 
-aside {
+.sidebar-desktop-body {
   /* Ocultar barra de scroll en navegadores basados en Webkit (Chrome, Safari, Edge) */
   &::-webkit-scrollbar {
     width: 3px;

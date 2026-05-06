@@ -9,6 +9,7 @@ import {
   ElementRef,
   TemplateRef,
   OnDestroy,
+  ChangeDetectorRef,
   afterNextRender,
   EnvironmentInjector,
 } from '@angular/core';
@@ -46,6 +47,7 @@ export type ProjectStackFilter =
 export class ProjectsComponent implements OnInit, OnDestroy {
   languageService = inject(LanguageService);
   private headerPortalService = inject(HeaderPortalService);
+  private cdr = inject(ChangeDetectorRef);
   private el = inject(ElementRef);
   private readonly envInjector = inject(EnvironmentInjector);
 
@@ -64,6 +66,15 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   /** Bottom sheet de filtros en viewport móvil (por debajo de `md`). */
   filtersSheetOpen = false;
+  filtersSheetVisible = false;
+  private readonly filtersSheetTransitionMs = 320;
+  private closeFiltersTimer?: ReturnType<typeof setTimeout>;
+
+  /** Panel lateral derecho de filtros en escritorio (`lg+`, al pulsar el icono del header). */
+  desktopFiltersPanelOpen = false;
+  desktopFiltersPanelVisible = false;
+  private readonly desktopFiltersTransitionMs = 320;
+  private closeDesktopFiltersTimer?: ReturnType<typeof setTimeout>;
 
   readonly linkFilterOptions: { value: ProjectLinkFilter; labelKey: string }[] =
     [
@@ -241,7 +252,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.clearFiltersCloseTimer();
+    this.clearDesktopFiltersCloseTimer();
     this.closeFiltersSheet();
+    this.closeDesktopFiltersPanel(false);
     this.headerPortalService.clearPortalContent();
   }
 
@@ -249,7 +263,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
-    this.filtersSheetOpen = true;
+    this.clearFiltersCloseTimer();
+    this.filtersSheetVisible = true;
+    this.filtersSheetOpen = false;
     document.body.style.overflow = 'hidden';
     /** Mover el sheet a `body` para evitar ancestros con `transform` que rompen `fixed` (p. ej. scroll-reveal). */
     afterNextRender(
@@ -258,6 +274,9 @@ export class ProjectsComponent implements OnInit, OnDestroy {
         if (root && root.parentElement !== document.body) {
           document.body.appendChild(root);
         }
+        requestAnimationFrame(() => {
+          this.filtersSheetOpen = true;
+        });
       },
       { injector: this.envInjector },
     );
@@ -265,15 +284,77 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   closeFiltersSheet(): void {
     this.filtersSheetOpen = false;
-    if (isPlatformBrowser(this.platformId)) {
-      document.body.style.overflow = '';
+    this.clearFiltersCloseTimer();
+    this.closeFiltersTimer = setTimeout(() => {
+      this.filtersSheetVisible = false;
+      if (isPlatformBrowser(this.platformId)) {
+        document.body.style.overflow = '';
+      }
+    }, this.filtersSheetTransitionMs);
+  }
+
+  stickyHeaderFiltersClick(ev: Event): void {
+    ev.preventDefault();
+    ev.stopPropagation();
+    this.openDesktopFiltersPanel();
+  }
+
+  openDesktopFiltersPanel(): void {
+    if (!isPlatformBrowser(this.platformId) || !this.isDesktop) {
+      return;
     }
+    if (this.filtersSheetVisible || this.filtersSheetOpen) {
+      this.clearFiltersCloseTimer();
+      this.filtersSheetOpen = false;
+      this.filtersSheetVisible = false;
+    }
+    this.clearDesktopFiltersCloseTimer();
+    this.desktopFiltersPanelVisible = true;
+    this.desktopFiltersPanelOpen = false;
+    document.body.style.overflow = 'hidden';
+    this.cdr.detectChanges();
+    /** Fuera de `main`/`app-root`: la barra fija superior es hermana de `main` y quedaba por encima del overlay. */
+    afterNextRender(
+      () => {
+        const root = document.getElementById('projects-filters-desktop-root');
+        if (root && root.parentElement !== document.body) {
+          document.body.appendChild(root);
+        }
+        requestAnimationFrame(() => {
+          this.desktopFiltersPanelOpen = true;
+          this.cdr.detectChanges();
+        });
+      },
+      { injector: this.envInjector },
+    );
+  }
+
+  closeDesktopFiltersPanel(animate = true): void {
+    this.desktopFiltersPanelOpen = false;
+    this.clearDesktopFiltersCloseTimer();
+    const done = () => {
+      this.desktopFiltersPanelVisible = false;
+      if (isPlatformBrowser(this.platformId)) {
+        document.body.style.overflow = '';
+      }
+    };
+    if (!animate || !isPlatformBrowser(this.platformId)) {
+      done();
+      return;
+    }
+    this.closeDesktopFiltersTimer = setTimeout(
+      done,
+      this.desktopFiltersTransitionMs,
+    );
   }
 
   @HostListener('document:keydown.escape')
   onDocumentEscape(): void {
     if (this.filtersSheetOpen) {
       this.closeFiltersSheet();
+    }
+    if (this.desktopFiltersPanelOpen) {
+      this.closeDesktopFiltersPanel();
     }
   }
 
@@ -288,6 +369,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.stackFilter = 'all';
     this.showAll = false;
     this.closeFiltersSheet();
+    this.closeDesktopFiltersPanel();
   }
 
   get hasActiveFilters(): boolean {
@@ -450,7 +532,22 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       if (this.isTablet && this.filtersSheetOpen) {
         this.closeFiltersSheet();
       }
+      if (!this.isDesktop && this.desktopFiltersPanelVisible) {
+        this.closeDesktopFiltersPanel(false);
+      }
     }
+  }
+
+  private clearFiltersCloseTimer(): void {
+    if (!this.closeFiltersTimer) return;
+    clearTimeout(this.closeFiltersTimer);
+    this.closeFiltersTimer = undefined;
+  }
+
+  private clearDesktopFiltersCloseTimer(): void {
+    if (!this.closeDesktopFiltersTimer) return;
+    clearTimeout(this.closeDesktopFiltersTimer);
+    this.closeDesktopFiltersTimer = undefined;
   }
 
   get displayedProjects() {

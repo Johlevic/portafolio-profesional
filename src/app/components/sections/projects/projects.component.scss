@@ -1,0 +1,55 @@
+.projects-filters-sheet {
+  --filters-sheet-transition-ms: 320ms;
+}
+
+.projects-filters-sheet > button {
+  opacity: 0;
+  transition: opacity var(--filters-sheet-transition-ms) ease;
+}
+
+.projects-filters-sheet-panel {
+  transform: translateY(105%);
+  transition: transform var(--filters-sheet-transition-ms)
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.projects-filters-sheet.is-active > button {
+  opacity: 1;
+}
+
+.projects-filters-sheet.is-active .projects-filters-sheet-panel {
+  transform: translateY(0);
+}
+
+.projects-filters-desktop {
+  --filters-desktop-transition-ms: 320ms;
+  isolation: isolate;
+  z-index: 100100;
+}
+
+.projects-filters-desktop:not(.is-active) {
+  pointer-events: none;
+}
+
+.projects-filters-desktop.is-active {
+  pointer-events: auto;
+}
+
+.projects-filters-desktop > button {
+  opacity: 0;
+  transition: opacity var(--filters-desktop-transition-ms) ease;
+}
+
+.projects-filters-desktop-panel {
+  transform: translateX(100%);
+  transition: transform var(--filters-desktop-transition-ms)
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.projects-filters-desktop.is-active > button {
+  opacity: 1;
+}
+
+.projects-filters-desktop.is-active .projects-filters-desktop-panel {
+  transform: translateX(0);
+}

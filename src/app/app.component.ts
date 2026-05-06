@@ -27,6 +27,7 @@ import { ToastContainerComponent } from './components/toast/toast-container.comp
 import { ToastService } from './services/toast.service';
 import { WelcomeOverlayComponent } from './components/welcome/welcome-overlay.component';
 import { WelcomeStorageService } from './services/welcome-storage.service';
+import { MobileSheetComponent } from './components/shared/mobile-sheet/mobile-sheet.component';
 
 @Component({
   selector: 'app-root',
@@ -42,6 +43,7 @@ import { WelcomeStorageService } from './services/welcome-storage.service';
     AnimateOnDisplayDirective,
     ToastContainerComponent,
     WelcomeOverlayComponent,
+    MobileSheetComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

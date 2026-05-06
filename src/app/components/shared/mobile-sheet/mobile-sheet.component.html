@@ -1,0 +1,56 @@
+@if (isRendered) {
+  <div
+    class="sheet-overlay"
+    [class.is-active]="isActive"
+    [ngStyle]="transitionStyle"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="ariaLabel"
+  >
+    <button
+      type="button"
+      class="sheet-backdrop"
+      (click)="onBackdropClick($event)"
+      aria-label="Close"
+    ></button>
+
+    <div class="sheet-viewport">
+      <section
+        class="sheet-panel {{ panelClass }}"
+        [ngStyle]="panelStyle"
+        (click)="$event.stopPropagation()"
+      >
+        @if (showHandle) {
+          <div class="sheet-handle-wrap">
+            <div class="sheet-handle" (click)="close($event)"></div>
+          </div>
+        }
+
+        @if (title || showCloseButton) {
+          <header class="sheet-header">
+            <div class="sheet-title-wrap">
+              @if (headerIcon) {
+                <i [class]="headerIcon" class="sheet-title-icon bi"></i>
+              }
+              <h3 class="sheet-title">{{ title }}</h3>
+            </div>
+            @if (showCloseButton) {
+              <button type="button" class="sheet-close" (click)="close($event)">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            }
+          </header>
+        }
+
+        <div class="sheet-body">
+          <ng-content select="[sheet-body]"></ng-content>
+          <ng-content></ng-content>
+        </div>
+
+        <footer class="sheet-footer">
+          <ng-content select="[sheet-footer]"></ng-content>
+        </footer>
+      </section>
+    </div>
+  </div>
+}

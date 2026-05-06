@@ -8,8 +8,12 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 80px;
+    /* Barra superior móvil; en tablet+ el main usa md:pt-28 (~112px) bajo controles */
+    scroll-padding-top: 5rem;
     -webkit-tap-highlight-color: transparent;
+    @screen md {
+      scroll-padding-top: 7rem;
+    }
   }
 
   body {
@@ -101,6 +105,17 @@
   animation: fadeZoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
+body.mobile-sheet-open .scroll-to-top-btn {
+  display: none !important;
+}
+
+@media (max-width: 767.98px) {
+  body.contact-sheet-open app-header > header {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}
+
 /* ========================================
    SCROLL REVEAL STYLES
    ======================================== */
@@ -124,4 +139,92 @@
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* ========================================
+   GLOBAL TECH CYAN PALETTE
+   ======================================== */
+:root {
+  --tech-cyan-300: #7dd3fc;
+  --tech-cyan-400: #38bdf8;
+  --tech-cyan-500: #0ea5e9;
+  --tech-cyan-600: #0284c7;
+  --tech-cyan-700: #0369a1;
+  --tech-cyan-800: #075985;
+}
+
+@layer utilities {
+  /* Text */
+  .text-blue-300 { color: var(--tech-cyan-300) !important; }
+  .text-blue-400 { color: var(--tech-cyan-400) !important; }
+  .text-blue-500 { color: var(--tech-cyan-500) !important; }
+  .text-blue-600 { color: var(--tech-cyan-600) !important; }
+  .text-blue-700 { color: var(--tech-cyan-700) !important; }
+
+  /* Backgrounds */
+  .bg-blue-300 { background-color: var(--tech-cyan-300) !important; }
+  .bg-blue-400 { background-color: var(--tech-cyan-400) !important; }
+  .bg-blue-500 { background-color: var(--tech-cyan-500) !important; }
+  .bg-blue-600 {
+    background-color: var(--tech-cyan-600) !important;
+    background-image: linear-gradient(
+      135deg,
+      var(--tech-cyan-500),
+      var(--tech-cyan-700)
+    ) !important;
+  }
+  .bg-blue-700 {
+    background-color: var(--tech-cyan-700) !important;
+    background-image: linear-gradient(
+      135deg,
+      var(--tech-cyan-600),
+      var(--tech-cyan-800)
+    ) !important;
+  }
+
+  /* Borders / rings */
+  .border-blue-300 { border-color: var(--tech-cyan-300) !important; }
+  .border-blue-400 { border-color: var(--tech-cyan-400) !important; }
+  .border-blue-500 { border-color: var(--tech-cyan-500) !important; }
+  .border-blue-600 { border-color: var(--tech-cyan-600) !important; }
+  .border-blue-700 { border-color: var(--tech-cyan-700) !important; }
+  .ring-blue-400 { --tw-ring-color: var(--tech-cyan-400) !important; }
+  .ring-blue-500 { --tw-ring-color: var(--tech-cyan-500) !important; }
+  .ring-blue-600 { --tw-ring-color: var(--tech-cyan-600) !important; }
+
+  /* Gradient utilities used in buttons/cards */
+  .from-blue-400 { --tw-gradient-from: var(--tech-cyan-400) var(--tw-gradient-from-position) !important; }
+  .from-blue-500 { --tw-gradient-from: var(--tech-cyan-500) var(--tw-gradient-from-position) !important; }
+  .from-blue-600 { --tw-gradient-from: var(--tech-cyan-600) var(--tw-gradient-from-position) !important; }
+  .to-blue-500 { --tw-gradient-to: var(--tech-cyan-500) var(--tw-gradient-to-position) !important; }
+  .to-blue-600 { --tw-gradient-to: var(--tech-cyan-600) var(--tw-gradient-to-position) !important; }
+  .to-blue-700 { --tw-gradient-to: var(--tech-cyan-700) var(--tw-gradient-to-position) !important; }
+  .via-blue-500 { --tw-gradient-via: var(--tech-cyan-500) var(--tw-gradient-via-position) !important; }
+  .via-blue-600 { --tw-gradient-via: var(--tech-cyan-600) var(--tw-gradient-via-position) !important; }
+
+  /* Hover states for major CTA buttons */
+  .hover\:bg-blue-500:hover {
+    background-color: var(--tech-cyan-500) !important;
+    background-image: linear-gradient(
+      135deg,
+      var(--tech-cyan-400),
+      var(--tech-cyan-600)
+    ) !important;
+  }
+  .hover\:bg-blue-600:hover {
+    background-color: var(--tech-cyan-600) !important;
+    background-image: linear-gradient(
+      135deg,
+      var(--tech-cyan-500),
+      var(--tech-cyan-700)
+    ) !important;
+  }
+  .hover\:bg-blue-700:hover {
+    background-color: var(--tech-cyan-700) !important;
+    background-image: linear-gradient(
+      135deg,
+      var(--tech-cyan-600),
+      var(--tech-cyan-800)
+    ) !important;
+  }
 }

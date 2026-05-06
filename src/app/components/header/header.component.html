@@ -48,9 +48,9 @@
 
 <!-- SIDEBAR DESKTOP / TABLET (Solo visible en pantallas >= md) -->
 <aside
-  class="hidden md:flex fixed top-0 left-0 h-screen w-24 lg:w-72 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-blue-500/30 flex-col py-8 z-50 shadow-2xl overflow-y-auto transition-all duration-300"
+  class="hidden md:flex fixed top-0 left-0 h-screen w-24 lg:w-72 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-blue-500/30 flex-col z-50 shadow-2xl overflow-hidden transition-all duration-300"
 >
-  <div class="px-2 lg:px-8 mb-10 text-center">
+  <div class="sidebar-desktop-header px-2 lg:px-8 pt-8 pb-6 text-center">
     <div
       class="mb-4 inline-block p-3 lg:p-4 rounded-full bg-blue-500/10 border border-blue-500/20"
     >
@@ -70,8 +70,9 @@
     </p>
   </div>
 
-  <nav class="flex-1 px-2 lg:px-4">
-    <ul class="space-y-2 lg:space-y-1">
+  <div class="sidebar-desktop-body flex-1 min-h-0 overflow-y-auto px-2 lg:px-4">
+    <nav>
+      <ul class="space-y-2 lg:space-y-1">
       <li>
         <a
           routerLink="/"
@@ -163,35 +164,41 @@
           }}</span>
         </a>
       </li>
-    </ul>
-  </nav>
+      </ul>
+    </nav>
+  </div>
 
   <div
-    class="px-2 lg:px-8 pt-6 border-t border-gray-200 dark:border-gray-700/50 lg:hidden"
+    class="sidebar-desktop-footer px-2 lg:px-8 py-6 border-t border-gray-200 dark:border-gray-700/50 flex items-center justify-center"
   >
-    <div
-      class="flex flex-col lg:flex-row items-center justify-around text-gray-400 mb-4 gap-4 lg:gap-0"
-    >
-      <a
-        href="https://wa.me/51980609176"
-        target="_blank"
-        class="hover:text-green-400 transition-colors"
-        title="WhatsApp"
-        ><i class="bi bi-whatsapp text-2xl"></i
-      ></a>
+    <div class="flex items-center justify-center gap-3">
       <a
         href="https://github.com/Johlevic/"
         target="_blank"
-        class="hover:text-gray-900 dark:hover:text-white transition-colors"
+        rel="noopener noreferrer"
+        class="h-11 w-11 rounded-full border border-blue-500/30 bg-blue-950/80 text-blue-50 hover:bg-blue-900 transition-all duration-200 flex items-center justify-center hover:scale-105"
         title="GitHub"
-        ><i class="bi bi-github text-2xl"></i
-      ></a>
+      >
+        <i class="bi bi-github inline-flex items-center justify-center text-lg leading-none"></i>
+      </a>
       <a
-        href="mailto:jlezamavictorio@gmail.com"
-        class="hover:text-red-400 transition-colors"
-        title="Email"
-        ><i class="bi bi-envelope-at text-2xl"></i
-      ></a>
+        href="https://www.linkedin.com/in/jhony-lezama/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="h-11 w-11 rounded-full border border-blue-500/30 bg-blue-950/80 text-blue-50 hover:bg-blue-900 transition-all duration-200 flex items-center justify-center hover:scale-105"
+        title="LinkedIn"
+      >
+        <i class="bi bi-linkedin inline-flex items-center justify-center text-lg leading-none"></i>
+      </a>
+      <a
+        href="https://wa.me/51980609176"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="h-11 w-11 rounded-full border border-blue-500/30 bg-blue-950/80 text-blue-50 hover:bg-blue-900 transition-all duration-200 flex items-center justify-center hover:scale-105"
+        title="WhatsApp"
+      >
+        <i class="bi bi-whatsapp inline-flex items-center justify-center text-lg leading-none"></i>
+      </a>
     </div>
   </div>
 </aside>

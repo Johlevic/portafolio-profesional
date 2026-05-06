@@ -93,12 +93,12 @@
         </div>
       </div>
 
-      <!-- Disponible (PC: col 3, row 2) -->
+      <!-- Disponible (PC: col 3, row 2); móvil: etiqueta centrada horizontalmente -->
       <div
-        class="order-3 lg:order-none lg:col-start-3 lg:row-start-2 lg:self-start"
+        class="order-3 flex w-full justify-center md:justify-start lg:order-none lg:col-start-3 lg:row-start-2 lg:self-start"
       >
         <div
-          class="inline-flex w-full max-w-md lg:max-w-none items-center gap-2 bg-gray-100 dark:bg-slate-800/50 border border-gray-200 dark:border-slate-700/50 py-1.5 px-3 rounded-xl md:px-4 lg:min-h-11 lg:py-1.5 lg:px-3 lg:rounded-xl lg:justify-center lg:shrink-0 lg:text-xs lg:leading-snug"
+          class="inline-flex w-full max-w-md justify-center md:justify-start items-center gap-2 bg-gray-100 dark:bg-slate-800/50 border border-gray-200 dark:border-slate-700/50 py-1.5 px-3 rounded-xl md:px-4 lg:max-w-none lg:w-full lg:min-h-11 lg:py-1.5 lg:px-3 lg:rounded-xl lg:justify-center lg:shrink-0 lg:text-xs lg:leading-snug"
         >
           <span class="flex h-2.5 w-2.5 md:h-3 md:w-3 shrink-0 relative">
             <span
@@ -109,52 +109,15 @@
             ></span>
           </span>
           <span
-            class="text-[11px] md:text-sm font-medium text-emerald-600 dark:text-emerald-400 text-left leading-snug"
+            class="text-[11px] md:text-sm font-semibold text-emerald-600 dark:text-emerald-400 text-center md:text-left leading-snug uppercase tracking-wide font-['Orbitron']"
           >
             <span class="md:hidden">{{
-              languageService.t("hero.availableShort")
+              languageService.t("footer.availabilityShort")
             }}</span>
             <span class="hidden md:inline">{{
-              languageService.t("hero.available")
+              languageService.t("footer.availability")
             }}</span>
           </span>
-        </div>
-      </div>
-
-      <!-- Quick Links - mobile / tablet only -->
-      <div
-        *ngIf="isMobile"
-        class="order-4 lg:hidden col-span-full bg-gray-50 dark:bg-slate-800/30 backdrop-blur-md rounded-xl p-1.5 border border-gray-100 dark:border-slate-700/30"
-      >
-        <div
-          class="flex justify-between items-center gap-2 py-1 px-1 cursor-pointer"
-          (click)="toggleSection('links')"
-        >
-          <h4
-            class="text-[11px] font-medium text-gray-900 dark:text-white leading-tight tracking-tight"
-          >
-            {{ languageService.t("nav.quickLinks") }}
-          </h4>
-          <i
-            class="bi bi-chevron-down text-xs transition-transform duration-300 text-gray-600 dark:text-gray-400 shrink-0"
-            [class.rotate-180]="isOpen['links']"
-          ></i>
-        </div>
-
-        <div
-          class="overflow-hidden transition-all duration-300"
-          [style.max-height]="isOpen['links'] ? '500px' : '0'"
-        >
-          <nav class="flex flex-col gap-1 pt-1">
-            <button
-              *ngFor="let link of quickLinks"
-              (click)="scrollToSection(link.href)"
-              class="flex items-center gap-1.5 w-full py-1.5 px-2 rounded-md bg-transparent border-none text-left cursor-pointer text-[13px] text-gray-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-slate-700/50 transition-colors"
-            >
-              <i class="bi bi-arrow-right-short"></i>
-              {{ languageService.t(link.label) }}
-            </button>
-          </nav>
         </div>
       </div>
     </div>
