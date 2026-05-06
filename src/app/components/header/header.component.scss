@@ -96,6 +96,22 @@ nav.fixed {
     flex: 1;
     overflow-y: auto;
     padding: 1rem;
+    /* Fallback general: barra delgada */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(59, 130, 246, 0.3) transparent;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(59, 130, 246, 0.3);
+      border-radius: 999px;
+    }
   }
 
   .mobile-menu-footer {
@@ -148,6 +164,22 @@ nav.fixed {
       p {
         display: none;
       } // Ocultar "Encuéntrame en" si es muy pequeño
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .mobile-nav-container {
+    .mobile-menu-body {
+      /* Móvil: ocultar scrollbar visible */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .mobile-menu-body::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
     }
   }
 }
